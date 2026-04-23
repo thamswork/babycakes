@@ -1,84 +1,74 @@
 ---
 import Base from '../layouts/Base.astro';
 const featured = [
-  { slug:"strawberry-kiss",   name:"Strawberry Kiss",      period:"17 Feb – 13 March", tag:"bi-weekly",  bg:"#A85565", desc:"The season's most romantic slice. Layered sponge with fresh strawberry cream." },
-  { slug:"dubai-chocolate",   name:"Dubai Chocolate",       period:"17 Feb – 13 March", tag:"bi-weekly",  bg:"#1E0D05", desc:"Crispy knafeh, dark chocolate — the viral sensation, perfected." },
-  { slug:"mayongchid",        name:"Mayongchid",            period:"11 – 17 April",     tag:"bi-weekly",  bg:"#B07212", desc:"Thai mango custard. Seasonal, sun-golden, gone before you know it." },
-  { slug:"cheesecake",        name:"Cheesecake Blueberry",  period:"13 – 18 Feb",       tag:"bi-weekly",  bg:"#362056", desc:"Velvety cheesecake meets jammy blueberry. A classic, perfected." },
+  { slug:"strawberry-kiss",  name:"Strawberry Kiss",     period:"17 Feb – 13 March", bg:"#96404f", desc:"Layered sponge, fresh strawberry cream. The season's most romantic slice." },
+  { slug:"dubai-chocolate",  name:"Dubai Chocolate",      period:"17 Feb – 13 March", bg:"#1a0a04", desc:"Crispy knafeh, dark chocolate. A viral sensation, perfected." },
+  { slug:"mayongchid",       name:"Mayongchid",           period:"11 – 17 April",     bg:"#9a6010", desc:"Thai mango custard. Seasonal and gone before you know it." },
+  { slug:"cheesecake",       name:"Cheesecake Blueberry", period:"13 – 18 Feb",       bg:"#2d1848", desc:"Velvety cheesecake, jammy blueberry. A classic." },
 ];
-const always = [
-  { slug:"chocolate",   name:"Chocolate",  bg:"#2a1008" },
-  { slug:"classic",     name:"Classic",    bg:"#7a5c2e" },
-  { slug:"thai-milk-tea",name:"Thai Tea",  bg:"#b84a10" },
+const classics = [
+  { slug:"chocolate", name:"Chocolate",  bg:"#241008" },
+  { slug:"classic",   name:"Classic",    bg:"#6b4e22" },
+  { slug:"thai-tea",  name:"Thai Tea",   bg:"#9e3e10" },
 ];
 ---
 <Base title="Babycakes — Feel Good Food">
 
-<!-- ══ HERO ══ -->
 <section class="hero">
   <div class="dots"></div>
-  <div class="wrap hero-inner">
+  <div class="wrap hero-wrap">
     <div class="hero-copy">
-      <div class="tag tag-w au" style="width:fit-content;margin-bottom:2rem">✦ Bi-Weekly Flavors Available Now</div>
-      <h1 class="lf hero-h1 au au-1">feel<br/>good<br/>food.</h1>
-      <p class="hero-body au au-2">
-        Born from <em>baby&nbsp;+&nbsp;cakes</em> — a name rooted in love and care.<br/>
-        Classic recipes reimagined for today. Baked with warmth,<br/>intention, and heart.
-      </p>
-      <div class="hero-actions au au-3">
-        <a href="/bi-weekly" class="btn btn-y">See This Week's Flavors →</a>
+      <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.75rem">Bi-Weekly Flavors Available Now</div>
+      <h1 class="lf hero-h1 au au1">feel<br/>good<br/>food.</h1>
+      <p class="hero-body au au2">Born from <em>baby&nbsp;+&nbsp;cakes</em> — classic recipes reimagined for today. Baked with warmth, intention, and heart.</p>
+      <div class="hero-btns au au3">
+        <a href="/bi-weekly" class="btn btn-y">See This Week's Flavors</a>
         <a href="/always-available" class="btn btn-gh">Always Available</a>
       </div>
     </div>
-    <div class="hero-badge-wrap">
-      <div class="hero-badge">
-        <span class="lf hero-badge-name">babycakes</span>
-        <span class="hero-badge-tag">feel good food ·</span>
-      </div>
+    <div class="hero-badge au au2">
+      <span class="lf hb-name">babycakes</span>
+      <span class="hb-tag">feel good food</span>
     </div>
   </div>
-  <div class="hero-scroll">scroll ↓</div>
+  <div class="hero-scroll">scroll</div>
 </section>
 
-<!-- ══ MARQUEE ══ -->
 <div class="mq">
-  <div class="mq-track">
+  <div class="mq-t">
     {["Strawberry Kiss","Dubai Chocolate","Mayongchid","Cheesecake Blueberry","Nomyen","Thai Tea","Cake Cube","Banoffee","All-star Flavors","Classic","Chocolate","feel good food","Strawberry Kiss","Dubai Chocolate","Mayongchid","Cheesecake Blueberry","Nomyen","Thai Tea","Cake Cube","Banoffee","All-star Flavors","Classic","Chocolate","feel good food"].map(t=>(
-      <span class="mq-item">{t}<span class="mq-dot">✦</span></span>
+      <span class="mq-i">{t}<span class="mq-dot">&#9632;</span></span>
     ))}
   </div>
 </div>
 
-<!-- ══ BI-WEEKLY FLAVORS ══ -->
 <section class="sec">
   <div class="wrap">
     <div class="sh">
       <div>
-        <span class="tag tag-o sh-eyebrow">Updated Every Two Weeks</span>
-        <h2 class="sh-title">Bi-Weekly<br/>Flavors.</h2>
+        <span class="tag tag-o sh-eye">Updated Every Two Weeks</span>
+        <h2 class="lf sh-h" style="margin-top:0.875rem">Bi-Weekly Flavors.</h2>
       </div>
-      <a href="/bi-weekly" class="btn btn-p">See All Bi-Weekly →</a>
+      <a href="/bi-weekly" class="btn btn-d">All Bi-Weekly</a>
     </div>
-    <div class="flavor-hero">
-      <!-- Large feature -->
-      <a href="/bi-weekly/strawberry-kiss" class="fcard flavor-lg" style="--card-bg:#A85565">
-        <div class="fcard-ov"></div>
-        <div class="fcard-body">
-          <span class="tag tag-w">bi-weekly</span>
-          <h3 class="lf fcard-name" style="font-size:2.75rem">Strawberry Kiss</h3>
-          <p class="fcard-desc">The season's most romantic slice. Layered sponge with fresh strawberry cream — made to share.</p>
-          <span class="fcard-period">17 Feb – 13 March</span>
+    <div class="home-flavor-grid">
+      <a href="/bi-weekly/strawberry-kiss" class="fc home-fc-lg" style="--fc-bg:#96404f">
+        <div class="fc-ov"></div>
+        <div class="fc-body">
+          <span class="tag tag-ow">bi-weekly</span>
+          <h3 class="lf fc-name" style="font-size:2.25rem;margin-top:0.75rem">Strawberry Kiss</h3>
+          <p class="fc-desc">Layered sponge, fresh strawberry cream. The season's most romantic slice — made to share.</p>
+          <span class="fc-period">17 Feb – 13 March</span>
         </div>
       </a>
-      <!-- Side grid -->
-      <div class="flavor-side">
+      <div class="home-fc-grid">
         {featured.slice(1).map(f=>(
-          <a href={"/bi-weekly/"+f.slug} class="fcard" style={"--card-bg:"+f.bg+";min-height:220px"}>
-            <div class="fcard-ov"></div>
-            <div class="fcard-body">
-              <span class="tag tag-w">{f.tag}</span>
-              <h3 class="lf fcard-name" style="font-size:1.5rem">{f.name}</h3>
-              <span class="fcard-period">{f.period}</span>
+          <a href={"/bi-weekly/"+f.slug} class="fc" style={"--fc-bg:"+f.bg+";min-height:200px"}>
+            <div class="fc-ov"></div>
+            <div class="fc-body">
+              <span class="tag tag-ow">bi-weekly</span>
+              <h3 class="lf fc-name" style="font-size:1.3rem">{f.name}</h3>
+              <span class="fc-period">{f.period}</span>
             </div>
           </a>
         ))}
@@ -87,23 +77,22 @@ const always = [
   </div>
 </section>
 
-<!-- ══ ALWAYS AVAILABLE TEASER ══ -->
-<section class="sec" style="background:var(--cream)">
+<section class="sec" style="background:var(--cr)">
   <div class="wrap">
     <div class="sh">
       <div>
-        <span class="tag tag-o sh-eyebrow">Always In Stock</span>
-        <h2 class="sh-title">Our Classics.<br/>Always Available.</h2>
+        <span class="tag tag-o sh-eye">Always In Stock</span>
+        <h2 class="lf sh-h" style="margin-top:0.875rem">Our Classics.</h2>
       </div>
-      <a href="/always-available" class="btn btn-p">See All Classics →</a>
+      <a href="/always-available" class="btn btn-d">See All Classics</a>
     </div>
     <div class="g3">
-      {always.map(a=>(
-        <a href={"/always-available/"+a.slug} class="fcard" style={"--card-bg:"+a.bg+";min-height:280px"}>
-          <div class="fcard-ov"></div>
-          <div class="fcard-body">
-            <span class="tag tag-w">always available</span>
-            <h3 class="lf fcard-name" style="font-size:2rem">{a.name}</h3>
+      {classics.map(c=>(
+        <a href={"/always-available/"+c.slug} class="fc" style={"--fc-bg:"+c.bg+";min-height:280px"}>
+          <div class="fc-ov"></div>
+          <div class="fc-body">
+            <span class="tag tag-ow">always available</span>
+            <h3 class="lf fc-name" style="font-size:1.75rem">{c.name}</h3>
           </div>
         </a>
       ))}
@@ -111,74 +100,61 @@ const always = [
   </div>
 </section>
 
-<!-- ══ STORY ══ -->
 <section class="story-sec">
-  <div class="wrap story-grid">
-    <div class="story-left">
-      <span class="tag tag-p sh-eyebrow">Our Story</span>
-      <h2 class="lf story-h2">Sweet moments,<br/>made to be<br/><span class="story-italic">cherished.</span></h2>
-      <a href="/brand" class="btn btn-p" style="margin-top:2.5rem">Read Our Story →</a>
+  <div class="wrap story-wrap">
+    <div>
+      <span class="tag tag-d sh-eye">Our Story</span>
+      <h2 class="lf" style="font-size:clamp(2.5rem,5vw,4rem);color:var(--d);line-height:1.02;margin-top:0.875rem;margin-bottom:1.75rem">Sweet moments,<br/><span style="font-family:'Nunito',sans-serif;font-weight:400;font-style:italic;font-size:0.72em;color:var(--p)">made to be cherished.</span></h2>
+      <a href="/brand" class="btn btn-d">Read Our Story</a>
     </div>
-    <div class="story-right">
+    <div class="story-text">
       <p>Babycakes was born from a simple belief: that food baked with love tastes different. Every cake is crafted with warmth, intention, and heart — inspired by timeless family recipes passed down through generations.</p>
-      <p>Soft, nostalgic, and comforting like a taste of home. We believe in sweet moments that become memories — the kind you'll want to share with everyone you love.</p>
-      <div class="story-stats">
-        <div><strong class="lf">Weekly</strong><span>New Flavors</span></div>
-        <div><strong class="lf">100%</strong><span>Baked Fresh</span></div>
-        <div><strong class="lf">Custom</strong><span>Message Cakes</span></div>
+      <p>Soft, nostalgic, and comforting like a taste of home. Sweet moments that become memories.</p>
+      <div class="story-nums">
+        <div><strong class="lf">10</strong><span>Bangkok Branches</span></div>
+        <div><strong class="lf">88K+</strong><span>Community</span></div>
+        <div><strong class="lf">2021</strong><span>Founded</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ CAREERS BAND ══ -->
-<section class="sec-sm" style="background:var(--dark)">
-  <div class="wrap careers-band">
+<section class="sec-sm" style="background:var(--d)">
+  <div class="wrap cta-row">
     <div>
-      <span class="tag tag-y" style="margin-bottom:1rem">We're Hiring</span>
-      <h3 class="lf" style="font-size:clamp(1.75rem,3.5vw,2.5rem);color:var(--yellow);line-height:1.1;margin-top:.75rem">Join the Babycakes family.</h3>
-      <p style="color:rgba(251,245,171,.55);margin-top:.75rem;max-width:380px;line-height:1.7;font-size:.95rem">Passionate about feel-good food? We'd love to meet you.</p>
+      <span class="tag tag-y" style="margin-bottom:0.875rem">We're Hiring</span>
+      <h3 class="lf" style="font-size:clamp(1.75rem,3vw,2.5rem);color:var(--y);line-height:1.1;margin-top:0.5rem">Join the Babycakes family.</h3>
     </div>
-    <a href="/careers" class="btn btn-y">See Open Roles →</a>
+    <a href="/careers" class="btn btn-y">See Open Roles</a>
   </div>
 </section>
 
 </Base>
-
 <style>
-/* HERO */
-.hero { position:relative; min-height:100svh; background:var(--dark); display:flex; align-items:flex-end; overflow:hidden; }
-.hero-inner { display:grid; grid-template-columns:1fr auto; align-items:flex-end; gap:4rem; padding-top:9rem; padding-bottom:clamp(4rem,8vw,7rem); width:100%; position:relative; z-index:2; }
-.hero-h1 { font-size:clamp(5rem,14vw,11rem); color:var(--yellow); line-height:0.88; letter-spacing:-0.03em; margin-block:2rem; }
-.hero-body { font-size:clamp(1rem,1.6vw,1.1rem); color:rgba(251,245,171,0.58); line-height:1.85; max-width:520px; margin-bottom:2.75rem; }
-.hero-body em { color:var(--yellow); font-style:normal; font-weight:700; }
-.hero-actions { display:flex; gap:1rem; flex-wrap:wrap; }
-.hero-badge { width:clamp(170px,19vw,230px); aspect-ratio:1; border-radius:50%; background:var(--yellow); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.4rem; box-shadow:0 0 80px rgba(251,245,171,0.18), 0 0 200px rgba(251,245,171,0.06); animation:popSpin .75s var(--spring) .5s both; flex-shrink:0; }
-.hero-badge-name { font-size:clamp(1rem,1.9vw,1.5rem); color:var(--dark); line-height:1; }
-.hero-badge-tag { font-size:.58rem; font-weight:700; letter-spacing:.07em; color:var(--dark); opacity:.7; }
-.hero-scroll { position:absolute; bottom:2.25rem; right:var(--px); font-size:.6rem; font-weight:800; letter-spacing:.18em; text-transform:uppercase; color:rgba(251,245,171,.2); writing-mode:vertical-rl; z-index:2; }
-@media (max-width:640px) { .hero-badge-wrap { display:none; } .hero-inner { grid-template-columns:1fr; } }
-
-/* FLAVOR GRID */
-.flavor-hero { display:grid; grid-template-columns:1.4fr 1fr; gap:var(--gap); }
-.flavor-side { display:grid; grid-template-rows:repeat(3,1fr); gap:var(--gap); }
-.flavor-lg { min-height:580px; }
-@media (max-width:900px) { .flavor-hero { grid-template-columns:1fr; } .flavor-lg { min-height:380px; } .flavor-side { grid-template-columns:repeat(3,1fr); grid-template-rows:auto; } }
-@media (max-width:600px) { .flavor-side { grid-template-columns:1fr; } }
-
-/* STORY */
-.story-sec { background:var(--yellow); padding-block:clamp(5rem,10vw,9rem); }
-.story-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(3rem,7vw,8rem); align-items:center; }
-.story-h2 { font-size:clamp(2.75rem,5.5vw,4.5rem); color:var(--dark); line-height:1; margin-top:1rem; }
-.story-italic { font-family:'Nunito',sans-serif; font-style:italic; font-weight:400; font-size:.75em; color:var(--purple); }
-.story-right p { font-size:1.05rem; line-height:1.9; color:var(--dark); opacity:.8; }
-.story-right p+p { margin-top:1.25rem; }
-.story-stats { display:flex; gap:2.5rem; margin-top:3rem; padding-top:2.5rem; border-top:1.5px solid rgba(76,67,120,0.15); }
-.story-stats div { display:flex; flex-direction:column; gap:.35rem; }
-.story-stats strong { font-size:1.75rem; color:var(--dark); line-height:1; }
-.story-stats span { font-size:.68rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--purple); }
-@media (max-width:768px) { .story-grid { grid-template-columns:1fr; } }
-
-/* CAREERS BAND */
-.careers-band { display:flex; align-items:center; justify-content:space-between; gap:2rem; flex-wrap:wrap; }
+.hero { position:relative; min-height:100svh; background:var(--d); display:flex; align-items:flex-end; overflow:hidden; }
+.hero-wrap { display:grid; grid-template-columns:1fr auto; align-items:flex-end; gap:4rem; padding-top:9rem; padding-bottom:clamp(4rem,8vw,6.5rem); width:100%; position:relative; z-index:2; }
+.hero-h1 { font-size:clamp(4.5rem,13vw,10.5rem); color:var(--y); line-height:0.88; letter-spacing:-0.03em; margin-block:1.75rem; }
+.hero-body { font-size:clamp(0.95rem,1.6vw,1.1rem); color:rgba(251,245,171,0.55); line-height:1.85; max-width:480px; margin-bottom:2.5rem; }
+.hero-body em { color:var(--y); font-style:normal; font-weight:700; }
+.hero-btns { display:flex; gap:0.875rem; flex-wrap:wrap; }
+.hero-badge { width:clamp(150px,18vw,210px); aspect-ratio:1; border-radius:50%; background:var(--y); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.3rem; box-shadow:0 0 80px rgba(251,245,171,0.15); animation:popIn 0.7s var(--sp) 0.5s both; flex-shrink:0; }
+.hb-name { font-size:clamp(0.9rem,1.8vw,1.35rem); color:var(--d); line-height:1; }
+.hb-tag  { font-size:0.58rem; font-weight:700; letter-spacing:0.06em; color:var(--d); opacity:0.6; }
+.hero-scroll { position:absolute; bottom:2rem; right:var(--px); font-size:0.58rem; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:rgba(251,245,171,0.18); writing-mode:vertical-rl; z-index:2; }
+@media(max-width:640px){ .hero-badge { display:none; } .hero-wrap { grid-template-columns:1fr; } }
+.home-flavor-grid { display:grid; grid-template-columns:1.4fr 1fr; gap:1.5rem; }
+.home-fc-lg { min-height:520px; }
+.home-fc-grid { display:grid; grid-template-rows:repeat(3,1fr); gap:1.5rem; }
+@media(max-width:900px){ .home-flavor-grid { grid-template-columns:1fr; } .home-fc-lg { min-height:360px; } .home-fc-grid { grid-template-columns:repeat(3,1fr); grid-template-rows:auto; } }
+@media(max-width:560px){ .home-fc-grid { grid-template-columns:1fr; } }
+.story-sec { background:var(--y); padding-block:clamp(5rem,9vw,8rem); }
+.story-wrap { display:grid; grid-template-columns:1fr 1fr; gap:clamp(3rem,7vw,8rem); align-items:center; }
+.story-text p { font-size:1rem; line-height:1.9; color:var(--d); opacity:0.78; }
+.story-text p + p { margin-top:1.1rem; }
+.story-nums { display:flex; gap:2.5rem; margin-top:2.5rem; padding-top:2.5rem; border-top:1.5px solid rgba(76,67,120,0.15); flex-wrap:wrap; }
+.story-nums div { display:flex; flex-direction:column; gap:0.3rem; }
+.story-nums strong { font-size:1.75rem; color:var(--d); line-height:1; }
+.story-nums span { font-size:0.65rem; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:var(--p); }
+@media(max-width:768px){ .story-wrap { grid-template-columns:1fr; } }
+.cta-row { display:flex; align-items:center; justify-content:space-between; gap:2rem; flex-wrap:wrap; }
 </style>

@@ -1,232 +1,104 @@
 ---
 import Base from '../../layouts/Base.astro';
-
-// Real Babycakes branch data — editable via CMS (src/content/settings/locations.json)
 const branches = [
-  {
-    id: "bangna-hq",
-    name: "HQ Bangna",
-    label: "Headquarters",
-    address: "94/8 Soi Wachiratham Sathit, Bang Na Nuea, Bang Na District, Bangkok 10260",
-    hours: "10:00 – 20:00 daily",
-    transit: "Near Bang Na BTS",
-    grab: "https://food.grab.com/th/en/restaurant/babycakes-bangna-delivery/PHMY5PMTMVPMRB",
-    maps: "https://maps.google.com/?q=Babycakes+Bangna+Bangkok",
-    isHQ: true,
-    tags: ["Walk-in", "Urgent Order", "Grab"]
-  },
-  {
-    id: "emsphere",
-    name: "EMSPHERE",
-    label: "Sukhumvit",
-    address: "Floor G, EMSPHERE, Sukhumvit Rd, Khlong Toei, Bangkok 10110",
-    hours: "10:00 – 22:00 daily",
-    transit: "BTS Phrom Phong",
-    grab: "https://food.grab.com/th/en/restaurant/babycakes-emsphere-delivery/PHMY5PMTMVPMRB",
-    maps: "https://maps.google.com/?q=Babycakes+Emsphere+Bangkok",
-    isHQ: false,
-    tags: ["Walk-in", "Grab"]
-  },
-  {
-    id: "one-bangkok",
-    name: "One Bangkok",
-    label: "Wireless Road",
-    address: "Floor B1, Take Home Zone, One Bangkok, Wireless Rd (opposite MITSUKOSHI), Bangkok",
-    hours: "10:00 – 22:00 daily",
-    transit: "MRT Lumphini",
-    grab: "https://food.grab.com/th/en/restaurant/babycakes-one-bangkok-delivery/PHMY5PMTMVPMRB",
-    maps: "https://maps.google.com/?q=Babycakes+One+Bangkok",
-    isHQ: false,
-    tags: ["Walk-in", "Grab"]
-  },
-  {
-    id: "samyan-mitrtown",
-    name: "Samyan Mitrtown",
-    label: "Samyan",
-    address: "Samyan Mitrtown, Rama IV Rd, Pathum Wan, Bangkok 10330",
-    hours: "10:00 – 22:00 daily",
-    transit: "MRT Sam Yan",
-    grab: "https://food.grab.com/th/en/restaurant/babycakes-samyan-delivery/PHMY5PMTMVPMRB",
-    maps: "https://maps.google.com/?q=Babycakes+Samyan+Mitrtown+Bangkok",
-    isHQ: false,
-    tags: ["Walk-in", "Grab"]
-  },
-  {
-    id: "siam-paragon",
-    name: "Siam Paragon",
-    label: "Siam",
-    address: "Floor G (near GOURMET), Siam Paragon, Rama I Rd, Pathum Wan, Bangkok 10330",
-    hours: "10:00 – 22:00 daily",
-    transit: "BTS Siam",
-    grab: "https://food.grab.com/th/en/restaurant/babycakes-siam-paragon-delivery/PHMY5PMTMVPMRB",
-    maps: "https://maps.google.com/?q=Babycakes+Siam+Paragon+Bangkok",
-    isHQ: false,
-    tags: ["Walk-in", "Grab"]
-  },
-  {
-    id: "zpell",
-    name: "ZPELL Future Park",
-    label: "Rangsit",
-    address: "ZPELL @ Future Park Rangsit, Phahonyothin Rd, Pathum Thani",
-    hours: "10:00 – 21:00 daily",
-    transit: "Near Future Park Rangsit",
-    grab: "https://food.grab.com/th/en/restaurant/babycakes-zpell-delivery/PHMY5PMTMVPMRB",
-    maps: "https://maps.google.com/?q=Babycakes+ZPELL+Future+Park+Rangsit",
-    isHQ: false,
-    tags: ["Walk-in", "Grab"]
-  },
-  {
-    id: "central-rama9",
-    name: "Central Rama 9",
-    label: "Rama 9",
-    address: "Central Rama 9, Rama IX Rd, Huai Khwang, Bangkok 10310",
-    hours: "10:00 – 22:00 daily",
-    transit: "MRT Rama 9",
-    grab: "https://food.grab.com/th/en/restaurant/babycakes-centralrama9-delivery/PHMY5PMTMVPMRB",
-    maps: "https://maps.google.com/?q=Babycakes+Central+Rama9+Bangkok",
-    isHQ: false,
-    tags: ["Walk-in", "Grab"]
-  },
-  {
-    id: "chidlom",
-    name: "BTS Chidlom",
-    label: "Chidlom",
-    address: "BTS Chidlom Station area, Phloen Chit Rd, Pathum Wan, Bangkok 10330",
-    hours: "10:00 – 21:00 daily",
-    transit: "BTS Chidlom",
-    grab: "https://food.grab.com/th/en/restaurant/babycakes-chidlom-delivery/PHMY5PMTMVPMRB",
-    maps: "https://maps.google.com/?q=Babycakes+Chidlom+Bangkok",
-    isHQ: false,
-    tags: ["Walk-in", "Grab"]
-  },
-  {
-    id: "dusit-central-park",
-    name: "Dusit Central Park",
-    label: "Silom",
-    address: "Dusit Central Park, Rama IV Rd, Silom, Bang Rak, Bangkok 10500",
-    hours: "10:00 – 22:00 daily",
-    transit: "BTS Sala Daeng / MRT Si Lom",
-    grab: "https://food.grab.com/th/en/restaurant/babycakes-dusit-delivery/PHMY5PMTMVPMRB",
-    maps: "https://maps.google.com/?q=Babycakes+Dusit+Central+Park+Bangkok",
-    isHQ: false,
-    tags: ["Walk-in", "Grab"]
-  },
-  {
-    id: "central-ladprao",
-    name: "Central Ladprao",
-    label: "Ladprao",
-    address: "Floor G, Tops Food Hall (next to Man Duey), Central Ladprao, Bangkok 10900",
-    hours: "10:00 – 22:00 daily",
-    transit: "MRT Phahon Yothin",
-    grab: "https://food.grab.com/th/en/restaurant/babycakes-ladprao-delivery/PHMY5PMTMVPMRB",
-    maps: "https://maps.google.com/?q=Babycakes+Central+Ladprao+Bangkok",
-    isHQ: false,
-    tags: ["Walk-in", "Grab"]
-  },
+  { id:"bangna-hq",       name:"HQ Bangna",          zone:"Bangna",    address:"94/8 Soi Wachiratham Sathit, Bang Na Nuea, Bang Na District, Bangkok 10260", hours:"10:00 – 20:00",  transit:"Near Bang Na BTS",              grab:"https://food.grab.com/th/en/search?keyword=babycakes+bangna",       maps:"https://maps.google.com/?q=Babycakes+Bangna+Bangkok",         hq:true },
+  { id:"emsphere",        name:"EMSPHERE",            zone:"Sukhumvit", address:"Floor G, EMSPHERE, Sukhumvit Rd, Khlong Toei, Bangkok 10110",                  hours:"10:00 – 22:00",  transit:"BTS Phrom Phong",               grab:"https://food.grab.com/th/en/search?keyword=babycakes+emsphere",    maps:"https://maps.google.com/?q=Babycakes+Emsphere+Bangkok",       hq:false },
+  { id:"one-bangkok",     name:"One Bangkok",         zone:"Wireless",  address:"Floor B1, Take Home Zone, One Bangkok, Wireless Rd, Bangkok",                  hours:"10:00 – 22:00",  transit:"MRT Lumphini",                  grab:"https://food.grab.com/th/en/search?keyword=babycakes+one+bangkok",  maps:"https://maps.google.com/?q=Babycakes+One+Bangkok",            hq:false },
+  { id:"samyan",          name:"Samyan Mitrtown",     zone:"Samyan",    address:"Samyan Mitrtown, Rama IV Rd, Pathum Wan, Bangkok 10330",                        hours:"10:00 – 22:00",  transit:"MRT Sam Yan",                   grab:"https://food.grab.com/th/en/search?keyword=babycakes+samyan",      maps:"https://maps.google.com/?q=Babycakes+Samyan+Mitrtown",        hq:false },
+  { id:"siam-paragon",    name:"Siam Paragon",        zone:"Siam",      address:"Floor G (near GOURMET), Siam Paragon, Rama I Rd, Bangkok 10330",               hours:"10:00 – 22:00",  transit:"BTS Siam",                      grab:"https://food.grab.com/th/en/search?keyword=babycakes+siam+paragon", maps:"https://maps.google.com/?q=Babycakes+Siam+Paragon+Bangkok",   hq:false },
+  { id:"zpell",           name:"ZPELL Future Park",   zone:"Rangsit",   address:"ZPELL @ Future Park Rangsit, Phahonyothin Rd, Pathum Thani",                    hours:"10:00 – 21:00",  transit:"Future Park Rangsit",           grab:"https://food.grab.com/th/en/search?keyword=babycakes+zpell",       maps:"https://maps.google.com/?q=Babycakes+ZPELL+Future+Park",      hq:false },
+  { id:"central-rama9",   name:"Central Rama 9",      zone:"Rama 9",    address:"Central Rama 9, Rama IX Rd, Huai Khwang, Bangkok 10310",                       hours:"10:00 – 22:00",  transit:"MRT Rama 9",                    grab:"https://food.grab.com/th/en/search?keyword=babycakes+central+rama9", maps:"https://maps.google.com/?q=Babycakes+Central+Rama9+Bangkok", hq:false },
+  { id:"chidlom",         name:"BTS Chidlom",         zone:"Chidlom",   address:"BTS Chidlom area, Phloen Chit Rd, Pathum Wan, Bangkok 10330",                  hours:"10:00 – 21:00",  transit:"BTS Chidlom",                   grab:"https://food.grab.com/th/en/search?keyword=babycakes+chidlom",     maps:"https://maps.google.com/?q=Babycakes+Chidlom+Bangkok",        hq:false },
+  { id:"dusit",           name:"Dusit Central Park",  zone:"Silom",     address:"Dusit Central Park, Rama IV Rd, Bang Rak, Bangkok 10500",                      hours:"10:00 – 22:00",  transit:"BTS Sala Daeng / MRT Si Lom",   grab:"https://food.grab.com/th/en/search?keyword=babycakes+dusit",       maps:"https://maps.google.com/?q=Babycakes+Dusit+Central+Park",     hq:false },
+  { id:"ladprao",         name:"Central Ladprao",     zone:"Ladprao",   address:"Floor G, Tops Food Hall, Central Ladprao, Bangkok 10900",                       hours:"10:00 – 22:00",  transit:"MRT Phahon Yothin",             grab:"https://food.grab.com/th/en/search?keyword=babycakes+ladprao",     maps:"https://maps.google.com/?q=Babycakes+Central+Ladprao",        hq:false },
 ];
 ---
-<Base title="Find Us | Babycakes" description="Find Babycakes across Bangkok — 10 locations plus Grab delivery. HQ Bangna, EMSPHERE, Siam Paragon, One Bangkok, and more.">
+<Base title="Locations | Babycakes" description="Find Babycakes across Bangkok — 10 branches plus Grab delivery.">
 
-<!-- HERO -->
-<section class="loc-hero">
+<section class="pg-hero">
   <div class="dots"></div>
   <div class="wrap" style="position:relative;z-index:2">
-    <div class="tag tag-w au" style="width:fit-content;margin-bottom:1.5rem">📍 {branches.length} Locations Across Bangkok</div>
-    <h1 class="lf loc-h1 au au-1">Find<br/>Babycakes.</h1>
-    <p class="loc-sub au au-2">Walk in at any branch or order via Grab — we're closer than you think.</p>
-    <div class="loc-hero-actions au au-3">
-      <a href="https://line.me/R/ti/p/@babycakes" target="_blank" rel="noopener" class="btn btn-y">Order via LINE →</a>
-      <a href="#branches" class="btn btn-gh">See All Branches ↓</a>
+    <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">{branches.length} Locations Across Bangkok</div>
+    <h1 class="lf pg-h1 au au1">Find<br/>Babycakes.</h1>
+    <p class="pg-sub au au2">Walk in at any branch or order via Grab — we're closer than you think.</p>
+    <div class="au au3" style="display:flex;gap:0.875rem;flex-wrap:wrap;margin-top:2rem">
+      <a href="https://line.me/R/ti/p/@babycakes" target="_blank" rel="noopener" class="btn btn-y">Order via LINE</a>
+      <a href="#branches" class="btn btn-gh">Browse Branches</a>
     </div>
   </div>
 </section>
 
-<!-- ORDER OPTIONS STRIP -->
-<div class="order-strip">
-  <div class="wrap order-strip-inner">
-    <div class="order-option">
-      <span class="order-icon">💬</span>
-      <div>
-        <strong>LINE OA</strong>
-        <span>@babycakes (with @)</span>
-      </div>
-      <a href="https://line.me/R/ti/p/@babycakes" target="_blank" rel="noopener" class="btn btn-p btn-sm">Open LINE →</a>
+<!-- ORDER METHODS -->
+<div class="order-bar">
+  <div class="wrap order-bar-inner">
+    <div class="ob-item">
+      <strong>LINE OA</strong>
+      <span>@babycakes (with @)</span>
+      <a href="https://line.me/R/ti/p/@babycakes" target="_blank" rel="noopener" class="btn btn-d btn-sm">Open LINE</a>
     </div>
-    <div class="order-divider"></div>
-    <div class="order-option">
-      <span class="order-icon">🛵</span>
-      <div>
-        <strong>Grab Delivery</strong>
-        <span>Available at all branches</span>
-      </div>
-      <a href="https://food.grab.com/th/en/search?keyword=babycakes" target="_blank" rel="noopener" class="btn btn-p btn-sm">Order on Grab →</a>
+    <div class="ob-div"></div>
+    <div class="ob-item">
+      <strong>Grab Delivery</strong>
+      <span>Available at all branches</span>
+      <a href="https://food.grab.com/th/en/search?keyword=babycakes" target="_blank" rel="noopener" class="btn btn-d btn-sm">Order on Grab</a>
     </div>
-    <div class="order-divider"></div>
-    <div class="order-option">
-      <span class="order-icon">🎁</span>
-      <div>
-        <strong>LINE Gift</strong>
-        <span>Send cake as a gift</span>
-      </div>
-      <a href="https://line.me/R/ti/p/@babycakes" target="_blank" rel="noopener" class="btn btn-p btn-sm">Send a Gift →</a>
+    <div class="ob-div"></div>
+    <div class="ob-item">
+      <strong>LINE Gift</strong>
+      <span>Send cake as a gift</span>
+      <a href="https://line.me/R/ti/p/@babycakes" target="_blank" rel="noopener" class="btn btn-d btn-sm">Send a Gift</a>
     </div>
   </div>
 </div>
 
-<!-- BRANCHES GRID -->
+<!-- BRANCHES -->
 <section class="sec" id="branches">
   <div class="wrap">
-    <div class="sh" style="margin-bottom:3.5rem">
-      <div>
-        <span class="tag tag-o sh-eyebrow">All Locations</span>
-        <h2 class="sh-title lf">Our Branches.</h2>
-      </div>
-    </div>
-
-    <!-- HQ Feature -->
-    {branches.filter(b=>b.isHQ).map(b=>(
-      <div class="hq-card">
-        <div class="hq-left">
-          <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem">
-            <span class="tag tag-p">Headquarters</span>
-            <span class="tag tag-y">Urgent Orders</span>
+    <!-- HQ -->
+    {branches.filter(b=>b.hq).map(b=>(
+      <div class="hq-block">
+        <div class="hq-info">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap">
+            <span class="tag tag-d">Headquarters</span>
+            <span class="tag tag-y">Urgent Orders Available</span>
           </div>
-          <h3 class="lf hq-name">{b.name}</h3>
-          <p class="hq-address">📍 {b.address}</p>
+          <h3 class="lf" style="font-size:2.5rem;color:var(--y);line-height:1;margin-bottom:1rem">{b.name}</h3>
+          <p class="hq-addr">{b.address}</p>
           <div class="hq-meta">
-            <span>🕐 {b.hours}</span>
-            <span>🚇 {b.transit}</span>
+            <span>Hours — {b.hours}</span>
+            <span>Transit — {b.transit}</span>
           </div>
         </div>
-        <div class="hq-actions">
-          <a href={b.grab} target="_blank" rel="noopener" class="btn btn-y" style="width:100%;justify-content:center">🛵 Order on Grab</a>
-          <a href={b.maps} target="_blank" rel="noopener" class="btn btn-ghd" style="width:100%;justify-content:center">📍 Open in Maps</a>
-          <a href="https://line.me/R/ti/p/@babycakes" target="_blank" rel="noopener" class="btn btn-p" style="width:100%;justify-content:center">💬 Order via LINE</a>
+        <div class="hq-btns">
+          <a href={b.grab} target="_blank" rel="noopener" class="btn btn-y" style="justify-content:center">Order on Grab</a>
+          <a href={b.maps} target="_blank" rel="noopener" class="btn btn-gh" style="justify-content:center">Open in Maps</a>
+          <a href="https://line.me/R/ti/p/@babycakes" target="_blank" rel="noopener" class="btn btn-gh" style="justify-content:center">Order via LINE</a>
         </div>
       </div>
     ))}
 
-    <!-- Branch grid -->
-    <div class="branches-grid">
-      {branches.filter(b=>!b.isHQ).map((b,i)=>(
-        <div class="branch-card" style={"animation-delay:"+i*.05+"s"}>
-          <div class="branch-top">
-            <div>
-              <span class="branch-label">{b.label}</span>
-              <h3 class="lf branch-name">{b.name}</h3>
-            </div>
-            <div class="branch-tags">
-              {b.tags.map(t=><span class="tag tag-y" style="font-size:.6rem">{t}</span>)}
-            </div>
+    <!-- BRANCH LIST -->
+    <div class="sh" style="margin-top:4rem;margin-bottom:2.5rem">
+      <div>
+        <span class="tag tag-o sh-eye">All Branches</span>
+        <h2 class="lf sh-h" style="margin-top:0.875rem">{branches.filter(b=>!b.hq).length} Other Locations.</h2>
+      </div>
+    </div>
+    <div class="branch-list">
+      {branches.filter(b=>!b.hq).map((b,i)=>(
+        <div class="branch-row" style={"animation-delay:"+i*0.04+"s"}>
+          <div class="br-left">
+            <span class="br-zone">{b.zone}</span>
+            <h3 class="lf br-name">{b.name}</h3>
+            <p class="br-addr">{b.address}</p>
           </div>
-          <p class="branch-address">📍 {b.address}</p>
-          <div class="branch-meta">
-            <span>🕐 {b.hours}</span>
-            <span>🚇 {b.transit}</span>
+          <div class="br-mid">
+            <span class="br-meta">{b.hours}</span>
+            <span class="br-meta">{b.transit}</span>
           </div>
-          <div class="branch-actions">
-            <a href={b.grab} target="_blank" rel="noopener" class="branch-btn branch-btn-grab">🛵 Grab</a>
-            <a href={b.maps} target="_blank" rel="noopener" class="branch-btn branch-btn-maps">📍 Maps</a>
+          <div class="br-actions">
+            <a href={b.grab} target="_blank" rel="noopener" class="br-btn br-grab">Grab</a>
+            <a href={b.maps} target="_blank" rel="noopener" class="br-btn br-maps">Maps</a>
           </div>
         </div>
       ))}
@@ -234,67 +106,57 @@ const branches = [
   </div>
 </section>
 
-<!-- DELIVERY CTA -->
-<section style="background:var(--yellow);padding:clamp(4rem,8vw,7rem) var(--px)">
+<section class="sec-sm" style="background:var(--y)">
   <div class="wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center">
     <div>
-      <span class="tag tag-p sh-eyebrow" style="margin-bottom:1.25rem">Delivery Available</span>
-      <h2 class="lf" style="font-size:clamp(2.25rem,5vw,3.75rem);color:var(--dark);line-height:1.02">Can't make it<br/>to a branch?</h2>
-      <p style="color:var(--dark);opacity:.7;margin-top:1.25rem;font-size:1.05rem;line-height:1.8;max-width:400px">Order via Grab from any branch near you, or message us on LINE for a custom order delivered to your door.</p>
+      <span class="tag tag-d sh-eye" style="margin-bottom:0.875rem">Delivery Available</span>
+      <h2 class="lf" style="font-size:clamp(2rem,4vw,3.25rem);color:var(--d);line-height:1.05;margin-top:0.5rem">Can't make it to a branch?</h2>
+      <p style="color:var(--d);opacity:0.65;margin-top:1rem;font-size:0.95rem;line-height:1.8;max-width:380px">Order via Grab from any branch near you, or message us on LINE for a custom order.</p>
     </div>
-    <div style="display:flex;flex-direction:column;gap:1rem">
-      <a href="https://food.grab.com/th/en/search?keyword=babycakes" target="_blank" rel="noopener" class="btn btn-p" style="justify-content:center;font-size:1rem;padding:1.1rem 2rem">🛵 Order on Grab Delivery →</a>
-      <a href="https://line.me/R/ti/p/@babycakes" target="_blank" rel="noopener" class="btn btn-ghd" style="justify-content:center;font-size:1rem;padding:1.1rem 2rem">💬 Message us on LINE →</a>
+    <div style="display:flex;flex-direction:column;gap:0.875rem">
+      <a href="https://food.grab.com/th/en/search?keyword=babycakes" target="_blank" rel="noopener" class="btn btn-d" style="justify-content:center">Order on Grab Delivery</a>
+      <a href="https://line.me/R/ti/p/@babycakes" target="_blank" rel="noopener" class="btn btn-ghd" style="justify-content:center">Message us on LINE</a>
     </div>
   </div>
 </section>
-
 </Base>
-
 <style>
-.loc-hero { position:relative; background:var(--dark); padding:10rem var(--px) 6rem; overflow:hidden; }
-.loc-h1 { font-size:clamp(4.5rem,13vw,10rem); color:var(--yellow); line-height:.88; letter-spacing:-.03em; margin-bottom:1.5rem; }
-.loc-sub { color:rgba(251,245,171,.58); font-size:clamp(1rem,1.8vw,1.1rem); max-width:460px; line-height:1.85; margin-bottom:0; }
-.loc-hero-actions { display:flex; gap:1rem; flex-wrap:wrap; margin-top:2.25rem; }
+.pg-hero { position:relative; background:var(--d); padding:9.5rem var(--px) 5.5rem; overflow:hidden; }
+.pg-h1 { font-size:clamp(3.5rem,10vw,8rem); color:var(--y); line-height:0.92; letter-spacing:-0.025em; margin-bottom:1.25rem; }
+.pg-sub { color:rgba(251,245,171,0.5); font-size:clamp(0.95rem,1.6vw,1.05rem); line-height:1.85; max-width:420px; }
 
-/* ORDER STRIP */
-.order-strip { background:var(--darker); border-bottom:1px solid rgba(251,245,171,.08); padding:1.75rem var(--px); }
-.order-strip-inner { max-width:var(--max); margin-inline:auto; display:flex; align-items:center; gap:2rem; flex-wrap:wrap; }
-.order-option { display:flex; align-items:center; gap:1.25rem; flex:1; min-width:200px; }
-.order-icon { font-size:1.75rem; flex-shrink:0; }
-.order-option div { flex:1; }
-.order-option strong { display:block; font-size:.9rem; font-weight:800; color:var(--yellow); margin-bottom:.15rem; }
-.order-option span { font-size:.75rem; color:rgba(251,245,171,.45); }
-.order-divider { width:1px; height:60px; background:rgba(251,245,171,.1); flex-shrink:0; }
-@media(max-width:768px){ .order-divider { display:none; } .order-option { flex-direction:column; align-items:flex-start; } }
+/* ORDER BAR */
+.order-bar { background:var(--dk); border-bottom:1px solid rgba(251,245,171,0.07); padding:1.75rem var(--px); }
+.order-bar-inner { max-width:var(--mx); margin-inline:auto; display:flex; align-items:center; gap:2.5rem; flex-wrap:wrap; }
+.ob-item { display:flex; align-items:center; gap:1.5rem; flex:1; min-width:180px; }
+.ob-item strong { font-size:0.88rem; font-weight:800; color:var(--y); display:block; margin-bottom:0.15rem; white-space:nowrap; }
+.ob-item span { font-size:0.72rem; color:rgba(251,245,171,0.38); white-space:nowrap; }
+.ob-div { width:1px; height:50px; background:rgba(251,245,171,0.08); flex-shrink:0; }
+@media(max-width:768px){ .ob-div { display:none; } .ob-item { flex-direction:column; align-items:flex-start; } }
 
-/* HQ CARD */
-.hq-card { display:grid; grid-template-columns:1fr auto; gap:3rem; align-items:center; background:var(--dark); border-radius:var(--r-xl); padding:3rem; margin-bottom:2.5rem; }
-.hq-name { font-size:clamp(2rem,4vw,3rem); color:var(--yellow); line-height:1; margin-bottom:1rem; }
-.hq-address { color:rgba(251,245,171,.65); font-size:.95rem; line-height:1.7; margin-bottom:1.25rem; }
-.hq-meta { display:flex; gap:2rem; flex-wrap:wrap; }
-.hq-meta span { font-size:.82rem; font-weight:600; color:rgba(251,245,171,.45); }
-.hq-actions { display:flex; flex-direction:column; gap:.75rem; min-width:240px; }
-@media(max-width:768px){ .hq-card { grid-template-columns:1fr; } }
+/* HQ */
+.hq-block { display:grid; grid-template-columns:1fr auto; gap:3rem; align-items:center; background:var(--d); border-radius:var(--r3); padding:3rem; margin-bottom:0; }
+.hq-addr { color:rgba(251,245,171,0.6); font-size:0.9rem; line-height:1.7; margin-bottom:1.25rem; }
+.hq-meta { display:flex; gap:2.5rem; flex-wrap:wrap; }
+.hq-meta span { font-size:0.78rem; font-weight:600; color:rgba(251,245,171,0.38); }
+.hq-btns { display:flex; flex-direction:column; gap:0.75rem; min-width:220px; }
+@media(max-width:768px){ .hq-block { grid-template-columns:1fr; } }
 
-/* BRANCHES GRID */
-.branches-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
-.branch-card { background:var(--white); border:1.5px solid var(--gray-2); border-radius:var(--r-md); padding:2rem; animation:fadeUp .55s var(--ease) both; transition:box-shadow .22s var(--ease),transform .22s var(--ease); }
-.branch-card:hover { box-shadow:0 8px 32px rgba(76,67,120,.12); transform:translateY(-3px); }
-.branch-top { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; margin-bottom:1rem; }
-.branch-label { font-size:.65rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--purple); display:block; margin-bottom:.35rem; }
-.branch-name { font-size:1.35rem; color:var(--dark); line-height:1.1; }
-.branch-tags { display:flex; flex-direction:column; gap:.35rem; align-items:flex-end; flex-shrink:0; }
-.branch-address { font-size:.82rem; color:var(--gray-3); line-height:1.65; margin-bottom:1rem; }
-.branch-meta { display:flex; flex-direction:column; gap:.35rem; margin-bottom:1.5rem; }
-.branch-meta span { font-size:.78rem; font-weight:600; color:var(--gray-3); }
-.branch-actions { display:flex; gap:.75rem; }
-.branch-btn { flex:1; display:flex; align-items:center; justify-content:center; padding:.6rem 1rem; border-radius:999px; font-size:.75rem; font-weight:800; letter-spacing:.02em; transition:all .15s; }
-.branch-btn-grab { background:var(--dark); color:var(--yellow); }
-.branch-btn-grab:hover { background:var(--darker); }
-.branch-btn-maps { background:var(--gray-1); color:var(--dark); border:1.5px solid var(--gray-2); }
-.branch-btn-maps:hover { background:var(--gray-2); }
-
-@media(max-width:1024px){ .branches-grid { grid-template-columns:repeat(2,1fr); } }
-@media(max-width:640px){ .branches-grid { grid-template-columns:1fr; } }
+/* BRANCH LIST */
+.branch-list { display:flex; flex-direction:column; border:1px solid var(--g2); border-radius:var(--r3); overflow:hidden; }
+.branch-row { display:grid; grid-template-columns:1fr 220px 180px; align-items:center; gap:2rem; padding:1.75rem 2rem; border-bottom:1px solid var(--g2); background:var(--w); transition:background 0.15s; animation:fadeUp 0.5s var(--ease) both; }
+.branch-row:last-child { border-bottom:none; }
+.branch-row:hover { background:var(--cr); }
+.br-zone { font-size:0.62rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:var(--p); display:block; margin-bottom:0.35rem; }
+.br-name { font-size:1.2rem; color:var(--d); line-height:1.1; margin-bottom:0.35rem; }
+.br-addr { font-size:0.78rem; color:var(--g3); line-height:1.6; }
+.br-meta { display:block; font-size:0.78rem; font-weight:600; color:var(--g3); line-height:1.7; }
+.br-actions { display:flex; gap:0.625rem; }
+.br-btn { display:flex; align-items:center; justify-content:center; padding:0.55rem 1.25rem; border-radius:var(--r2); font-size:0.72rem; font-weight:800; letter-spacing:0.03em; transition:all 0.15s; white-space:nowrap; }
+.br-grab { background:var(--d); color:var(--y); }
+.br-grab:hover { background:var(--dk); }
+.br-maps { background:var(--g1); color:var(--d); border:1px solid var(--g2); }
+.br-maps:hover { background:var(--g2); }
+@media(max-width:900px){ .branch-row { grid-template-columns:1fr; gap:1rem; padding:1.5rem; } }
+@media(max-width:640px){ .sec:last-of-type .wrap > div:last-child { grid-template-columns:1fr !important; } }
 </style>
