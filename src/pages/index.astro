@@ -1,28 +1,29 @@
 ---
 import Base from '../layouts/Base.astro';
-const featured=[
-  {slug:"strawberry-kiss",name:"Strawberry Kiss",period:"17 Feb – 13 March",bg:"#8a3a46",desc:"Layered sponge, fresh strawberry cream."},
-  {slug:"dubai-chocolate",name:"Dubai Chocolate",period:"17 Feb – 13 March",bg:"#180a04",desc:"Crispy knafeh, dark chocolate. A viral sensation, perfected."},
-  {slug:"mayongchid",name:"Mayongchid",period:"11 – 17 April",bg:"#8a5c10",desc:"Thai mango custard. Seasonal and sun-golden."},
-  {slug:"cheesecake",name:"Cheesecake Blueberry",period:"13 – 18 Feb",bg:"#281640",desc:"Velvety cheesecake, jammy blueberry."},
+const featured = [
+  { slug:"strawberry-kiss",  name:"Strawberry Kiss",      period:"17 Feb – 13 March", bg:"#8a3a46" },
+  { slug:"dubai-chocolate",  name:"Dubai Chocolate",       period:"17 Feb – 13 March", bg:"#180a04" },
+  { slug:"mayongchid",       name:"Mayongchid",            period:"11 – 17 April",     bg:"#8a5c10" },
+  { slug:"cheesecake",       name:"Cheesecake Blueberry",  period:"13 – 18 Feb",       bg:"#281640" },
 ];
-const classics=[
-  {slug:"chocolate",name:"Chocolate",bg:"#1e0c06"},
-  {slug:"classic",name:"Classic",bg:"#5c4018"},
-  {slug:"thai-tea",name:"Thai Tea",bg:"#8c3410"},
+const classics = [
+  { slug:"chocolate", name:"Chocolate", bg:"#1e0c06" },
+  { slug:"classic",   name:"Classic",   bg:"#5c4018" },
+  { slug:"thai-tea",  name:"Thai Tea",  bg:"#8c3410" },
 ];
 ---
 <Base title="Babycakes — Feel Good Food">
+
 <section class="hero">
   <div class="dots"></div>
   <div class="wrap hero-wrap">
     <div class="hero-copy">
-      <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.75rem">Bi-Weekly Flavors Available Now</div>
+      <div class="tag tag-ow au" style="width:fit-content;margin-bottom:2rem">Bi-Weekly Flavors Available Now</div>
       <h1 class="lf hero-h1 au au1">feel<br/>good<br/>food.</h1>
-      <p class="hero-sub au au2">Born from <em>baby&nbsp;+&nbsp;cakes</em> — classic recipes reimagined for today. Baked with warmth, intention, and heart.</p>
+      <p class="hero-sub au au2">Born from <em>baby + cakes</em> — classic recipes reimagined for today.<br/>Baked with warmth, intention, and heart.</p>
       <div class="hero-btns au au3">
-        <a href="/bi-weekly" class="btn btn-y">See This Week's Flavors</a>
-        <a href="/always-available" class="btn btn-ow">Always Available</a>
+        <a href="/bi-weekly" class="btn btn-y btn-lg">See This Week's Flavors</a>
+        <a href="/always-available" class="btn btn-ow btn-lg">Always Available</a>
       </div>
     </div>
     <div class="hero-badge au au2">
@@ -41,10 +42,14 @@ const classics=[
   </div>
 </div>
 
+<!-- BI-WEEKLY SECTION -->
 <section class="sec">
   <div class="wrap">
     <div class="sh">
-      <div><span class="tag tag-o sh-eye">Updated Every Two Weeks</span><h2 class="lf sh-h" style="margin-top:.75rem">Bi-Weekly Flavors.</h2></div>
+      <div>
+        <span class="tag tag-o sh-eye">Updated Every Two Weeks</span>
+        <h2 class="lf sh-h">Bi-Weekly Flavors.</h2>
+      </div>
       <a href="/bi-weekly" class="btn btn-d">All Bi-Weekly</a>
     </div>
     <div class="fgrid">
@@ -52,16 +57,20 @@ const classics=[
         <div class="fc-ov"></div>
         <div class="fc-body">
           <span class="tag tag-ow">bi-weekly</span>
-          <h3 class="lf fc-name" style="font-size:2.1rem;margin-top:.7rem">Strawberry Kiss</h3>
-          <p class="fc-desc">Layered sponge with fresh strawberry cream — the season's most romantic slice.</p>
+          <h3 class="lf fc-name" style="font-size:2.25rem">Strawberry Kiss</h3>
+          <p class="fc-desc">Layered sponge with fresh strawberry cream — the season's most romantic slice, made to share.</p>
           <span class="fc-per">17 Feb – 13 March</span>
         </div>
       </a>
       <div class="fside">
-        {featured.slice(1).map(f=>(
-          <a href={"/bi-weekly/"+f.slug} class="fc" style={"--fc-bg:"+f.bg+";min-height:190px"}>
+        {featured.slice(1).map(f => (
+          <a href={"/bi-weekly/" + f.slug} class="fc" style={"--fc-bg:" + f.bg + ";min-height:185px"}>
             <div class="fc-ov"></div>
-            <div class="fc-body"><span class="tag tag-ow">bi-weekly</span><h3 class="lf fc-name" style="font-size:1.2rem">{f.name}</h3><span class="fc-per">{f.period}</span></div>
+            <div class="fc-body">
+              <span class="tag tag-ow">bi-weekly</span>
+              <h3 class="lf fc-name" style="font-size:1.2rem">{f.name}</h3>
+              <span class="fc-per">{f.period}</span>
+            </div>
           </a>
         ))}
       </div>
@@ -69,29 +78,37 @@ const classics=[
   </div>
 </section>
 
+<!-- CLASSICS SECTION — off-white bg for contrast -->
 <section class="sec" style="background:var(--off)">
   <div class="wrap">
     <div class="sh">
-      <div><span class="tag tag-o sh-eye">Always In Stock</span><h2 class="lf sh-h" style="margin-top:.75rem">Our Classics.</h2></div>
+      <div>
+        <span class="tag tag-o sh-eye">Always In Stock</span>
+        <h2 class="lf sh-h">Our Classics.</h2>
+      </div>
       <a href="/always-available" class="btn btn-d">See All Classics</a>
     </div>
     <div class="g3">
-      {classics.map(c=>(
-        <a href={"/always-available/"+c.slug} class="fc" style={"--fc-bg:"+c.bg+";min-height:260px"}>
+      {classics.map(c => (
+        <a href={"/always-available/" + c.slug} class="fc" style={"--fc-bg:" + c.bg + ";min-height:280px"}>
           <div class="fc-ov"></div>
-          <div class="fc-body"><span class="tag tag-ow">always available</span><h3 class="lf fc-name" style="font-size:1.6rem">{c.name}</h3></div>
+          <div class="fc-body">
+            <span class="tag tag-ow">always available</span>
+            <h3 class="lf fc-name" style="font-size:1.75rem">{c.name}</h3>
+          </div>
         </a>
       ))}
     </div>
   </div>
 </section>
 
+<!-- STORY — yellow bg -->
 <section class="story-s">
   <div class="wrap story-grid">
     <div>
       <span class="tag tag-d sh-eye">Our Story</span>
-      <h2 class="lf" style="font-size:clamp(2.5rem,5vw,3.75rem);color:var(--d);line-height:1.02;margin-top:.75rem;margin-bottom:.6rem">Sweet moments,</h2>
-      <h2 class="lf" style="font-size:clamp(1.8rem,3.5vw,2.75rem);color:var(--pm);line-height:1;font-style:italic;margin-bottom:2rem">made to be cherished.</h2>
+      <h2 class="lf" style="font-size:clamp(2.5rem,5vw,4rem);color:var(--d);line-height:1;margin-top:1rem;margin-bottom:0.5rem">Sweet moments,</h2>
+      <h2 class="lf" style="font-size:clamp(1.75rem,3.5vw,2.75rem);color:var(--pm);line-height:1.05;margin-bottom:2.5rem;font-style:italic">made to be cherished.</h2>
       <a href="/brand" class="btn btn-d">Read Our Story</a>
     </div>
     <div>
@@ -106,40 +123,47 @@ const classics=[
   </div>
 </section>
 
+<!-- CAREERS BAND -->
 <section class="sec-sm" style="background:var(--d)">
-  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap">
+  <div class="wrap careers-row">
     <div>
-      <span class="tag tag-y" style="margin-bottom:.75rem">We're Hiring</span>
-      <h3 class="lf" style="font-size:clamp(1.75rem,3vw,2.4rem);color:var(--y);line-height:1.1;margin-top:.4rem">Join the Babycakes family.</h3>
+      <span class="tag tag-y" style="margin-bottom:1rem">We're Hiring</span>
+      <h3 class="lf" style="font-size:clamp(1.75rem,3vw,2.5rem);color:var(--y);line-height:1.1;margin-top:0.5rem">Join the Babycakes family.</h3>
+      <p style="color:rgba(251,245,171,0.45);margin-top:0.75rem;font-size:0.9rem;line-height:1.75">Passionate about feel-good food? We'd love to meet you.</p>
     </div>
-    <a href="/careers" class="btn btn-y">See Open Roles</a>
+    <a href="/careers" class="btn btn-y btn-lg">See Open Roles</a>
   </div>
 </section>
+
 </Base>
 <style>
-.hero{position:relative;min-height:100svh;background:var(--d);display:flex;align-items:flex-end;overflow:hidden}
-.hero-wrap{display:grid;grid-template-columns:1fr auto;align-items:flex-end;gap:4rem;padding-top:9rem;padding-bottom:clamp(4rem,8vw,6rem);width:100%;position:relative;z-index:2}
-.hero-h1{font-size:clamp(4.5rem,13vw,10.5rem);color:var(--y);line-height:.88;letter-spacing:-.03em;margin-block:1.75rem}
-.hero-sub{font-size:clamp(.95rem,1.6vw,1.05rem);color:rgba(251,245,171,.52);line-height:1.85;max-width:460px;margin-bottom:2.25rem}
-.hero-sub em{color:var(--y);font-style:normal;font-weight:700}
-.hero-btns{display:flex;gap:.875rem;flex-wrap:wrap}
-.hero-badge{width:clamp(148px,17vw,200px);aspect-ratio:1;border-radius:50%;background:var(--y);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;box-shadow:0 0 70px rgba(251,245,171,.14);animation:popIn .7s var(--sp) .5s both;flex-shrink:0}
-.hb-n{font-size:clamp(.9rem,1.7vw,1.3rem);color:var(--d);line-height:1}
-.hb-t{font-size:.56rem;font-weight:700;letter-spacing:.06em;color:var(--d);opacity:.6}
-.h-scroll{position:absolute;bottom:2rem;right:var(--px);font-size:.58rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:rgba(251,245,171,.16);writing-mode:vertical-rl;z-index:2}
-@media(max-width:640px){.hero-badge{display:none}.hero-wrap{grid-template-columns:1fr}}
-.fgrid{display:grid;grid-template-columns:1.4fr 1fr;gap:1.5rem}
-.fcard-lg{min-height:500px}
-.fside{display:grid;grid-template-rows:repeat(3,1fr);gap:1.5rem}
-@media(max-width:860px){.fgrid{grid-template-columns:1fr}.fcard-lg{min-height:340px}.fside{grid-template-columns:repeat(3,1fr);grid-template-rows:auto}}
-@media(max-width:520px){.fside{grid-template-columns:1fr}}
-.story-s{background:var(--y);padding-block:clamp(5rem,9vw,8rem)}
-.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,7vw,8rem);align-items:center}
-.story-p{font-size:1rem;line-height:1.9;color:var(--d);opacity:.76}
-.story-p+.story-p{margin-top:1.1rem}
-.story-nums{display:flex;gap:2.5rem;margin-top:2.5rem;padding-top:2.5rem;border-top:1.5px solid rgba(76,67,120,.15);flex-wrap:wrap}
-.story-nums div{display:flex;flex-direction:column;gap:.3rem}
-.story-nums strong{font-size:1.75rem;color:var(--d);line-height:1}
-.story-nums span{font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pm)}
-@media(max-width:768px){.story-grid{grid-template-columns:1fr}}
+.hero { position:relative; min-height:100svh; background:var(--d); display:flex; align-items:flex-end; overflow:hidden; }
+.hero-wrap { display:grid; grid-template-columns:1fr auto; align-items:flex-end; gap:4rem; padding-top:10rem; padding-bottom:clamp(5rem,9vw,7rem); width:100%; position:relative; z-index:2; }
+.hero-h1 { font-size:clamp(4.5rem,13vw,11rem); color:var(--y); line-height:0.87; letter-spacing:-0.03em; margin-block:2rem; }
+.hero-sub { font-size:clamp(1rem,1.6vw,1.1rem); color:rgba(251,245,171,0.5); line-height:1.9; max-width:480px; margin-bottom:2.75rem; }
+.hero-sub em { color:var(--y); font-style:normal; font-weight:500; }
+.hero-btns { display:flex; gap:1rem; flex-wrap:wrap; }
+.hero-badge { width:clamp(150px,18vw,210px); aspect-ratio:1; border-radius:50%; background:var(--y); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.35rem; box-shadow:0 0 80px rgba(251,245,171,0.14); animation:popIn 0.7s var(--sp) 0.5s both; flex-shrink:0; }
+.hb-n { font-size:clamp(0.9rem,1.8vw,1.4rem); color:var(--d); line-height:1; }
+.hb-t { font-size:0.58rem; font-weight:500; letter-spacing:0.06em; color:var(--d); opacity:0.6; }
+.h-scroll { position:absolute; bottom:2.25rem; right:var(--px); font-size:0.58rem; font-weight:500; letter-spacing:0.2em; text-transform:uppercase; color:rgba(251,245,171,0.15); writing-mode:vertical-rl; z-index:2; }
+@media(max-width:640px) { .hero-badge{display:none} .hero-wrap{grid-template-columns:1fr} }
+
+.fgrid { display:grid; grid-template-columns:1.4fr 1fr; gap:var(--gap); }
+.fcard-lg { min-height:520px; }
+.fside { display:grid; grid-template-rows:repeat(3,1fr); gap:var(--gap); }
+@media(max-width:860px) { .fgrid{grid-template-columns:1fr} .fcard-lg{min-height:340px} .fside{grid-template-columns:repeat(3,1fr);grid-template-rows:auto} }
+@media(max-width:520px) { .fside{grid-template-columns:1fr} }
+
+.story-s { background:var(--y); padding-block:clamp(6rem,11vw,10rem); }
+.story-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(4rem,8vw,9rem); align-items:center; }
+.story-p { font-size:1rem; line-height:1.9; color:var(--d); opacity:0.72; }
+.story-p + .story-p { margin-top:1.25rem; }
+.story-nums { display:flex; gap:3rem; margin-top:3rem; padding-top:3rem; border-top:1.5px solid rgba(76,67,120,0.15); flex-wrap:wrap; }
+.story-nums div { display:flex; flex-direction:column; gap:0.35rem; }
+.story-nums strong { font-family:'Shrikhand',serif; font-size:1.875rem; color:var(--d); line-height:1; }
+.story-nums span { font-size:0.65rem; font-weight:500; letter-spacing:0.09em; text-transform:uppercase; color:var(--pm); }
+@media(max-width:768px) { .story-grid{grid-template-columns:1fr} }
+
+.careers-row { display:flex; align-items:center; justify-content:space-between; gap:2rem; flex-wrap:wrap; }
 </style>

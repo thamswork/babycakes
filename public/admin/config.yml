@@ -1,478 +1,229 @@
-# public/admin/config.yml
-# Decap CMS — Babycakes 2026
-# Docs: https://decapcms.org/docs/configuration-options/
-#
-# Backend: GitHub (works with Cloudflare Pages deploy hooks)
-# Run locally:  npx decap-server   (proxy on port 8081)
-#               then open /admin in Astro dev server
-
 backend:
   name: github
-  repo: YOUR_GITHUB_USERNAME/babycakes          # ← replace
+  repo: thamswork/babycakes
   branch: main
-  base_url: https://408a2c22.babycakes.pages.dev                # ← replace with Pages domain
-  auth_endpoint: /api/auth                      # Cloudflare Worker OAuth endpoint
 
-# ─── LOCAL DEV OVERRIDE ─────────────────────────────────────────────────────
-# Uncomment when running `npx decap-server` locally:
-# local_backend: true
+publish_mode: editorial_workflow
 
-# ─── MEDIA / CLOUDINARY ─────────────────────────────────────────────────────
-# All uploaded images are served through Cloudinary with brand-standard
-# optimisation: w_800,q_auto,f_auto
 media_library:
   name: cloudinary
   config:
-    cloud_name: YOUR_CLOUDINARY_CLOUD_NAME      # ← replace
-    api_key: YOUR_CLOUDINARY_API_KEY            # ← replace (public key only)
+    cloud_name: YOUR_CLOUDINARY_CLOUD_NAME
+    api_key: YOUR_CLOUDINARY_API_KEY
     default_transformations:
       - - width: 800
           quality: auto
           fetch_format: auto
 
-# Fallback local folder if Cloudinary is not yet configured:
-# media_folder: "public/uploads"
-# public_folder: "/uploads"
-
-# ─── PUBLISH MODE ───────────────────────────────────────────────────────────
-publish_mode: editorial_workflow              # Draft → Review → Publish
-
-# ─── SITE URL ───────────────────────────────────────────────────────────────
-site_url: https://408a2c22.babycakes.pages.dev               # ← replace
-display_url: https://408a2c22.babycakes.pages.dev            # ← replace
-logo_url: https://408a2c22.babycakes.pages.dev/logo.svg      # shown in CMS header
-
-# ─── SLUG SETTINGS ──────────────────────────────────────────────────────────
-slug:
-  encoding: ascii
-  clean_accents: true
-  sanitize_replacement: "-"
-
-# ════════════════════════════════════════════════════════════════════════════
-# COLLECTIONS
-# ════════════════════════════════════════════════════════════════════════════
+site_url: https://babycakes.pages.dev
+display_url: https://babycakes.pages.dev
 
 collections:
 
-  # ──────────────────────────────────────────────────────────────────────────
-  # 1. WEEKLY UPDATES  (core SEO content engine)
-  # ──────────────────────────────────────────────────────────────────────────
+  # ── BI-WEEKLY FLAVOR DROPS ──────────────────────────────────────
   - name: "weekly_updates"
-    label: "Weekly Updates"
-    label_singular: "Weekly Update"
-    description: >
-      The Babycakes project feed. Each post is a weekly flavor / campaign
-      update. Fresh content = SEO signal. Aim for 1 post per week minimum.
+    label: "Bi-Weekly Flavors"
+    label_singular: "Flavor Drop"
+    description: "Add and manage bi-weekly flavor drops. Each post appears on the Bi-Weekly Flavors page."
     folder: "src/content/weekly-updates"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    preview_path: "/weekly-updates/{{slug}}"
-    sortable_fields: ["date", "title", "flavor_name"]
-    view_groups:
-      - label: "By Year"
-        field: date
-        pattern: "\\d{4}"
-
+    preview_path: "/bi-weekly/{{slug}}"
+    sortable_fields: ["date", "name"]
     fields:
-      # ── Core identity ──────────────────────────────────────────────────────
-      - label: "Post Title"
-        name: "title"
+      - label: "Flavor Name"
+        name: "name"
         widget: "string"
-        hint: >
-          Use Title Case. This is the <h1> and the <title> tag.
-          Example: "Strawberry Kiss — Valentine's Collection Drop"
-        pattern:
-          - ".{10,80}"
-          - "Must be 10–80 characters"
+        hint: "E.g. Strawberry Kiss, Dubai Chocolate"
 
-      - label: "Flavor / Campaign Name"
-        name: "flavor_name"
+      - label: "URL Slug"
+        name: "slug"
         widget: "string"
-        hint: >
-          Short name shown on the feed card chip.
-          Examples: "Strawberry Kiss", "Dubai Chocolate", "Mayongchid"
+        hint: "URL-friendly name e.g. strawberry-kiss"
 
       - label: "Publish Date"
         name: "date"
         widget: "datetime"
         date_format: "YYYY-MM-DD"
-        time_format: "HH:mm"
-        format: "YYYY-MM-DDTHH:mm:ssZ"
-        default: ""
+        time_format: false
 
       - label: "Campaign Period"
-        name: "campaign_period"
+        name: "period"
         widget: "string"
-        required: false
-        hint: "E.g. 17 Feb – 13 March. Shown as the date badge on cards."
+        hint: "E.g. 17 Feb – 13 March"
 
       - label: "Availability Tag"
-        name: "availability_tag"
+        name: "tag"
         widget: "select"
         options:
-          - { label: "Bi-weekly",         value: "bi-weekly" }
-          - { label: "Weekly",            value: "weekly" }
-          - { label: "Limited",           value: "limited" }
-          - { label: "Holiday Collection",value: "holiday-collection" }
-          - { label: "Everyday Deal",     value: "everyday-deal" }
-          - { label: "New Product",       value: "new-product" }
-          - { label: "Collab",            value: "collab" }
+          - { label: "Bi-Weekly", value: "bi-weekly" }
+          - { label: "Limited",   value: "limited" }
+          - { label: "New Drop",  value: "new-drop" }
         default: "bi-weekly"
 
-      # ── Hero image ─────────────────────────────────────────────────────────
+      - label: "Card Background Color"
+        name: "bg"
+        widget: "string"
+        default: "#4C4378"
+        hint: "Hex color for the card background e.g. #8a3a46"
+
       - label: "Hero Image"
         name: "hero_image"
         widget: "image"
-        hint: >
-          Upload via Cloudinary. Will be served as w_800,q_auto,f_auto.
-          Ideal: square 1:1 product shot on brand-colored background.
+        required: false
+        hint: "Product photo — will be served at w_800,q_auto,f_auto"
 
-      - label: "Hero Image Alt Text"
-        name: "hero_image_alt"
-        widget: "string"
-        hint: >
-          Describe the image for screen readers and Google Image Search.
-          Example: "Strawberry Kiss cake slice on a pastel pink background"
+      - label: "Short Description"
+        name: "desc"
+        widget: "text"
+        hint: "1–2 sentences shown on the card. Keep it punchy."
 
-      # ── SEO ────────────────────────────────────────────────────────────────
-      - label: "SEO"
-        name: "seo"
-        widget: "object"
-        collapsed: false
-        hint: "All fields below are used exclusively for <head> meta tags."
-        fields:
-          - label: "Meta Title"
-            name: "meta_title"
-            widget: "string"
-            hint: >
-              Appears in browser tab and Google results.
-              Format: "[Flavor] | Babycakes"
-              Max 60 chars.
-            pattern:
-              - ".{10,60}"
-              - "Must be 10–60 characters"
-
-          - label: "Meta Description"
-            name: "meta_description"
-            widget: "text"
-            hint: >
-              1–2 sentences. Include the flavor name and a feel-good phrase.
-              Max 160 chars. Google truncates beyond this.
-            pattern:
-              - ".{50,160}"
-              - "Must be 50–160 characters"
-
-          - label: "OG / Social Share Image"
-            name: "og_image"
-            widget: "image"
-            required: false
-            hint: >
-              Defaults to hero_image if empty.
-              Ideal: 1200×630px. Will be served w_1200,q_auto,f_auto.
-
-          - label: "Canonical URL Override"
-            name: "canonical"
-            widget: "string"
-            required: false
-            hint: "Leave blank unless this post duplicates another URL."
-
-          - label: "Structured Data — Product Name"
-            name: "schema_product_name"
-            widget: "string"
-            required: false
-            hint: "Used in JSON-LD Product schema. Defaults to flavor_name."
-
-          - label: "Structured Data — Price (THB)"
-            name: "schema_price"
-            widget: "number"
-            required: false
-            value_type: "float"
-            min: 0
-            hint: "E.g. 259. Used in JSON-LD for rich results in Google."
-
-      # ── Content body ───────────────────────────────────────────────────────
-      - label: "Body"
+      - label: "Full Body"
         name: "body"
         widget: "markdown"
-        hint: >
-          Main post content. Use H2 for section titles.
-          Include: flavor story, ingredients note, where to buy, pricing.
-          The richer this text, the better the SEO crawl.
-        toolbar_buttons:
-          - bold
-          - italic
-          - link
-          - heading-two
-          - heading-three
-          - bulleted-list
-          - numbered-list
-          - quote
-          - code
+        hint: "Full flavor story shown on the detail page."
 
-      # ── Product details ────────────────────────────────────────────────────
       - label: "Price (THB)"
         name: "price"
         widget: "number"
         required: false
         value_type: "float"
-        min: 0
-        hint: "Display price on the card badge. E.g. 259"
-
-      - label: "Where to Buy"
-        name: "where_to_buy"
-        widget: "list"
-        required: false
-        hint: "Add each sales channel as a separate item."
-        fields:
-          - label: "Channel"
-            name: "channel"
-            widget: "select"
-            options:
-              - { label: "Walk-in (all branches)", value: "walk-in" }
-              - { label: "LINE",                   value: "line" }
-              - { label: "GrabFood",               value: "grabfood" }
-              - { label: "Shopee",                 value: "shopee" }
-              - { label: "Lazada",                 value: "lazada" }
-              - { label: "DM / Instagram",         value: "instagram-dm" }
-              - { label: "Refill Coffee collab",   value: "refill-coffee" }
-              - { label: "Other",                  value: "other" }
-          - label: "URL / Handle"
-            name: "url"
-            widget: "string"
-            required: false
-
-      # ── Gallery ────────────────────────────────────────────────────────────
-      - label: "Gallery Images"
-        name: "gallery"
-        widget: "list"
-        required: false
-        max: 6
-        hint: "Additional product / lifestyle images (max 6)."
-        fields:
-          - label: "Image"
-            name: "image"
-            widget: "image"
-          - label: "Alt Text"
-            name: "alt"
-            widget: "string"
-
-      # ── Taxonomy ──────────────────────────────────────────────────────────
-      - label: "Tags"
-        name: "tags"
-        widget: "list"
-        required: false
-        hint: >
-          Comma-separated. Used for related posts and tag pages.
-          Examples: chocolate, limited-edition, collab, thai-flavor
+        hint: "E.g. 259"
 
       - label: "Featured?"
         name: "featured"
         widget: "boolean"
         default: false
-        hint: "Pin to top of the Weekly Updates feed."
+        hint: "Pin to top of the page."
 
       - label: "Draft?"
         name: "draft"
         widget: "boolean"
         default: false
-        hint: "If true, this post is excluded from production builds."
 
-  # ──────────────────────────────────────────────────────────────────────────
-  # 2. HOMEPAGE  (singleton)
-  # ──────────────────────────────────────────────────────────────────────────
-  - name: "homepage"
-    label: "Homepage"
-    files:
-      - label: "Homepage Content"
-        name: "homepage"
-        file: "src/content/pages/homepage.md"
-        preview_path: "/"
+      - label: "SEO"
+        name: "seo"
+        widget: "object"
+        collapsed: true
         fields:
-          - label: "Hero Headline"
-            name: "hero_headline"
-            widget: "string"
-            hint: "The large text. E.g. 'feel good food'"
-
-          - label: "Hero Subheadline"
-            name: "hero_subheadline"
-            widget: "text"
-            required: false
-            hint: "1 sentence. E.g. 'Born from baby + cakes, crafted with warmth and intention.'"
-
-          - label: "Hero Image"
-            name: "hero_image"
-            widget: "image"
-
-          - label: "Brand Story"
-            name: "brand_story"
-            widget: "markdown"
-            hint: "The 'About' blurb shown on the homepage. 2–4 paragraphs."
-
-          - label: "SEO Meta Title"
+          - label: "Meta Title"
             name: "meta_title"
             widget: "string"
-            default: "Babycakes — Feel Good Food"
-            pattern:
-              - ".{10,60}"
-              - "Must be 10–60 characters"
-
-          - label: "SEO Meta Description"
-            name: "meta_description"
-            widget: "text"
-            pattern:
-              - ".{50,160}"
-              - "Must be 50–160 characters"
-
-  # ──────────────────────────────────────────────────────────────────────────
-  # 3. BRAND CREDIBILITY  (singleton — shown in the "About / Standards" section)
-  # ──────────────────────────────────────────────────────────────────────────
-  - name: "credibility"
-    label: "Credibility & Brand Standards"
-    files:
-      - label: "Brand Standards Page"
-        name: "brand_standards"
-        file: "src/content/pages/brand-standards.md"
-        preview_path: "/brand"
-        fields:
-          - label: "Page Title"
-            name: "title"
-            widget: "string"
-            default: "Brand Standards"
-
-          - label: "Introduction"
-            name: "intro"
-            widget: "text"
-
-          - label: "Milestones"
-            name: "milestones"
-            widget: "list"
-            hint: "Key dates in Babycakes history. Shown as a timeline."
-            fields:
-              - label: "Year"
-                name: "year"
-                widget: "string"
-              - label: "Event"
-                name: "event"
-                widget: "string"
-              - label: "Detail"
-                name: "detail"
-                widget: "text"
-                required: false
-
-          - label: "Press / Features"
-            name: "press"
-            widget: "list"
             required: false
-            fields:
-              - label: "Publication"
-                name: "publication"
-                widget: "string"
-              - label: "Headline / Quote"
-                name: "quote"
-                widget: "text"
-              - label: "URL"
-                name: "url"
-                widget: "string"
-                required: false
-              - label: "Logo"
-                name: "logo"
-                widget: "image"
-                required: false
-
-          - label: "SEO Meta Title"
-            name: "meta_title"
-            widget: "string"
-            default: "Brand Standards | Babycakes"
-            pattern:
-              - ".{10,60}"
-              - "10–60 characters"
-
-          - label: "SEO Meta Description"
+            hint: "Max 60 chars. Defaults to Flavor Name | Babycakes"
+          - label: "Meta Description"
             name: "meta_description"
             widget: "text"
-            pattern:
-              - ".{50,160}"
-              - "50–160 characters"
+            required: false
+            hint: "Max 160 chars."
 
-  # ──────────────────────────────────────────────────────────────────────────
-  # 4. SITE SETTINGS  (global SEO defaults + nav)
-  # ──────────────────────────────────────────────────────────────────────────
+  # ── ALWAYS AVAILABLE PRODUCTS ────────────────────────────────────
+  - name: "always_available"
+    label: "Always Available"
+    label_singular: "Product"
+    description: "Manage permanent menu items. Subcategory is used to group products on the page."
+    folder: "src/content/always-available"
+    create: true
+    slug: "{{slug}}"
+    sortable_fields: ["name", "category", "price"]
+    fields:
+      - label: "Product Name"
+        name: "name"
+        widget: "string"
+
+      - label: "Subcategory"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "Tray Cakes",       value: "tray-cakes" }
+          - { label: "Special Cakes",    value: "special-cakes" }
+          - { label: "Cookies & Bites",  value: "cookies-bites" }
+
+      - label: "Price"
+        name: "price"
+        widget: "string"
+        hint: "E.g. from ฿160 or ฿259"
+
+      - label: "Card Background Color"
+        name: "bg"
+        widget: "string"
+        default: "#1e0c06"
+        hint: "Hex color e.g. #1e0c06"
+
+      - label: "Product Image"
+        name: "image"
+        widget: "image"
+        required: false
+
+      - label: "Short Description"
+        name: "desc"
+        widget: "text"
+        hint: "1–2 sentences for the product card."
+
+      - label: "Full Description"
+        name: "body"
+        widget: "markdown"
+        required: false
+
+      - label: "Available?"
+        name: "available"
+        widget: "boolean"
+        default: true
+
+  # ── LOCATIONS ────────────────────────────────────────────────────
+  - name: "locations"
+    label: "Locations"
+    label_singular: "Branch"
+    description: "Manage branch details, hours, and Grab links."
+    folder: "src/content/locations"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Branch Name", name: "name",    widget: "string" }
+      - { label: "Zone / Area", name: "zone",    widget: "string", hint: "E.g. Sukhumvit, Siam, Bangna" }
+      - { label: "Address",     name: "addr",    widget: "text" }
+      - { label: "Hours",       name: "hours",   widget: "string", hint: "E.g. 10:00 – 22:00" }
+      - { label: "Transit",     name: "transit", widget: "string", hint: "E.g. BTS Siam" }
+      - { label: "Grab Link",   name: "grab",    widget: "string", hint: "Full Grab delivery URL" }
+      - { label: "Google Maps", name: "maps",    widget: "string", hint: "Full Google Maps URL" }
+      - { label: "Headquarters?", name: "hq",   widget: "boolean", default: false }
+      - { label: "Active?",     name: "active",  widget: "boolean", default: true }
+
+  # ── CAREERS ──────────────────────────────────────────────────────
+  - name: "careers"
+    label: "Careers"
+    label_singular: "Role"
+    description: "Manage open job listings."
+    folder: "src/content/careers"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Job Title",   name: "title", widget: "string" }
+      - { label: "Department",  name: "dept",  widget: "select", options: ["Kitchen","Marketing","Creative","Ops","Service","Logistics","Other"] }
+      - { label: "Type",        name: "type",  widget: "select", options: ["Full-time","Part-time","Contract","Internship"] }
+      - { label: "Location",    name: "loc",   widget: "string", default: "Bangkok, TH" }
+      - { label: "Description", name: "desc",  widget: "text" }
+      - { label: "Open?",       name: "open",  widget: "boolean", default: true }
+
+  # ── SITE SETTINGS ────────────────────────────────────────────────
   - name: "settings"
     label: "Site Settings"
     files:
-      - label: "Global SEO & Meta"
+      - label: "Global SEO"
         name: "seo"
         file: "src/content/settings/seo.json"
         fields:
-          - label: "Default Meta Title Suffix"
-            name: "title_suffix"
-            widget: "string"
-            default: " | Babycakes"
-            hint: "Appended to every page title. E.g. ' | Babycakes'"
+          - { label: "Default Title Suffix", name: "title_suffix",        widget: "string", default: " | Babycakes" }
+          - { label: "Default Description",  name: "default_description", widget: "text" }
+          - { label: "Default OG Image",     name: "og_image",            widget: "image", required: false }
 
-          - label: "Default Meta Description"
-            name: "default_description"
-            widget: "text"
-            hint: "Used when a page has no custom description."
-            default: >
-              Babycakes — feel good food. Classic recipes reimagined for today.
-              Crafted with warmth, intention, and heart.
-
-          - label: "Default OG Image"
-            name: "og_image_default"
-            widget: "image"
-            hint: "Fallback social share image (1200×630px)."
-
-          - label: "Twitter / X Handle"
-            name: "twitter_handle"
-            widget: "string"
-            required: false
-            hint: "Without @. E.g. babycakesthailand"
-
-          - label: "Google Site Verification"
-            name: "google_verification"
-            widget: "string"
-            required: false
-
-          - label: "Google Analytics Measurement ID"
-            name: "ga_measurement_id"
-            widget: "string"
-            required: false
-            hint: "E.g. G-XXXXXXXXXX"
-
-      - label: "Navigation"
-        name: "navigation"
-        file: "src/content/settings/navigation.json"
+      - label: "Social & Order Links"
+        name: "social"
+        file: "src/content/settings/social.json"
         fields:
-          - label: "Main Nav Links"
-            name: "main_nav"
-            widget: "list"
-            fields:
-              - label: "Label"
-                name: "label"
-                widget: "string"
-              - label: "URL"
-                name: "url"
-                widget: "string"
-              - label: "Open in new tab?"
-                name: "external"
-                widget: "boolean"
-                default: false
-
-          - label: "Social Links"
-            name: "social"
-            widget: "list"
-            fields:
-              - label: "Platform"
-                name: "platform"
-                widget: "select"
-                options:
-                  - Instagram
-                  - Facebook
-                  - TikTok
-                  - LINE
-                  - YouTube
-                  - X (Twitter)
-              - label: "URL"
-                name: "url"
-                widget: "string"
+          - { label: "Instagram URL", name: "instagram", widget: "string" }
+          - { label: "Facebook URL",  name: "facebook",  widget: "string" }
+          - { label: "LINE OA Link",  name: "line",      widget: "string" }
+          - { label: "TikTok URL",    name: "tiktok",    widget: "string" }
+          - { label: "Grab Link",     name: "grab",      widget: "string" }
+          - { label: "Linktree URL",  name: "linktree",  widget: "string" }

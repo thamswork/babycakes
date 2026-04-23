@@ -1,25 +1,26 @@
 ---
 import Base from '../../layouts/Base.astro';
+// CMS-ready: these will come from getCollection('weekly-updates') once content is added
 const posts = [
-  { slug:"strawberry-kiss",      name:"Strawberry Kiss",       period:"17 Feb – 13 March", bg:"#96404f", desc:"Layered sponge with fresh strawberry cream. A gentle taste of nostalgia." },
-  { slug:"dubai-chocolate",      name:"Dubai Chocolate",       period:"17 Feb – 13 March", bg:"#1a0a04", desc:"Crispy knafeh, dark chocolate. A viral sensation, reimagined with care." },
-  { slug:"mayongchid",           name:"Mayongchid",            period:"11 – 17 April",     bg:"#9a6010", desc:"Thai mango custard. Seasonal, sun-golden, and gone before you know it." },
-  { slug:"cheesecake-blueberry", name:"Cheesecake Blueberry",  period:"13 – 18 Feb",       bg:"#2d1848", desc:"Velvety cheesecake meets jammy blueberry. A classic, perfected." },
-  { slug:"nomyen",               name:"Nomyen",                period:"13 – 18 Feb",       bg:"#b06070", desc:"Thai milk tea in cake form. Soft, sweet, and pink." },
-  { slug:"cake-cube",            name:"Cake Cube",             period:"New Drop",          bg:"#181818", desc:"Our iconic flavors in a bold new format." },
-  { slug:"banoffee",             name:"Banoffee",              period:"13 – 18 Feb",       bg:"#6a4816", desc:"Banana, toffee, cream. A classic that never gets old." },
-  { slug:"thai-tea",             name:"Thai Tea",              period:"15 – 22 April",     bg:"#a03c14", desc:"Bold, spiced, unmistakably Thai." },
-  { slug:"crunchy-cake",         name:"Crunchy Cake",          period:"Limited",           bg:"#2e1408", desc:"Made with KitKat. Crispy layers, rich chocolate drizzle." },
+  { slug:"strawberry-kiss",      name:"Strawberry Kiss",       period:"17 Feb – 13 March", bg:"#8a3a46", desc:"Layered sponge with fresh strawberry cream. A gentle taste of nostalgia, made to sweeten every moment." },
+  { slug:"dubai-chocolate",      name:"Dubai Chocolate",       period:"17 Feb – 13 March", bg:"#180a04", desc:"Crispy knafeh, dark chocolate. A viral sensation reimagined with care and intention." },
+  { slug:"mayongchid",           name:"Mayongchid",            period:"11 – 17 April",     bg:"#8a5c10", desc:"Thai mango custard. Seasonal, sun-golden, and gone before you know it. A true Thai treasure." },
+  { slug:"cheesecake-blueberry", name:"Cheesecake Blueberry",  period:"13 – 18 Feb",       bg:"#281640", desc:"Velvety cheesecake meets jammy blueberry. A classic, perfected with every batch." },
+  { slug:"nomyen",               name:"Nomyen",                period:"13 – 18 Feb",       bg:"#a86070", desc:"Thai milk tea in cake form. Soft, sweet, pink, and deeply comforting." },
+  { slug:"cake-cube",            name:"Cake Cube",             period:"New Drop",          bg:"#181818", desc:"Our iconic flavors in a bold new individual format. Available at select branches." },
+  { slug:"banoffee",             name:"Banoffee",              period:"13 – 18 Feb",       bg:"#6a4816", desc:"Banana, toffee, cream. A British classic that never gets old." },
+  { slug:"thai-tea",             name:"Thai Tea",              period:"15 – 22 April",     bg:"#a03c14", desc:"Bold, spiced, unmistakably Thai. A flavor that tells a whole story in every bite." },
+  { slug:"crunchy-cake",         name:"Crunchy Cake",          period:"Limited",           bg:"#2e1408", desc:"Made with KitKat. Crispy layers, rich chocolate drizzle. Pure indulgence." },
 ];
 ---
-<Base title="Bi-Weekly Flavors | Babycakes" description="Babycakes bi-weekly flavor drops — updated every two weeks.">
+<Base title="Bi-Weekly Flavors | Babycakes" description="Babycakes bi-weekly flavor drops — updated every two weeks across all Bangkok branches.">
 
 <section class="pg-hero">
   <div class="dots"></div>
   <div class="wrap" style="position:relative;z-index:2">
-    <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">Updated Every Two Weeks</div>
+    <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.75rem">Updated Every Two Weeks</div>
     <h1 class="lf pg-h1 au au1">Bi-Weekly<br/>Flavors.</h1>
-    <p class="pg-sub au au2">A new flavor, a new story — every two weeks. Don't miss the drop.</p>
+    <p class="pg-sub au au2">A new flavor, a new story — every two weeks.<br/>This is the drop you don't want to miss.</p>
   </div>
 </section>
 
@@ -34,9 +35,9 @@ const posts = [
 <section class="sec">
   <div class="wrap">
     <div class="g3">
-      {posts.map((p,i)=>(
-        <a href={"/bi-weekly/"+p.slug} class="jcard" style={"animation-delay:"+i*0.05+"s"}>
-          <div class="jimg" style={"background:"+p.bg}>
+      {posts.map((p, i) => (
+        <a href={"/bi-weekly/" + p.slug} class="jcard au" style={"animation-delay:" + (i * 0.05) + "s"}>
+          <div class="jimg" style={"background:" + p.bg}>
             <div class="jov"></div>
             <span class="lf jname">{p.name}</span>
           </div>
@@ -56,18 +57,18 @@ const posts = [
 </section>
 </Base>
 <style>
-.pg-hero { position:relative; background:var(--d); padding:9.5rem var(--px) 5.5rem; overflow:hidden; }
-.pg-h1 { font-size:clamp(3.5rem,10vw,8rem); color:var(--y); line-height:0.92; letter-spacing:-0.025em; margin-bottom:1.25rem; }
-.pg-sub { color:rgba(251,245,171,0.5); font-size:clamp(0.95rem,1.6vw,1.05rem); line-height:1.85; max-width:420px; }
-.jcard { display:flex; flex-direction:column; border-radius:var(--r3); overflow:hidden; background:var(--w); box-shadow:0 1px 12px rgba(76,67,120,0.07); transition:transform 0.26s var(--ease), box-shadow 0.26s var(--ease); animation:fadeUp 0.55s var(--ease) both; }
-.jcard:hover { transform:translateY(-5px); box-shadow:0 14px 40px rgba(76,67,120,0.14); }
-.jimg { position:relative; aspect-ratio:3/2; display:flex; align-items:flex-end; padding:1.25rem 1.5rem; overflow:hidden; }
-.jov { position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 55%); }
-.jname { position:relative; z-index:2; font-size:1.6rem; color:#fff; line-height:1.05; text-shadow:0 2px 12px rgba(0,0,0,0.3); }
-.jbody { padding:1.25rem 1.5rem 1.75rem; flex:1; display:flex; flex-direction:column; gap:0; }
-.jmeta { display:flex; align-items:center; justify-content:space-between; margin-bottom:0.875rem; }
-.jper { font-size:0.65rem; font-weight:700; color:var(--p); letter-spacing:0.04em; }
-.jtitle { font-size:0.95rem; font-weight:900; color:var(--d); margin-bottom:0.5rem; line-height:1.35; }
-.jdesc { font-size:0.82rem; color:var(--g3); line-height:1.7; flex:1; }
-.jmore { margin-top:1rem; font-size:0.75rem; font-weight:800; color:var(--p); letter-spacing:0.02em; }
+.pg-hero { position:relative; background:var(--d); padding:10rem var(--px) 6rem; overflow:hidden; }
+.pg-h1 { font-size:clamp(3.5rem,10vw,8.5rem); color:var(--y); line-height:0.9; letter-spacing:-0.025em; margin-bottom:1.5rem; }
+.pg-sub { color:rgba(251,245,171,0.45); font-size:clamp(0.95rem,1.6vw,1.05rem); line-height:1.9; max-width:420px; }
+.jcard { display:flex; flex-direction:column; border-radius:var(--rm); overflow:hidden; background:var(--w); border:1px solid var(--g1); transition:transform 0.26s var(--ease),box-shadow 0.26s var(--ease); animation:fadeUp 0.6s var(--ease) both; text-decoration:none; color:inherit; }
+.jcard:hover { transform:translateY(-5px); box-shadow:0 16px 44px rgba(76,67,120,0.13); }
+.jimg { position:relative; aspect-ratio:3/2; display:flex; align-items:flex-end; padding:1.5rem 1.75rem; overflow:hidden; }
+.jov { position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,0.68) 0%,transparent 56%); }
+.jname { position:relative; z-index:2; font-size:1.7rem; color:#fff; line-height:1.02; text-shadow:0 2px 14px rgba(0,0,0,0.3); }
+.jbody { padding:1.6rem 1.75rem 2rem; flex:1; display:flex; flex-direction:column; }
+.jmeta { display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; }
+.jper { font-size:0.7rem; font-weight:500; color:var(--pm); letter-spacing:0.04em; }
+.jtitle { font-size:1rem; font-weight:600; color:var(--d); margin-bottom:0.65rem; line-height:1.4; }
+.jdesc { font-size:0.875rem; color:var(--g3); line-height:1.75; flex:1; }
+.jmore { margin-top:1.25rem; font-size:0.78rem; font-weight:600; color:var(--pm); }
 </style>
