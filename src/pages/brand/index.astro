@@ -1,37 +1,42 @@
 ---
 import Base from '../../layouts/Base.astro';
-const values=[
-  {t:"Warmth",       d:"Every cake carries the warmth of the person who made it. We don't rush. We don't cut corners.",     n:"01"},
-  {t:"Intention",    d:"Nothing accidental, nothing rushed. Every recipe is deliberate — tested, refined, and made with purpose.", n:"02"},
-  {t:"Heritage",     d:"Rooted in family tradition. Inspired by timeless recipes passed down through generations.",            n:"03"},
-  {t:"Accessibility",d:"Feel-good food for everyone. A great cake shouldn't require a special occasion.",                      n:"04"},
+
+const values = [
+  { t:"Warmth",        d:"Every cake carries the warmth of the person who made it. We do not rush. We do not cut corners.",     n:"01" },
+  { t:"Intention",     d:"Nothing accidental, nothing rushed. Every recipe is deliberate — tested, refined, and made with purpose.", n:"02" },
+  { t:"Heritage",      d:"Rooted in family tradition. Inspired by timeless recipes passed down through generations.",              n:"03" },
+  { t:"Accessibility", d:"Feel-good food for everyone. A great cake should not require a special occasion.",                       n:"04" },
 ];
-const ms=[
-  {y:"2021",e:"Founded",          d:"Started with three flavors and walk-in orders from a home kitchen in Bangna, Bangkok."},
-  {y:"2022",e:"First pop-up",     d:"Launched at Refill Coffee. Sold out in 4 hours. Permanent HQ Bangna opened shortly after."},
-  {y:"2023",e:"Bi-weekly model",  d:"Introduced the bi-weekly rotation — creating urgency, community, and loyal repeat customers."},
-  {y:"2024",e:"Cake Cube drops",  d:"New product format and rapid branch expansion across Bangkok's major malls."},
-  {y:"2025",e:"88K community",    d:"GrabFood and LINE ordering launched. Babycakes reaches every corner of Bangkok."},
-  {y:"2026",e:"New brand system", d:"Full visual identity update. Building toward national expansion and a permanent flagship."},
+
+const ms = [
+  { y:"2021", e:"Founded",           d:"Started with three flavors and walk-in orders from a home kitchen in Bangna, Bangkok." },
+  { y:"2022", e:"First pop-up",      d:"Launched at Refill Coffee. Sold out in 4 hours. Permanent HQ Bangna opened shortly after." },
+  { y:"2023", e:"Bi-weekly model",   d:"Introduced the bi-weekly rotation — creating urgency, community, and loyal repeat customers." },
+  { y:"2024", e:"Cake Cube drops",   d:"New product format and rapid branch expansion across Bangkok major malls." },
+  { y:"2025", e:"88K community",     d:"GrabFood and LINE ordering launched. Babycakes reaches every corner of Bangkok." },
+  { y:"2026", e:"New brand system",  d:"Full visual identity update. Building toward national expansion and a permanent flagship." },
 ];
-const culture=[
-  {t:"Monthly Tasting Table",  d:"Before each bi-weekly drop, the whole team tastes and votes on new recipes together."},
-  {t:"Bake Together Days",     d:"Monthly sessions where anyone can bring a recipe idea. The best ones make it onto the next drop."},
-  {t:"Learning Fridays",       d:"Last Friday each month — a guest chef or brand builder shares their craft with the team."},
-  {t:"Birthday Cake Policy",   d:"Every team member gets a custom Babycakes on their birthday. Obviously."},
-  {t:"Wellness Allowance",     d:"Monthly budget for gym, therapy, or massage — each person decides what they need."},
-  {t:"Flexible Hours",         d:"We care about output, not clock-watching. Great work doesn't need to happen 9 to 5."},
+
+const culture = [
+  { t:"Monthly Tasting Table",  d:"Before each bi-weekly drop, the whole team tastes and votes on new recipes together." },
+  { t:"Bake Together Days",     d:"Monthly sessions where anyone can bring a recipe idea. The best ones make it onto the next drop." },
+  { t:"Learning Fridays",       d:"Last Friday each month — a guest chef or brand builder shares their craft with the team." },
+  { t:"Birthday Cake Policy",   d:"Every team member gets a custom Babycakes on their birthday. Obviously." },
+  { t:"Wellness Allowance",     d:"Monthly budget for gym, therapy, or massage — each person decides what they need." },
+  { t:"Flexible Hours",         d:"We care about output, not clock-watching. Great work does not need to happen 9 to 5." },
 ];
+
+const lastIndex = ms.length - 1;
 ---
 <Base title="Brand | Babycakes" description="The Babycakes story — who we are, what we believe, and how we work.">
 
-<!-- HERO — dark section -->
+<!-- HERO -->
 <section class="brand-hero">
   <div class="dots"></div>
   <div class="wrap" style="position:relative;z-index:2">
     <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">Our Brand</div>
     <h1 class="lf bh-h1 au au1">The Babycakes<br/>Story.</h1>
-    <p class="bh-sub au au2">Born from baby + cakes — a name rooted in love and care. Every cake tells a story. Here's ours.</p>
+    <p class="bh-sub au au2">Born from baby + cakes — a name rooted in love and care. Every cake tells a story. Here is ours.</p>
     <div class="bh-stats au au3">
       <div class="bh-stat"><strong class="lf">2021</strong><span>Founded</span></div>
       <div class="bh-stat"><strong class="lf">10</strong><span>Bangkok Branches</span></div>
@@ -42,7 +47,7 @@ const culture=[
 </section>
 
 <!-- SUBNAV -->
-<nav class="b-nav" id="bNav">
+<nav class="b-nav">
   <div class="wrap b-nav-in">
     <a href="#about">What is Babycakes</a>
     <a href="#values">What We Believe</a>
@@ -52,7 +57,7 @@ const culture=[
   </div>
 </nav>
 
-<!-- ABOUT — white section, editorial layout -->
+<!-- ABOUT -->
 <section class="sec" id="about">
   <div class="wrap">
     <div class="about-grid">
@@ -73,7 +78,7 @@ const culture=[
           <span class="aq-credit">— Founder, Babycakes Bangkok</span>
         </div>
         <div class="about-nums">
-          <div><strong class="lf">160฿</strong><span>Starting price</span></div>
+          <div><strong class="lf">160&thinsp;&#3647;</strong><span>Starting Price</span></div>
           <div><strong class="lf">10</strong><span>Locations</span></div>
           <div><strong class="lf">Weekly</strong><span>New Flavors</span></div>
         </div>
@@ -82,7 +87,7 @@ const culture=[
   </div>
 </section>
 
-<!-- VALUES — off-white bg -->
+<!-- VALUES -->
 <section class="sec" id="values" style="background:var(--off)">
   <div class="wrap">
     <div class="sh">
@@ -92,8 +97,8 @@ const culture=[
       </div>
     </div>
     <div class="g4">
-      {values.map((v,i)=>(
-        <div class="val-card au" style={"animation-delay:"+i*.07+"s"}>
+      {values.map((v, i) => (
+        <div class="val-card au" style={"animation-delay:" + (i * 0.07) + "s"}>
           <span class="val-n">{v.n}</span>
           <h3 class="val-t">{v.t}</h3>
           <p class="val-d">{v.d}</p>
@@ -103,7 +108,7 @@ const culture=[
   </div>
 </section>
 
-<!-- TEAM — dark section, editorial -->
+<!-- TEAM -->
 <section class="sec" id="team" style="background:var(--dk)">
   <div class="wrap">
     <div class="sh">
@@ -114,7 +119,6 @@ const culture=[
       <a href="/careers" class="btn btn-y">Join the Team</a>
     </div>
 
-    <!-- Founder card — editorial, no fake name -->
     <div class="founder-card">
       <div class="founder-left">
         <div class="founder-initial">B</div>
@@ -133,13 +137,13 @@ const culture=[
     </div>
 
     <div class="team-note">
-      <p>Our full team — kitchen, marketing, operations, and delivery — is the engine behind every bi-weekly drop. We're growing. Come work with us.</p>
-      <a href="/careers" class="btn btn-y btn-sm" style="margin-top:1.5rem">See Open Roles</a>
+      <p>Our full team — kitchen, marketing, operations, and delivery — is the engine behind every bi-weekly drop. We are growing. Come work with us.</p>
+      <a href="/careers" class="btn btn-y btn-sm" style="margin-top:1.5rem;display:inline-flex">See Open Roles</a>
     </div>
   </div>
 </section>
 
-<!-- CULTURE — yellow bg -->
+<!-- CULTURE -->
 <section class="sec" id="culture" style="background:var(--y)">
   <div class="wrap">
     <div class="sh">
@@ -150,8 +154,8 @@ const culture=[
       <a href="/careers" class="btn btn-d">Join the Team</a>
     </div>
     <div class="g3">
-      {culture.map((c,i)=>(
-        <div class="cult-card au" style={"animation-delay:"+i*.06+"s"}>
+      {culture.map((c, i) => (
+        <div class="cult-card au" style={"animation-delay:" + (i * 0.06) + "s"}>
           <h3 class="cult-t">{c.t}</h3>
           <p class="cult-d">{c.d}</p>
         </div>
@@ -160,7 +164,7 @@ const culture=[
   </div>
 </section>
 
-<!-- TIMELINE — white bg -->
+<!-- TIMELINE — no ternary, use index comparison -->
 <section class="sec" id="timeline">
   <div class="wrap">
     <div class="sh">
@@ -170,22 +174,29 @@ const culture=[
       </div>
     </div>
     <div class="tl">
-      {ms.map((m,i)=>(
-        <div class="tl-row au" style={"animation-delay:"+i*.07+"s"}>
+      {ms.map((m, i) => (
+        <div class={"tl-row au" + (i === lastIndex ? " tl-last" : "")} style={"animation-delay:" + (i * 0.07) + "s"}>
           <span class="lf tl-y">{m.y}</span>
-          <div class="tl-dot-wrap"><div class="tl-dot"></div>{i<ms.length-1&&<div class="tl-line"></div>}</div>
-          <div class="tl-body"><h3 class="tl-e">{m.e}</h3><p class="tl-d">{m.d}</p></div>
+          <div class="tl-dot-wrap">
+            <div class="tl-dot"></div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-body">
+            <h3 class="tl-e">{m.e}</h3>
+            <p class="tl-d">{m.d}</p>
+          </div>
         </div>
       ))}
     </div>
   </div>
 </section>
 
+<!-- FINAL CTA -->
 <section class="sec-sm" style="background:var(--d)">
   <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap">
     <div>
       <h3 class="lf" style="font-size:clamp(1.75rem,3vw,2.4rem);color:var(--y);line-height:1.1">Want to be part of this?</h3>
-      <p style="color:rgba(251,245,171,.45);margin-top:.5rem;font-size:.9rem;max-width:340px">We're growing and always open to the right people and partnerships.</p>
+      <p style="color:rgba(251,245,171,.42);margin-top:.5rem;font-size:.88rem;max-width:340px;line-height:1.75">Growing fast. Always open to the right people and partnerships.</p>
     </div>
     <div style="display:flex;gap:.875rem;flex-wrap:wrap">
       <a href="/careers" class="btn btn-y">See Open Roles</a>
@@ -195,76 +206,79 @@ const culture=[
 </section>
 
 </Base>
+
 <style>
 /* HERO */
-.brand-hero{position:relative;background:var(--d);padding:9.5rem var(--px) 5rem;overflow:hidden}
-.bh-h1{font-size:clamp(3.25rem,9vw,7.5rem);color:var(--y);line-height:.92;letter-spacing:-.025em;margin-bottom:1.25rem}
-.bh-sub{color:rgba(251,245,171,.5);font-size:clamp(.95rem,1.6vw,1.05rem);line-height:1.85;max-width:480px;margin-bottom:2.5rem}
-.bh-stats{display:flex;gap:0;flex-wrap:wrap;border:1px solid rgba(251,245,171,.1);border-radius:var(--rm);overflow:hidden;width:fit-content}
-.bh-stat{padding:1.25rem 2.25rem;border-right:1px solid rgba(251,245,171,.1);display:flex;flex-direction:column;gap:.25rem}
-.bh-stat:last-child{border-right:none}
-.bh-stat strong{font-size:1.6rem;color:var(--y);line-height:1}
-.bh-stat span{font-size:.6rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(251,245,171,.3)}
-@media(max-width:540px){.bh-stats{flex-direction:column;width:100%}.bh-stat{border-right:none;border-bottom:1px solid rgba(251,245,171,.1)}.bh-stat:last-child{border-bottom:none}}
+.brand-hero { position:relative; background:var(--d); padding:9.5rem var(--px) 5rem; overflow:hidden; }
+.bh-h1 { font-size:clamp(3.25rem,9vw,7.5rem); color:var(--y); line-height:.92; letter-spacing:-.025em; margin-bottom:1.25rem; }
+.bh-sub { color:rgba(251,245,171,.5); font-size:clamp(.95rem,1.6vw,1.05rem); line-height:1.85; max-width:480px; margin-bottom:2.5rem; }
+.bh-stats { display:flex; flex-wrap:wrap; border:1px solid rgba(251,245,171,.1); border-radius:var(--rm); overflow:hidden; width:fit-content; }
+.bh-stat { padding:1.25rem 2.25rem; border-right:1px solid rgba(251,245,171,.1); display:flex; flex-direction:column; gap:.25rem; }
+.bh-stat:last-child { border-right:none; }
+.bh-stat strong { font-size:1.6rem; color:var(--y); line-height:1; }
+.bh-stat span { font-size:.6rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:rgba(251,245,171,.3); }
+@media(max-width:540px) { .bh-stats { width:100%; } .bh-stat { border-right:none; border-bottom:1px solid rgba(251,245,171,.1); } .bh-stat:last-child { border-bottom:none; } }
 
 /* SUBNAV */
-.b-nav{background:var(--w);border-bottom:1px solid var(--g1);position:sticky;top:68px;z-index:400}
-.b-nav-in{display:flex;gap:2.25rem;padding-block:.875rem;max-width:var(--mx);margin-inline:auto;padding-inline:var(--px);overflow-x:auto;scrollbar-width:none;white-space:nowrap}
-.b-nav-in::-webkit-scrollbar{display:none}
-.b-nav a{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g3);transition:color .15s;padding-block:.2rem;border-bottom:2px solid transparent}
-.b-nav a:hover{color:var(--d);border-bottom-color:var(--d)}
+.b-nav { background:var(--w); border-bottom:1px solid var(--g1); position:sticky; top:68px; z-index:400; }
+.b-nav-in { display:flex; gap:2.25rem; padding-block:.875rem; max-width:var(--mx); margin-inline:auto; padding-inline:var(--px); overflow-x:auto; scrollbar-width:none; white-space:nowrap; }
+.b-nav-in::-webkit-scrollbar { display:none; }
+.b-nav a { font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--g3); transition:color .15s; padding-block:.2rem; border-bottom:2px solid transparent; }
+.b-nav a:hover { color:var(--d); border-bottom-color:var(--d); }
 
 /* ABOUT */
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,7vw,8rem);align-items:start}
-.about-h2{font-size:clamp(2.25rem,4.5vw,3.5rem);color:var(--d);line-height:1.05;margin-top:.75rem;margin-bottom:1.5rem}
-.about-p{font-size:1rem;line-height:1.9;color:var(--d);opacity:.75}
-.about-p+.about-p{margin-top:1rem}
-.about-links{display:flex;gap:.875rem;flex-wrap:wrap;margin-top:2rem}
-.about-right{display:flex;flex-direction:column;gap:1.75rem}
-.about-quote{background:var(--off);border-left:3px solid var(--d);padding:2rem 2rem 2rem 2.25rem;border-radius:0 var(--rm) var(--rm) 0}
-.aq-mark{font-family:'Shrikhand',serif;font-size:3rem;color:var(--y);line-height:.8;display:block;margin-bottom:.75rem}
-.aq-text{font-size:1.05rem;line-height:1.8;color:var(--d);font-style:italic;margin-bottom:.875rem}
-.aq-credit{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--g3)}
-.about-nums{display:flex;gap:2rem;padding:1.5rem 0;border-top:1px solid var(--g1)}
-.about-nums div{display:flex;flex-direction:column;gap:.25rem}
-.about-nums strong{font-family:'Shrikhand',serif;font-size:1.75rem;color:var(--d);line-height:1}
-.about-nums span{font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pm)}
-@media(max-width:768px){.about-grid{grid-template-columns:1fr}}
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(3rem,7vw,8rem); align-items:start; }
+.about-h2 { font-size:clamp(2.25rem,4.5vw,3.5rem); color:var(--d); line-height:1.05; margin-top:.75rem; margin-bottom:1.5rem; }
+.about-p { font-size:1rem; line-height:1.9; color:var(--d); opacity:.75; }
+.about-p + .about-p { margin-top:1rem; }
+.about-links { display:flex; gap:.875rem; flex-wrap:wrap; margin-top:2rem; }
+.about-right { display:flex; flex-direction:column; gap:1.75rem; }
+.about-quote { background:var(--off); border-left:3px solid var(--d); padding:2rem 2rem 2rem 2.25rem; border-radius:0 var(--rm) var(--rm) 0; }
+.aq-mark { font-family:'Shrikhand',serif; font-size:3rem; color:var(--y); line-height:.8; display:block; margin-bottom:.75rem; }
+.aq-text { font-size:1.05rem; line-height:1.8; color:var(--d); font-style:italic; margin-bottom:.875rem; }
+.aq-credit { font-size:.7rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--g3); }
+.about-nums { display:flex; gap:2rem; padding:1.5rem 0; border-top:1px solid var(--g1); }
+.about-nums div { display:flex; flex-direction:column; gap:.25rem; }
+.about-nums strong { font-family:'Shrikhand',serif; font-size:1.75rem; color:var(--d); line-height:1; }
+.about-nums span { font-size:.62rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--pm); }
+@media(max-width:768px) { .about-grid { grid-template-columns:1fr; } }
 
 /* VALUES */
-.val-card{background:var(--w);border:1px solid var(--g1);border-radius:var(--rm);padding:2rem 1.75rem;animation:fadeUp .6s var(--ease) both}
-.val-n{font-size:.6rem;font-weight:800;letter-spacing:.1em;color:var(--pm);display:block;margin-bottom:1.1rem}
-.val-t{font-size:1rem;font-weight:900;color:var(--d);margin-bottom:.6rem}
-.val-d{font-size:.82rem;color:var(--g3);line-height:1.75}
+.val-card { background:var(--w); border:1px solid var(--g1); border-radius:var(--rm); padding:2rem 1.75rem; animation:fadeUp .6s var(--ease) both; }
+.val-n { font-size:.6rem; font-weight:800; letter-spacing:.1em; color:var(--pm); display:block; margin-bottom:1.1rem; }
+.val-t { font-size:1rem; font-weight:900; color:var(--d); margin-bottom:.6rem; }
+.val-d { font-size:.82rem; color:var(--g3); line-height:1.75; }
 
 /* TEAM */
-.founder-card{display:grid;grid-template-columns:180px 1fr;gap:3rem;align-items:start;background:rgba(255,255,255,.04);border:1px solid rgba(251,245,171,.08);border-radius:var(--rl);padding:2.75rem;margin-bottom:1.5rem}
-.founder-initial{width:140px;height:140px;border-radius:var(--rm);background:var(--y);display:flex;align-items:center;justify-content:center;font-family:'Shrikhand',serif;font-size:4rem;color:var(--d)}
-.founder-name{font-family:'Shrikhand',serif;font-size:1.9rem;color:var(--y);margin-bottom:.3rem;line-height:1}
-.founder-role{display:block;font-size:.65rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--pm);margin-bottom:1.1rem}
-.founder-bio{font-size:.88rem;color:rgba(251,245,171,.52);line-height:1.85;max-width:500px}
-.founder-stats{display:flex;gap:2.5rem;margin-top:1.75rem;padding-top:1.75rem;border-top:1px solid rgba(251,245,171,.08)}
-.founder-stats div{display:flex;flex-direction:column;gap:.25rem}
-.founder-stats strong{font-family:'Shrikhand',serif;font-size:1.4rem;color:var(--y);line-height:1}
-.founder-stats span{font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(251,245,171,.3)}
-.team-note{background:rgba(255,255,255,.04);border:1px solid rgba(251,245,171,.07);border-radius:var(--rm);padding:2.25rem}
-.team-note p{font-size:.92rem;color:rgba(251,245,171,.48);line-height:1.85;max-width:560px}
-@media(max-width:600px){.founder-card{grid-template-columns:1fr}.founder-initial{width:100px;height:100px;font-size:3rem}}
+.founder-card { display:grid; grid-template-columns:180px 1fr; gap:3rem; align-items:start; background:rgba(255,255,255,.04); border:1px solid rgba(251,245,171,.08); border-radius:var(--rl); padding:2.75rem; margin-bottom:1.5rem; }
+.founder-initial { width:140px; height:140px; border-radius:var(--rm); background:var(--y); display:flex; align-items:center; justify-content:center; font-family:'Shrikhand',serif; font-size:4rem; color:var(--d); flex-shrink:0; }
+.founder-name { font-family:'Shrikhand',serif; font-size:1.9rem; color:var(--y); margin-bottom:.3rem; line-height:1; }
+.founder-role { display:block; font-size:.65rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--pm); margin-bottom:1.1rem; }
+.founder-bio { font-size:.88rem; color:rgba(251,245,171,.52); line-height:1.85; max-width:500px; }
+.founder-stats { display:flex; gap:2.5rem; margin-top:1.75rem; padding-top:1.75rem; border-top:1px solid rgba(251,245,171,.08); }
+.founder-stats div { display:flex; flex-direction:column; gap:.25rem; }
+.founder-stats strong { font-family:'Shrikhand',serif; font-size:1.4rem; color:var(--y); line-height:1; }
+.founder-stats span { font-size:.6rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:rgba(251,245,171,.3); }
+.team-note { background:rgba(255,255,255,.04); border:1px solid rgba(251,245,171,.07); border-radius:var(--rm); padding:2.25rem; }
+.team-note p { font-size:.92rem; color:rgba(251,245,171,.48); line-height:1.85; max-width:560px; }
+@media(max-width:600px) { .founder-card { grid-template-columns:1fr; } .founder-initial { width:90px; height:90px; font-size:2.5rem; } }
 
 /* CULTURE */
-.cult-card{background:rgba(76,67,120,.08);border:1px solid rgba(76,67,120,.12);border-radius:var(--rm);padding:2rem 1.75rem;animation:fadeUp .6s var(--ease) both}
-.cult-t{font-size:.95rem;font-weight:900;color:var(--d);margin-bottom:.6rem}
-.cult-d{font-size:.82rem;color:var(--d);opacity:.65;line-height:1.75}
+.cult-card { background:rgba(76,67,120,.08); border:1px solid rgba(76,67,120,.12); border-radius:var(--rm); padding:2rem 1.75rem; animation:fadeUp .6s var(--ease) both; }
+.cult-t { font-size:.95rem; font-weight:900; color:var(--d); margin-bottom:.6rem; }
+.cult-d { font-size:.82rem; color:var(--d); opacity:.65; line-height:1.75; }
 
 /* TIMELINE */
-.tl{display:flex;flex-direction:column}
-.tl-row{display:grid;grid-template-columns:72px 32px 1fr;gap:1.5rem;animation:fadeUp .55s var(--ease) both}
-.tl-y{font-size:1.15rem;color:var(--pm);line-height:1;padding-top:.4rem;text-align:right}
-.tl-dot-wrap{display:flex;flex-direction:column;align-items:center;padding-top:.45rem}
-.tl-dot{width:11px;height:11px;border-radius:50%;background:var(--y);border:2px solid var(--d);flex-shrink:0;box-shadow:0 0 0 3px rgba(159,151,194,.2)}
-.tl-line{flex:1;width:2px;background:var(--g1);margin-top:7px;min-height:2.75rem}
-.tl-body{padding-bottom:2.75rem}
-.tl-e{font-size:1rem;font-weight:900;color:var(--d);margin-bottom:.35rem}
-.tl-d{font-size:.82rem;color:var(--g3);line-height:1.75}
-@media(max-width:500px){.tl-row{grid-template-columns:52px 24px 1fr;gap:1rem}.tl-y{font-size:.95rem}}
+.tl { display:flex; flex-direction:column; }
+.tl-row { display:grid; grid-template-columns:72px 32px 1fr; gap:1.5rem; animation:fadeUp .55s var(--ease) both; }
+.tl-y { font-size:1.15rem; color:var(--pm); line-height:1; padding-top:.4rem; text-align:right; }
+.tl-dot-wrap { display:flex; flex-direction:column; align-items:center; padding-top:.45rem; }
+.tl-dot { width:11px; height:11px; border-radius:50%; background:var(--y); border:2px solid var(--d); flex-shrink:0; box-shadow:0 0 0 3px rgba(159,151,194,.18); }
+.tl-line { flex:1; width:2px; background:var(--g1); margin-top:7px; min-height:2.75rem; }
+.tl-last .tl-line { display:none; }
+.tl-body { padding-bottom:2.75rem; }
+.tl-last .tl-body { padding-bottom:0; }
+.tl-e { font-size:1rem; font-weight:900; color:var(--d); margin-bottom:.35rem; }
+.tl-d { font-size:.82rem; color:var(--g3); line-height:1.75; }
+@media(max-width:500px) { .tl-row { grid-template-columns:52px 24px 1fr; gap:1rem; } .tl-y { font-size:.95rem; } }
 </style>
