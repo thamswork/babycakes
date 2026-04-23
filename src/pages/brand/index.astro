@@ -1,146 +1,161 @@
 ---
 import Base from '../../layouts/Base.astro';
-const team = [
-  { name:"Tyme Saksith",  role:"Founder & Creative Director", bio:"Born from a love of home baking and a vision to make feel-good food accessible to everyone. Tyme started Babycakes from her home kitchen in 2021.", emoji:"🍰" },
-  { name:"Pim Charoenwong",role:"Head of Pastry",              bio:"With 8 years of pastry experience, Pim leads our kitchen team and is the architect behind every new bi-weekly flavor drop.", emoji:"🧁" },
-  { name:"Art Tanakorn",  role:"Brand & Marketing",           bio:"Art shapes the visual world of Babycakes — from social content to packaging, every pixel reflects the brand's warmth.", emoji:"✨" },
-  { name:"Nam Wiraphon",  role:"Operations Manager",          bio:"Nam keeps everything running smoothly — from sourcing ingredients to making sure every delivery arrives perfect and on time.", emoji:"◎" },
+
+const values = [
+  { title:"Warmth",      desc:"Every cake carries the warmth of the person who made it. We don't rush. We don't cut corners.", icon:"♡" },
+  { title:"Intention",   desc:"Nothing accidental, nothing rushed. Every recipe is deliberate — tested, refined, and made with purpose.", icon:"◎" },
+  { title:"Heritage",    desc:"Rooted in family tradition. Inspired by timeless recipes passed down through generations.", icon:"✦" },
+  { title:"Accessibility",desc:"Feel-good food for everyone. We believe a great cake shouldn't require a special occasion.", icon:"✎" },
 ];
 const milestones = [
-  { year:"2021", event:"Babycakes founded",        detail:"Started from a home kitchen in Bangkok with three flavors and word-of-mouth orders only." },
-  { year:"2022", event:"First physical pop-up",    detail:"Launched our first pop-up at Refill Coffee. Sold out in 4 hours. The rest is history." },
-  { year:"2023", event:"Bi-weekly model launched", detail:"Introduced the bi-weekly flavor rotation — creating urgency, community, and loyal repeat customers." },
-  { year:"2024", event:"Cake Cube launched",        detail:"A new product format — our iconic flavors in a portable, giftable cube. Became a bestseller immediately." },
-  { year:"2025", event:"Online ordering live",      detail:"Launched LINE ordering and GrabFood listing — bringing Babycakes to every corner of Bangkok." },
-  { year:"2026", event:"New website & brand book",  detail:"Full brand system updated. Building toward a permanent location and national expansion." },
+  { year:"2021", event:"Founded from a home kitchen",     detail:"Started with three flavors and word-of-mouth orders in Bangna, Bangkok." },
+  { year:"2022", event:"First pop-up & HQ opens",         detail:"Launched our first pop-up at Refill Coffee. Sold out in 4 hours. Permanent HQ Bangna followed." },
+  { year:"2023", event:"Bi-weekly flavor model launched", detail:"Introduced the bi-weekly rotation — creating urgency, community, and deeply loyal repeat customers." },
+  { year:"2024", event:"Cake Cube drops, 5+ branches",    detail:"New product format and rapid branch expansion across Bangkok malls." },
+  { year:"2025", event:"88K+ followers, GrabFood live",   detail:"Online ordering launched. Babycakes reaches every corner of Bangkok via Grab and LINE." },
+  { year:"2026", event:"New brand system & website",      detail:"Full visual identity update. Building toward national expansion and permanent flagship." },
 ];
 const activities = [
-  { title:"Bake Together Days",    desc:"Monthly team bake sessions where anyone can bring a recipe idea. The best ones make it onto the next drop.", icon:"🎂" },
-  { title:"Monthly Tasting Table", desc:"Before each bi-weekly drop, the whole team gathers to taste, vote, and give feedback on new recipes.", icon:"🍽️" },
-  { title:"Learning Fridays",      desc:"Every last Friday of the month, we invite a guest — a chef, a brand builder, a photographer — to share their craft.", icon:"📚" },
-  { title:"Wellness Allowance",    desc:"Every team member receives a monthly wellness allowance to use however they need — gym, therapy, massage, rest.", icon:"♡" },
-  { title:"Birthday Cake Policy",  desc:"Every team member gets a custom Babycakes cake on their birthday. Obviously.", icon:"🎉" },
-  { title:"Flexible Hours",        desc:"We care about output, not clock-watching. We trust our team to do great work on their own terms.", icon:"⏰" },
+  { title:"Monthly Tasting Table",    desc:"Before each bi-weekly drop, the whole team tastes, votes, and gives honest feedback on new recipes.", icon:"🍽️" },
+  { title:"Bake Together Days",       desc:"Monthly team sessions where anyone can bring a recipe idea. The best ones make it onto the next drop.", icon:"🎂" },
+  { title:"Learning Fridays",         desc:"Last Friday each month — a guest chef, designer, or brand builder shares their craft with the team.", icon:"📚" },
+  { title:"Birthday Cake Policy",     desc:"Every team member gets a custom Babycakes on their birthday. Obviously.", icon:"🎉" },
+  { title:"Wellness Allowance",       desc:"Monthly budget for gym, therapy, massage — whatever you need to feel your best.", icon:"♡" },
+  { title:"Flexible Hours",           desc:"We care about output, not clock-watching. Great work doesn't need to happen 9 to 5.", icon:"⏰" },
 ];
 ---
-<Base title="Brand | Babycakes" description="The Babycakes story — who we are, what we believe, our team, and how we work.">
+<Base title="Brand | Babycakes" description="The Babycakes story — who we are, what we believe, our team, and how we work together.">
 
 <!-- HERO -->
 <section class="brand-hero">
   <div class="dots"></div>
-  <div class="wrap" style="position:relative;z-index:2">
-    <div class="tag tag-w au" style="width:fit-content;margin-bottom:1.5rem">Our Brand</div>
-    <h1 class="lf brand-h1 au au-1">The Babycakes<br/>Story.</h1>
-    <p class="brand-sub au au-2">Born from baby + cakes — a name rooted in love and care. Every cake tells a story. Here's ours.</p>
+  <div class="wrap brand-hero-inner">
+    <div style="position:relative;z-index:2">
+      <div class="tag tag-w au" style="width:fit-content;margin-bottom:1.5rem">Our Brand</div>
+      <h1 class="lf brand-h1 au au-1">The Babycakes<br/>Story.</h1>
+      <p class="brand-sub au au-2">Born from baby + cakes — a name rooted in love and care.<br/>Every cake tells a story. Here's ours.</p>
+    </div>
+    <div class="brand-hero-stats au au-2">
+      <div class="stat-pill"><strong class="lf">88K+</strong><span>Instagram & TikTok</span></div>
+      <div class="stat-pill"><strong class="lf">10</strong><span>Bangkok Locations</span></div>
+      <div class="stat-pill"><strong class="lf">3.4M</strong><span>TikTok Likes</span></div>
+    </div>
   </div>
 </section>
 
-<!-- BRAND NAV (anchor links) -->
-<nav class="brand-subnav">
-  <div class="wrap brand-subnav-inner">
+<!-- BRAND SUBNAV -->
+<nav class="brand-nav" id="brandNav">
+  <div class="wrap brand-nav-inner">
     <a href="#about">What is Babycakes</a>
-    <a href="#founders">Founders</a>
-    <a href="#team">Our Team</a>
-    <a href="#culture">HR & Culture</a>
-    <a href="#timeline">History</a>
+    <a href="#values">What We Believe</a>
+    <a href="#team">Team</a>
+    <a href="#culture">Culture</a>
+    <a href="#timeline">Our Journey</a>
   </div>
 </nav>
 
 <!-- WHAT IS BABYCAKES -->
 <section class="sec" id="about">
-  <div class="wrap about-grid">
-    <div class="about-left">
-      <span class="tag tag-o sh-eyebrow">What is Babycakes</span>
-      <h2 class="lf about-h2">Feel good food,<br/>baked with love.</h2>
-      <p>Babycakes was born from a simple belief: that food baked with love tastes different. We create cakes that are soft, nostalgic, and comforting — like a taste of home.</p>
-      <p style="margin-top:1.25rem">Every cake is crafted with warmth, intention, and heart — inspired by timeless family recipes passed down through generations. Classic recipes, reimagined for today.</p>
-      <div class="about-values">
-        {[{t:"Warmth",d:"Every cake carries care"},{t:"Intention",d:"Nothing accidental, nothing rushed"},{t:"Heritage",d:"Rooted in family tradition"}].map(v=>(
-          <div class="aval">
-            <strong>{v.t}</strong>
-            <span>{v.d}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-    <div class="about-right">
-      <div class="about-badge-big">
-        <span class="lf about-badge-name">babycakes</span>
-        <span class="about-badge-tag">feel good food ·</span>
-        <div class="about-badge-dots"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOUNDERS -->
-<section class="sec" id="founders" style="background:var(--dark)">
   <div class="wrap">
-    <div class="sh">
-      <div>
-        <span class="tag tag-y sh-eyebrow" style="margin-bottom:1rem">Founders</span>
-        <h2 class="lf sh-title" style="color:var(--yellow)">The people<br/>behind the cake.</h2>
-      </div>
-    </div>
-    <div class="g2 founder-grid">
-      <div class="founder-card">
-        <div class="founder-avatar">🍰</div>
-        <div class="founder-info">
-          <h3 class="lf founder-name">Tyme Saksith</h3>
-          <span class="founder-role">Founder & Creative Director</span>
-          <p class="founder-bio">Born from a love of home baking and a vision to make feel-good food accessible to everyone. Tyme started Babycakes from her home kitchen in 2021 with three flavors and a dream. She leads brand vision, recipe direction, and the creative soul of everything Babycakes does.</p>
+    <div class="about-layout">
+      <div class="about-text">
+        <span class="tag tag-o sh-eyebrow">What is Babycakes</span>
+        <h2 class="lf about-h2">Feel good food,<br/>baked with love.</h2>
+        <p class="about-body">Babycakes was born from a simple belief: that food baked with love tastes different. We create cakes that are soft, nostalgic, and comforting — like a taste of home.</p>
+        <p class="about-body" style="margin-top:1rem">Every cake is crafted with warmth, intention, and heart — inspired by timeless family recipes passed down through generations. Classic recipes, reimagined for today.</p>
+        <div class="about-links" style="margin-top:2rem">
+          <a href="/bi-weekly" class="btn btn-p">See This Week's Flavors →</a>
+          <a href="/locations" class="btn btn-ghd">Find a Branch →</a>
         </div>
       </div>
-      <div class="founder-card">
-        <div class="founder-avatar">🧁</div>
-        <div class="founder-info">
-          <h3 class="lf founder-name">Co-Founder</h3>
-          <span class="founder-role">Operations & Growth</span>
-          <p class="founder-bio">The backbone of Babycakes' operations — from supply chain to delivery logistics and branch expansion. While Tyme dreams it, the co-founder builds the systems to make it real at scale.</p>
+      <div class="about-visual">
+        <div class="brand-circle-lg">
+          <span class="lf brand-circle-name">babycakes</span>
+          <span class="brand-circle-tag">feel good food ·</span>
+          <div class="brand-circle-ring"></div>
+        </div>
+        <div class="about-badge-count">
+          <span class="lf" style="font-size:2rem;color:var(--dark)">88K</span>
+          <span style="font-size:.7rem;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.06em">Followers</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TEAM -->
-<section class="sec" id="team">
+<!-- VALUES -->
+<section class="sec" id="values" style="background:var(--cream)">
   <div class="wrap">
-    <div class="sh">
+    <div class="sh" style="margin-bottom:3.5rem">
       <div>
-        <span class="tag tag-o sh-eyebrow">Our Team</span>
-        <h2 class="lf sh-title">The people who<br/>make it happen.</h2>
+        <span class="tag tag-o sh-eyebrow">What We Believe</span>
+        <h2 class="lf sh-title">The principles<br/>behind every cake.</h2>
       </div>
     </div>
-    <div class="g4 team-grid">
-      {team.map((m,i)=>(
-        <div class="team-card" style={"animation-delay:"+i*.07+"s"}>
-          <div class="team-avatar">{m.emoji}</div>
-          <h3 class="team-name">{m.name}</h3>
-          <span class="team-role">{m.role}</span>
-          <p class="team-bio">{m.bio}</p>
+    <div class="g4 values-grid">
+      {values.map((v,i)=>(
+        <div class="value-block" style={"animation-delay:"+i*.07+"s"}>
+          <div class="value-icon-wrap"><span class="value-icon">{v.icon}</span></div>
+          <h3 class="value-title">{v.title}</h3>
+          <p class="value-desc">{v.desc}</p>
         </div>
       ))}
     </div>
   </div>
 </section>
 
-<!-- HR & CULTURE -->
+<!-- TEAM -->
+<section class="sec" id="team" style="background:var(--dark)">
+  <div class="wrap">
+    <div class="sh" style="margin-bottom:3.5rem">
+      <div>
+        <span class="tag tag-y sh-eyebrow">Our Team</span>
+        <h2 class="lf sh-title" style="color:var(--yellow)">The people who<br/>make it happen.</h2>
+      </div>
+      <a href="/careers" class="btn btn-y">Join the Team →</a>
+    </div>
+
+    <!-- Founder feature -->
+    <div class="founder-feature">
+      <div class="founder-f-left">
+        <div class="founder-avatar-lg">🍰</div>
+      </div>
+      <div class="founder-f-right">
+        <span class="tag tag-w" style="margin-bottom:1.25rem">Founder</span>
+        <h3 class="lf founder-f-name">Tyme Saksith</h3>
+        <span class="founder-f-role">Founder & Creative Director</span>
+        <p class="founder-f-bio">The creative force behind Babycakes — Tyme leads brand vision, recipe direction, and everything that makes Babycakes feel like Babycakes. Started from a home kitchen in Bangna, now Bangkok's most-loved tray cake brand with 10 branches and 88K+ followers.</p>
+        <div class="founder-f-stats">
+          <div><strong class="lf">2021</strong><span>Founded</span></div>
+          <div><strong class="lf">10</strong><span>Branches</span></div>
+          <div><strong class="lf">88K+</strong><span>Community</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Team note -->
+    <div class="team-note">
+      <p>Our full team — kitchen, marketing, operations, and delivery — is the engine behind every bi-weekly drop and every perfectly timed order. We don't name everyone because they deserve more than a card on a website. Come work with us.</p>
+      <a href="/careers" class="btn btn-y btn-sm" style="margin-top:1.5rem">See Open Roles →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CULTURE & HR -->
 <section class="sec" id="culture" style="background:var(--yellow)">
   <div class="wrap">
-    <div class="sh">
+    <div class="sh" style="margin-bottom:3.5rem">
       <div>
-        <span class="tag tag-p sh-eyebrow">HR & Culture</span>
+        <span class="tag tag-p sh-eyebrow">Culture & HR</span>
         <h2 class="lf sh-title" style="color:var(--dark)">How we work<br/>together.</h2>
       </div>
-      <a href="/careers" class="btn btn-p">Join the Team →</a>
     </div>
-    <div class="g3 act-grid">
+    <div class="g3 culture-grid">
       {activities.map((a,i)=>(
-        <div class="act-card" style={"animation-delay:"+i*.06+"s"}>
-          <span class="act-icon">{a.icon}</span>
-          <h3 class="act-title">{a.title}</h3>
-          <p class="act-desc">{a.desc}</p>
+        <div class="culture-card" style={"animation-delay:"+i*.06+"s"}>
+          <span class="culture-icon">{a.icon}</span>
+          <h3 class="culture-title">{a.title}</h3>
+          <p class="culture-desc">{a.desc}</p>
         </div>
       ))}
     </div>
@@ -156,12 +171,17 @@ const activities = [
         <h2 class="lf sh-title">From home kitchen<br/>to Bangkok staple.</h2>
       </div>
     </div>
-    <div class="timeline">
+    <div class="timeline-grid">
       {milestones.map((m,i)=>(
-        <div class="t-item" style={"animation-delay:"+i*.08+"s"}>
-          <div class="t-year lf">{m.year}</div>
-          <div class="t-line"><div class="t-dot"></div></div>
-          <div class="t-content">
+        <div class="t-item" style={"animation-delay:"+i*.07+"s"}>
+          <div class="t-year-col">
+            <span class="lf t-year">{m.year}</span>
+          </div>
+          <div class="t-connector">
+            <div class="t-dot"></div>
+            {i < milestones.length - 1 && <div class="t-line"></div>}
+          </div>
+          <div class="t-body">
             <h3 class="t-event">{m.event}</h3>
             <p class="t-detail">{m.detail}</p>
           </div>
@@ -171,12 +191,12 @@ const activities = [
   </div>
 </section>
 
-<!-- COLORS CTA -->
-<section class="sec-sm" style="background:var(--dark)">
+<!-- FINAL CTA -->
+<section style="background:var(--dark);padding:clamp(5rem,9vw,8rem) var(--px)">
   <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap">
     <div>
-      <h3 class="lf" style="font-size:clamp(1.75rem,3vw,2.5rem);color:var(--yellow);line-height:1.1">Want to work with us?</h3>
-      <p style="color:rgba(251,245,171,.5);margin-top:.6rem">We're always open to partnerships, collaborations, and great people.</p>
+      <h3 class="lf" style="font-size:clamp(2rem,4vw,3rem);color:var(--yellow);line-height:1.1">Want to be part<br/>of this?</h3>
+      <p style="color:rgba(251,245,171,.5);margin-top:.75rem;max-width:380px;line-height:1.7;font-size:.95rem">We're growing. We're always open to the right people and the right partnerships.</p>
     </div>
     <div style="display:flex;gap:1rem;flex-wrap:wrap">
       <a href="/careers" class="btn btn-y">See Open Roles →</a>
@@ -188,64 +208,75 @@ const activities = [
 </Base>
 
 <style>
-.brand-hero { position:relative; background:var(--dark); padding:10rem var(--px) 6rem; overflow:hidden; }
-.brand-h1 { font-size:clamp(3.5rem,10vw,8rem); color:var(--yellow); line-height:.92; letter-spacing:-.025em; margin-bottom:1.5rem; }
+/* HERO */
+.brand-hero { position:relative; background:var(--dark); padding:10rem var(--px) 5rem; overflow:hidden; }
+.brand-hero-inner { position:relative; z-index:2; display:flex; flex-direction:column; gap:3rem; }
+.brand-h1 { font-size:clamp(3.5rem,10vw,8rem); color:var(--yellow); line-height:.92; letter-spacing:-.025em; margin-bottom:1.25rem; }
 .brand-sub { color:rgba(251,245,171,.55); font-size:clamp(1rem,1.8vw,1.1rem); line-height:1.85; max-width:520px; }
+.brand-hero-stats { display:flex; gap:1.5rem; flex-wrap:wrap; }
+.stat-pill { background:rgba(255,255,255,.06); border:1px solid rgba(251,245,171,.12); border-radius:var(--r-md); padding:1.25rem 1.75rem; display:flex; flex-direction:column; gap:.25rem; }
+.stat-pill strong { font-size:1.75rem; color:var(--yellow); line-height:1; }
+.stat-pill span { font-size:.68rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:rgba(251,245,171,.4); }
 
-/* SUBNAV */
-.brand-subnav { background:var(--cream); border-bottom:1.5px solid var(--gray-2); position:sticky; top:72px; z-index:500; }
-.brand-subnav-inner { display:flex; gap:2.5rem; padding-block:.9rem; max-width:var(--max); margin-inline:auto; padding-inline:var(--px); overflow-x:auto; scrollbar-width:none; }
-.brand-subnav-inner::-webkit-scrollbar { display:none; }
-.brand-subnav a { font-size:var(--text-xs); font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--gray-3); white-space:nowrap; transition:color .15s; padding-block:.25rem; }
-.brand-subnav a:hover { color:var(--dark); }
+/* BRAND SUBNAV */
+.brand-nav { background:var(--cream); border-bottom:1.5px solid var(--gray-2); position:sticky; top:70px; z-index:400; }
+.brand-nav-inner { display:flex; gap:2.5rem; padding-block:1rem; max-width:var(--max); margin-inline:auto; padding-inline:var(--px); overflow-x:auto; scrollbar-width:none; white-space:nowrap; }
+.brand-nav-inner::-webkit-scrollbar { display:none; }
+.brand-nav a { font-size:.7rem; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:var(--gray-3); transition:color .15s; padding-block:.25rem; border-bottom:2px solid transparent; }
+.brand-nav a:hover { color:var(--dark); border-bottom-color:var(--dark); }
 
 /* ABOUT */
-.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(3rem,7vw,8rem); align-items:center; }
-.about-h2 { font-size:clamp(2.5rem,5vw,4rem); color:var(--dark); line-height:1.02; margin-top:1rem; margin-bottom:1.5rem; }
-.about-grid p { font-size:1.05rem; line-height:1.9; color:var(--dark); opacity:.8; }
-.about-values { display:flex; flex-direction:column; gap:1.25rem; margin-top:2.5rem; padding-top:2.5rem; border-top:1.5px solid var(--gray-2); }
-.aval { display:flex; gap:1.25rem; align-items:flex-start; }
-.aval strong { font-size:.95rem; font-weight:800; color:var(--dark); white-space:nowrap; min-width:90px; padding-top:.1rem; }
-.aval span { font-size:.9rem; color:var(--gray-3); line-height:1.6; }
-.about-right { display:flex; align-items:center; justify-content:center; }
-.about-badge-big { width:clamp(240px,30vw,340px); aspect-ratio:1; border-radius:50%; background:var(--yellow); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.6rem; position:relative; }
-.about-badge-name { font-size:clamp(1.5rem,3vw,2.5rem); color:var(--dark); line-height:1; }
-.about-badge-tag { font-size:.72rem; font-weight:700; letter-spacing:.07em; color:var(--dark); opacity:.6; }
-@media (max-width:768px) { .about-grid { grid-template-columns:1fr; } .about-right { order:-1; } .about-badge-big { width:220px; } }
+.about-layout { display:grid; grid-template-columns:1fr 1fr; gap:clamp(3rem,7vw,8rem); align-items:center; }
+.about-h2 { font-size:clamp(2.5rem,5vw,4rem); color:var(--dark); line-height:1.02; margin-top:.75rem; margin-bottom:1.5rem; }
+.about-body { font-size:1.05rem; line-height:1.9; color:var(--dark); opacity:.8; }
+.about-links { display:flex; gap:1rem; flex-wrap:wrap; }
+.about-visual { display:flex; flex-direction:column; align-items:center; gap:1.5rem; }
+.brand-circle-lg { width:clamp(220px,28vw,320px); aspect-ratio:1; border-radius:50%; background:var(--yellow); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.5rem; position:relative; }
+.brand-circle-name { font-size:clamp(1.25rem,2.5vw,2rem); color:var(--dark); line-height:1; }
+.brand-circle-tag { font-size:.7rem; font-weight:700; letter-spacing:.07em; color:var(--dark); opacity:.6; }
+.brand-circle-ring { position:absolute; inset:-12px; border-radius:50%; border:1.5px dashed rgba(76,67,120,.2); }
+.about-badge-count { background:var(--dark); border-radius:var(--r-md); padding:1.25rem 2rem; text-align:center; display:flex; flex-direction:column; gap:.3rem; }
+@media(max-width:768px){ .about-layout { grid-template-columns:1fr; } .about-visual { order:-1; } }
 
-/* FOUNDERS */
-.founder-grid { }
-.founder-card { background:rgba(255,255,255,.06); border:1px solid rgba(251,245,171,.1); border-radius:var(--r-lg); padding:2.5rem; display:flex; gap:2rem; align-items:flex-start; }
-.founder-avatar { font-size:3.5rem; flex-shrink:0; line-height:1; }
-.founder-name { font-family:'Shrikhand',serif; font-size:1.6rem; color:var(--yellow); margin-bottom:.3rem; }
-.founder-role { display:block; font-size:var(--text-xs); font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--purple); margin-bottom:1rem; }
-.founder-bio { font-size:var(--text-sm); color:rgba(251,245,171,.55); line-height:1.8; }
-@media (max-width:640px) { .founder-card { flex-direction:column; gap:1rem; } }
+/* VALUES */
+.values-grid { }
+.value-block { background:var(--white); border-radius:var(--r-md); padding:2.25rem 2rem; animation:fadeUp .6s var(--ease) both; }
+.value-icon-wrap { width:44px; height:44px; border-radius:50%; background:var(--yellow); display:flex; align-items:center; justify-content:center; margin-bottom:1.25rem; }
+.value-icon { font-size:1.1rem; color:var(--dark); }
+.value-title { font-size:1rem; font-weight:900; color:var(--dark); margin-bottom:.6rem; }
+.value-desc { font-size:.875rem; color:var(--gray-3); line-height:1.75; }
 
 /* TEAM */
-.team-grid { }
-.team-card { background:var(--gray-1); border-radius:var(--r-md); padding:2.25rem 2rem; animation:fadeUp .6s var(--ease) both; }
-.team-avatar { font-size:2.5rem; margin-bottom:1.25rem; }
-.team-name { font-family:'Shrikhand',serif; font-size:1.35rem; color:var(--dark); margin-bottom:.3rem; }
-.team-role { display:block; font-size:var(--text-xs); font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--purple); margin-bottom:.9rem; }
-.team-bio { font-size:var(--text-sm); color:var(--gray-3); line-height:1.75; }
+.founder-feature { display:grid; grid-template-columns:200px 1fr; gap:3.5rem; align-items:start; background:rgba(255,255,255,.05); border:1px solid rgba(251,245,171,.1); border-radius:var(--r-xl); padding:3rem; margin-bottom:2rem; }
+.founder-avatar-lg { width:160px; height:160px; border-radius:50%; background:var(--yellow); display:flex; align-items:center; justify-content:center; font-size:4rem; flex-shrink:0; }
+.founder-f-name { font-family:'Shrikhand',serif; font-size:2rem; color:var(--yellow); margin-bottom:.35rem; line-height:1; }
+.founder-f-role { display:block; font-size:.7rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--purple); margin-bottom:1.25rem; }
+.founder-f-bio { font-size:.95rem; color:rgba(251,245,171,.6); line-height:1.85; max-width:520px; }
+.founder-f-stats { display:flex; gap:2.5rem; margin-top:2rem; padding-top:2rem; border-top:1px solid rgba(251,245,171,.1); }
+.founder-f-stats div { display:flex; flex-direction:column; gap:.3rem; }
+.founder-f-stats strong { font-size:1.5rem; color:var(--yellow); line-height:1; }
+.founder-f-stats span { font-size:.65rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:rgba(251,245,171,.35); }
+.team-note { background:rgba(255,255,255,.04); border:1px solid rgba(251,245,171,.08); border-radius:var(--r-lg); padding:2.5rem 3rem; }
+.team-note p { font-size:1rem; color:rgba(251,245,171,.55); line-height:1.85; max-width:600px; }
+@media(max-width:640px){ .founder-feature { grid-template-columns:1fr; } .founder-avatar-lg { width:100px; height:100px; font-size:2.5rem; } }
 
-/* ACTIVITIES */
-.act-grid { }
-.act-card { background:var(--white); border-radius:var(--r-md); padding:2.25rem 2rem; animation:fadeUp .6s var(--ease) both; }
-.act-icon { display:block; font-size:2rem; margin-bottom:1.25rem; }
-.act-title { font-size:1rem; font-weight:900; color:var(--dark); margin-bottom:.6rem; }
-.act-desc { font-size:var(--text-sm); color:var(--gray-3); line-height:1.75; }
+/* CULTURE */
+.culture-grid { }
+.culture-card { background:var(--white); border-radius:var(--r-md); padding:2.25rem 2rem; animation:fadeUp .6s var(--ease) both; }
+.culture-icon { display:block; font-size:1.75rem; margin-bottom:1.25rem; }
+.culture-title { font-size:1rem; font-weight:900; color:var(--dark); margin-bottom:.6rem; }
+.culture-desc { font-size:.875rem; color:var(--gray-3); line-height:1.75; }
 
 /* TIMELINE */
-.timeline { display:flex; flex-direction:column; gap:0; }
-.t-item { display:grid; grid-template-columns:80px 40px 1fr; gap:1.5rem; align-items:flex-start; padding-bottom:3rem; animation:fadeUp .6s var(--ease) both; }
-.t-year { font-size:1.5rem; color:var(--purple); line-height:1; padding-top:.15rem; }
-.t-line { display:flex; flex-direction:column; align-items:center; padding-top:.45rem; }
-.t-dot { width:12px; height:12px; border-radius:50%; background:var(--yellow); border:2.5px solid var(--dark); flex-shrink:0; }
-.t-line::before, .t-line::after { content:''; display:block; width:2px; background:var(--gray-2); flex:1; min-height:20px; }
-.t-item:first-child .t-line::before { display:none; }
-.t-item:last-child .t-line::after { display:none; }
+.timeline-grid { display:flex; flex-direction:column; }
+.t-item { display:grid; grid-template-columns:100px 40px 1fr; gap:1.75rem; animation:fadeUp .55s var(--ease) both; }
+.t-year-col { padding-top:.4rem; text-align:right; }
+.t-year { font-size:1.35rem; color:var(--purple); line-height:1; }
+.t-connector { display:flex; flex-direction:column; align-items:center; padding-top:.45rem; }
+.t-dot { width:13px; height:13px; border-radius:50%; background:var(--yellow); border:2.5px solid var(--dark); flex-shrink:0; box-shadow:0 0 0 4px rgba(251,245,171,.12); }
+.t-line { flex:1; width:2px; background:var(--gray-2); margin-top:8px; min-height:3rem; }
+.t-body { padding-bottom:3rem; }
 .t-event { font-size:1.05rem; font-weight:900; color:var(--dark); margin-bottom:.4rem; }
-.t-detail { font-size:var(--text-sm); color:var(--gray-3); line-height:1.75; }
+.t-detail { font-size:.875rem; color:var(--gray-3); line-height:1.75; }
+@media(max-width:640px){ .t-item { grid-template-columns:60px 28px 1fr; gap:1rem; } .t-year { font-size:1rem; } }
 </style>
