@@ -1,0 +1,60 @@
+---
+import Base from '../../layouts/Base.astro';
+const posts = [
+  {slug:"strawberry-kiss",title:"Strawberry Kiss",period:"17 Feb – 13 March",tag:"bi-weekly",color:"#e8c4cc",desc:"A gentle taste of nostalgia and joy — made to sweeten every moment."},
+  {slug:"dubai-chocolate",title:"Dubai Chocolate",period:"17 Feb – 13 March",tag:"bi-weekly",color:"#3d2010",desc:"Where love becomes cake. Classic recipe, reimagined for today."},
+  {slug:"mayongchid",title:"Mayongchid",period:"11 – 17 April",tag:"bi-weekly",color:"#f5a623",desc:"Thai mango custard — the taste of home, the pride of every bite."},
+  {slug:"cheesecake-blueberry",title:"Cheesecake Blueberry",period:"13 – 18 Feb",tag:"weekly",color:"#5a3e7a",desc:"Baked with care, crafted with intention. A classic, perfected."},
+  {slug:"nomyen",title:"Nomyen",period:"13 – 18 Feb",tag:"weekly",color:"#f9c8d4",desc:"The softest pink — as sweet as a summer afternoon."},
+  {slug:"cake-cube",title:"Cake Cube",period:"New Product",tag:"new-product",color:"#1a1a1a",desc:"Dubai Chocolate in a brand-new format. Bold, rich, indulgent."},
+];
+---
+<Base title="Weekly Updates | Babycakes" description="Every week a new flavor. Follow the drop.">
+<div class="page-header">
+  <div class="container">
+    <span class="badge badge-yellow fade-up">Updated Every Week</span>
+    <h1 class="page-h1 font-logo fade-up fade-up-2">Weekly Updates</h1>
+    <p class="page-sub fade-up fade-up-3">A new flavor, a new story — every week.</p>
+  </div>
+</div>
+<section class="section-pad">
+  <div class="container">
+    <div class="feed-grid">
+      {posts.map((post,i)=>(
+        <a href={`/weekly-updates/${post.slug}`} class="feed-card card-hover fade-up" style={`animation-delay:${i*0.07}s`}>
+          <div class="feed-card-img" style={`background:${post.color}`}>
+            <span class="font-logo feed-card-name">{post.title}</span>
+          </div>
+          <div class="feed-card-body">
+            <div class="feed-card-meta">
+              <span class="badge badge-yellow">{post.tag}</span>
+              <span class="feed-period">{post.period}</span>
+            </div>
+            <h2 class="feed-card-title">{post.title}</h2>
+            <p class="feed-card-desc">{post.desc}</p>
+            <span class="feed-card-link">Read more →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+</Base>
+<style>
+.page-header{background:var(--purple-dark);padding:clamp(3.5rem,8vw,6rem) var(--pad-x) clamp(3rem,6vw,5rem);}
+.page-header .container{max-width:1280px;margin:0 auto;}
+.page-h1{font-size:clamp(3rem,8vw,6rem);color:var(--yellow);margin:0.75rem 0;line-height:1;}
+.page-sub{color:rgba(251,245,171,0.7);font-size:1.1rem;margin:0;}
+.section-pad{padding:clamp(3rem,6vw,5rem) var(--pad-x);}
+.container{max-width:1280px;margin:0 auto;}
+.feed-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2rem;}
+.feed-card{background:var(--white);border-radius:1.5rem;overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 4px 24px rgba(76,67,120,0.1);display:flex;flex-direction:column;}
+.feed-card-img{aspect-ratio:4/3;display:flex;align-items:flex-end;padding:1.25rem;}
+.feed-card-name{font-size:1.6rem;color:var(--white);text-shadow:0 2px 12px rgba(0,0,0,0.5);line-height:1.1;}
+.feed-card-body{padding:1.25rem 1.4rem 1.6rem;flex:1;display:flex;flex-direction:column;}
+.feed-card-meta{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;}
+.feed-period{font-size:0.72rem;color:var(--purple);font-weight:700;}
+.feed-card-title{font-size:1.2rem;font-weight:900;color:var(--purple-dark);margin:0 0 0.5rem;}
+.feed-card-desc{font-size:0.9rem;color:#666;line-height:1.6;margin:0;flex:1;}
+.feed-card-link{margin-top:1rem;font-size:0.85rem;font-weight:800;color:var(--purple);}
+</style>
