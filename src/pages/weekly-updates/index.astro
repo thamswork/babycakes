@@ -1,60 +1,47 @@
 ---
 import Base from '../../layouts/Base.astro';
 const posts=[
-  {slug:"strawberry-kiss",title:"Strawberry Kiss",period:"17 Feb – 13 March",tag:"bi-weekly",bg:"#c98fa0",desc:"A gentle taste of nostalgia and joy — made to sweeten every moment."},
-  {slug:"dubai-chocolate",title:"Dubai Chocolate",period:"17 Feb – 13 March",tag:"bi-weekly",bg:"#2a1508",desc:"Where love becomes cake. Classic recipe, reimagined for today."},
-  {slug:"mayongchid",title:"Mayongchid",period:"11 – 17 April",tag:"bi-weekly",bg:"#d4890a",desc:"Thai mango custard — the taste of home, the pride of every bite."},
-  {slug:"cheesecake-blueberry",title:"Cheesecake Blueberry",period:"13 – 18 Feb",tag:"weekly",bg:"#3d2460",desc:"Baked with care, crafted with intention. A classic, perfected."},
-  {slug:"nomyen",title:"Nomyen",period:"13 – 18 Feb",tag:"weekly",bg:"#e8a0b0",desc:"The softest pink — as sweet as a summer afternoon."},
-  {slug:"cake-cube",title:"Cake Cube",period:"New Drop",tag:"new",bg:"#1a1a1a",desc:"Dubai Chocolate in a bold new format. Joy in a box."},
-  {slug:"banoffee",title:"Banoffee",period:"13 – 18 Feb",tag:"weekly",bg:"#b5863a",desc:"Banana, toffee, cream — a British classic that never gets old."},
-  {slug:"chocolate",title:"Chocolate",period:"Everyday",tag:"everyday",bg:"#3b1a0a",desc:"Our original. Rich, dark, and deeply comforting."},
+  {slug:"strawberry-kiss",title:"Strawberry Kiss",period:"17 Feb – 13 March",tag:"bi-weekly",bg:"#b5606e",desc:"A gentle taste of nostalgia and joy. Layered sponge, strawberry cream."},
+  {slug:"dubai-chocolate",title:"Dubai Chocolate",period:"17 Feb – 13 March",tag:"bi-weekly",bg:"#221009",desc:"Where love becomes cake. Crispy knafeh, dark chocolate — reimagined."},
+  {slug:"mayongchid",title:"Mayongchid",period:"11 – 17 April",tag:"bi-weekly",bg:"#c17d10",desc:"Thai mango custard. Seasonal, sun-golden, and gone before you know it."},
+  {slug:"cheesecake-blueberry",title:"Cheesecake Blueberry",period:"13 – 18 Feb",tag:"weekly",bg:"#3d2460",desc:"Velvety cheesecake meets jammy blueberry. A classic, perfected."},
+  {slug:"nomyen",title:"Nomyen",period:"13 – 18 Feb",tag:"weekly",bg:"#d4849a",desc:"Thai milk tea — the comfort of home in every soft, sweet bite."},
+  {slug:"cake-cube",title:"Cake Cube",period:"New Drop",tag:"new",bg:"#1a1a1a",desc:"Dubai Chocolate in a bold new format. Joy in a cube."},
+  {slug:"banoffee",title:"Banoffee",period:"13 – 18 Feb",tag:"weekly",bg:"#9a7020",desc:"Banana, toffee, cream — a British classic that never gets old."},
+  {slug:"chocolate",title:"Chocolate",period:"Everyday",tag:"everyday",bg:"#2e1005",desc:"Our original. Rich, dark, deeply comforting. Never goes out of style."},
+  {slug:"thai-tea",title:"Thai Tea",period:"15 – 22 April",tag:"bi-weekly",bg:"#c0571a",desc:"Bold, spiced, unmistakably Thai. A flavor that tells a whole story."},
 ];
 ---
-<Base title="Weekly Updates | Babycakes" description="Every week a new flavor. Follow the drop.">
-
-<section style="background:var(--pd);padding:10rem var(--px) 5rem;position:relative;overflow:hidden">
-  <div style="position:absolute;inset:0;opacity:0.04;background-image:radial-gradient(circle,#fff 1px,transparent 1px);background-size:28px 28px"></div>
-  <div style="max-width:1400px;margin:0 auto;position:relative;z-index:2">
-    <div class="tag tag-y au" style="margin-bottom:1rem">Updated Every Week</div>
-    <h1 class="logo au au-1" style="font-size:clamp(3.5rem,10vw,8rem);color:var(--y);line-height:0.95;letter-spacing:-0.02em">Weekly<br/>Updates.</h1>
-    <p class="au au-2" style="margin-top:1.5rem;color:rgba(251,245,171,0.6);font-size:1.05rem;max-width:480px;line-height:1.7">A new flavor, a new story — every week. This is the drop you don't want to miss.</p>
+<Base title="Weekly Updates | Babycakes" description="Every week a new flavor. Follow the Babycakes drop.">
+<section class="wu-hero">
+  <div class="dots"></div>
+  <div class="wrap" style="position:relative;z-index:2">
+    <div class="tag tag-w au" style="width:fit-content;margin-bottom:1.25rem">Updated Every Week</div>
+    <h1 class="lf wu-h1 au au1">Weekly<br/>Updates.</h1>
+    <p class="wu-sub au au2">A new flavor, a new story — every week. This is the drop you don't want to miss.</p>
   </div>
 </section>
-
-<div class="marquee">
-  <div class="marquee-track">
+<div class="mq-strip">
+  <div class="mq-track">
     {["Strawberry Kiss","Dubai Chocolate","Mayongchid","Banoffee","Cheesecake Blueberry","Nomyen","Cake Cube","Thai Tea","All-star","feel good food","Strawberry Kiss","Dubai Chocolate","Mayongchid","Banoffee","Cheesecake Blueberry","Nomyen","Cake Cube","Thai Tea","All-star","feel good food"].map(t=>(
-      <span class="marquee-item">{t}<span class="marquee-dot">✦</span></span>
+      <span class="mq-item">{t}<span class="mq-dot">✦</span></span>
     ))}
   </div>
 </div>
-
-<section style="padding:5rem var(--px) 8rem">
-  <div style="max-width:1400px;margin:0 auto">
-    <!-- Filter tabs -->
-    <div style="display:flex;gap:0.75rem;margin-bottom:3.5rem;flex-wrap:wrap">
-      {["All","bi-weekly","weekly","new","everyday"].map(f=>(
-        <button style={`padding:0.4rem 1.1rem;border-radius:999px;border:1.5px solid var(--pd);font-size:0.75rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;background:${f==='All'?'var(--pd)':'transparent'};color:${f==='All'?'var(--y)':'var(--pd)'};transition:all 0.15s`}>{f}</button>
-      ))}
-    </div>
-
-    <!-- Journal grid — Pidapipó style -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem">
+<section class="sec">
+  <div class="wrap">
+    <div class="jg g3">
       {posts.map((p,i)=>(
-        <a href={`/weekly-updates/${p.slug}`} style={`display:flex;flex-direction:column;border-radius:1.25rem;overflow:hidden;background:#fff;box-shadow:0 2px 20px rgba(76,67,120,0.08);transition:transform 0.25s ease,box-shadow 0.25s ease;animation:fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) ${i*0.06}s both`} onmouseover="this.style.transform='translateY(-5px)';this.style.boxShadow='0 16px 48px rgba(76,67,120,0.18)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 2px 20px rgba(76,67,120,0.08)'">
-          <div style={`background:${p.bg};aspect-ratio:4/3;position:relative;display:flex;align-items:flex-end;padding:1.25rem`}>
-            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.5) 0%,transparent 55%)"></div>
-            <span class="logo" style="position:relative;z-index:2;font-size:1.8rem;color:#fff;line-height:1.1;text-shadow:0 2px 8px rgba(0,0,0,0.3)">{p.title}</span>
+        <a href={"/weekly-updates/"+p.slug} class="jcard" style={"animation-delay:"+i*.05+"s"}>
+          <div class="jimg" style={"background:"+p.bg}>
+            <div class="jiov"></div>
+            <span class="lf jname">{p.title}</span>
           </div>
-          <div style="padding:1.25rem 1.4rem 1.75rem;flex:1;display:flex;flex-direction:column">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem">
-              <span class="tag tag-y">{p.tag}</span>
-              <span style="font-size:0.7rem;color:var(--p);font-weight:700">{p.period}</span>
-            </div>
-            <h2 style="font-size:1.05rem;font-weight:900;color:var(--pd);margin-bottom:0.5rem">{p.title}</h2>
-            <p style="font-size:0.875rem;color:#666;line-height:1.65;flex:1">{p.desc}</p>
-            <span style="margin-top:1rem;font-size:0.8rem;font-weight:800;color:var(--p)">Read more →</span>
+          <div class="jbody">
+            <div class="jmeta"><span class="tag tag-y">{p.tag}</span><span class="jper">{p.period}</span></div>
+            <h2 class="jtitle">{p.title}</h2>
+            <p class="jdesc">{p.desc}</p>
+            <span class="jmore">Read more →</span>
           </div>
         </a>
       ))}
@@ -62,3 +49,20 @@ const posts=[
   </div>
 </section>
 </Base>
+<style>
+.wu-hero{position:relative;background:var(--pd);padding:10rem var(--px) 5rem;overflow:hidden}
+.wu-h1{font-size:clamp(4rem,11vw,9rem);color:var(--y);line-height:.9;letter-spacing:-.025em;margin-bottom:1.5rem}
+.wu-sub{color:rgba(251,245,171,.55);font-size:1.05rem;max-width:440px;line-height:1.75}
+.jg{margin-top:0}
+.jcard{display:flex;flex-direction:column;border-radius:var(--rmd);overflow:hidden;background:var(--w);box-shadow:0 2px 16px rgba(76,67,120,.07);transition:transform .28s var(--eout),box-shadow .28s var(--eout);animation:fadeUp .55s var(--eout) both}
+.jcard:hover{transform:translateY(-6px);box-shadow:0 18px 48px rgba(76,67,120,.16)}
+.jimg{position:relative;aspect-ratio:16/10;display:flex;align-items:flex-end;padding:1.25rem;overflow:hidden}
+.jiov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 55%)}
+.jname{position:relative;z-index:2;font-size:1.75rem;color:#fff;line-height:1.05;text-shadow:0 2px 12px rgba(0,0,0,.4)}
+.jbody{padding:1.4rem 1.5rem 1.75rem;flex:1;display:flex;flex-direction:column}
+.jmeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem}
+.jper{font-size:.68rem;font-weight:700;color:var(--p);letter-spacing:.04em}
+.jtitle{font-size:1.05rem;font-weight:900;color:var(--pd);margin-bottom:.5rem}
+.jdesc{font-size:.85rem;color:var(--g3);line-height:1.7;flex:1}
+.jmore{margin-top:1.1rem;font-size:.78rem;font-weight:800;color:var(--p);letter-spacing:.02em}
+</style>
