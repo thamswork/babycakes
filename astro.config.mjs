@@ -5,7 +5,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  site: "https://babycakes.th",
+  site: "https://408a2c22.babycakes.pages.dev",
   output: "static",
 
   adapter: cloudflare({
@@ -27,7 +27,7 @@ export default defineConfig({
         if (item.url.includes("/weekly-updates/")) {
           return { ...item, priority: 0.9, changefreq: "weekly" };
         }
-        if (item.url === "https://babycakes.th/") {
+        if (item.url === "https://408a2c22.babycakes.pages.dev/") {
           return { ...item, priority: 1.0, changefreq: "weekly" };
         }
         return item;
