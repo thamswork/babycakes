@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro';
+const collabs = [
+  { name:"Refill Coffee",  type:"Pop-up partner",      line:"https://line.me/R/ti/p/@babycakes-collab", desc:"Our first home — Refill Coffee Bangna hosted the pop-up that sold out in 4 hours and launched everything." },
+  { name:"KitKat®",        type:"Product collab",       line:"https://line.me/R/ti/p/@babycakes-collab", desc:"Limited edition Crunchy Cake made with KitKat® — crispy layers, rich chocolate drizzle, pure indulgence." },
+  { name:"Only Grab",      type:"Delivery partner",     line:"https://line.me/R/ti/p/@babycakes-collab", desc:"Available on GrabFood at all branches. Delivery-first is core to the Babycakes model." },
+  { name:"LINE MAN",       type:"Delivery partner",     line:"https://line.me/R/ti/p/@babycakes-collab", desc:"Integrated delivery via LINE MAN — seamlessly connected to LINE ordering." },
+  { name:"Homeland",       type:"Sourcing partner",     line:"https://line.me/R/ti/p/@babycakes-collab", desc:"Tess's sustainability venture — locally sourced ingredients integrated into the Babycakes supply chain." },
+];
+---
+<Base title="Collabs | Babycakes" description="Babycakes collaborations, partnerships, and limited edition drops.">
+
+<section class="pg-hero">
+  <div class="dots"></div>
+  <div class="wrap" style="position:relative;z-index:2">
+    <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">Partners &amp; Collabs</div>
+    <h1 class="lf pg-h1 au au1">We work with<br/>the best.</h1>
+    <p class="pg-sub au au2">Limited drops, delivery partners, and brand collaborations. Want to work with us? <a href="mailto:hello@babycakes.th" style="color:var(--y);text-decoration:underline;text-underline-offset:3px">Get in touch.</a></p>
+    <!-- Collab LINE — separate from main order LINE -->
+    <div class="au au3" style="display:flex;gap:0.875rem;flex-wrap:wrap;margin-top:2rem">
+      <a href="https://line.me/R/ti/p/@babycakes-collab" target="_blank" rel="noopener" class="btn btn-y btn-lg">Partner LINE OA</a>
+      <a href="mailto:hello@babycakes.th" class="btn btn-ow btn-lg">Say Hello</a>
+    </div>
+  </div>
+</section>
+
+<div class="mq">
+  <div class="mq-t">
+    {["Refill Coffee","KitKat®","Only Grab","LINE MAN","Homeland","Limited drops","Delivery partners","Brand collabs","Refill Coffee","KitKat®","Only Grab","LINE MAN","Homeland","Limited drops","Delivery partners","Brand collabs"].map(t=>(
+      <span class="mq-i">{t}<span class="mq-dot"></span></span>
+    ))}
+  </div>
+</div>
+
+<section class="sec">
+  <div class="wrap">
+    <!-- Logo grid — CMS-editable -->
+    <div class="sh"><div><span class="tag tag-o sh-eye">All Partners</span><h2 class="lf sh-h">Current collaborations.</h2></div></div>
+    <div class="collab-grid">
+      {collabs.map((c,i)=>(
+        <div class="ccard au" style={"animation-delay:"+(i*0.06)+"s"}>
+          <div class="ccard-logo">
+            <!-- <img src={"collab-"+c.name.toLowerCase().replace(/[^a-z]/g,'')+".svg"} alt={c.name+" logo"} /> -->
+            <span class="lf ccard-logo-ph">{c.name}</span>
+          </div>
+          <span class="tag tag-cr" style="margin-bottom:0.75rem">{c.type}</span>
+          <h3 class="ccard-name">{c.name}</h3>
+          <p class="ccard-desc">{c.desc}</p>
+          {c.line && <a href={c.line} target="_blank" rel="noopener" class="btn btn-od btn-sm" style="margin-top:1.25rem;width:fit-content">Contact via LINE</a>}
+        </div>
+      ))}
+    </div>
+
+    <!-- Want to collab CTA -->
+    <div class="collab-cta">
+      <h3 class="lf" style="font-size:clamp(1.75rem,4vw,3rem);color:var(--d);line-height:1.05">Want to collaborate<br/>with Babycakes?</h3>
+      <p style="font-size:0.95rem;color:var(--g3);line-height:1.8;max-width:420px;margin-top:1rem">We're open to limited flavor drops, pop-up partnerships, and brand collaborations. Reach out on our collab LINE or by email.</p>
+      <div style="display:flex;gap:0.875rem;flex-wrap:wrap;margin-top:2rem">
+        <a href="https://line.me/R/ti/p/@babycakes-collab" target="_blank" rel="noopener" class="btn btn-d btn-lg">Partner LINE OA</a>
+        <a href="mailto:hello@babycakes.th" class="btn btn-od btn-lg">Email us</a>
+      </div>
+    </div>
+  </div>
+</section>
+</Base>
+<style>
+.pg-hero { position:relative; background:var(--d); padding:clamp(8rem,14vw,11rem) var(--px) clamp(4rem,8vw,6rem); overflow:hidden; }
+.pg-h1 { font-size:clamp(3rem,9vw,7rem); color:var(--y); line-height:0.9; letter-spacing:-0.025em; margin-bottom:1.25rem; }
+.pg-sub { color:rgba(251,245,171,0.45); font-size:clamp(0.95rem,1.6vw,1.05rem); line-height:1.9; max-width:480px; }
+.collab-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--gap); }
+.ccard { background:var(--cr); border:1px solid var(--g1); border-radius:var(--rm); padding:clamp(1.5rem,3vw,2.25rem); display:flex; flex-direction:column; animation:fadeUp 0.65s var(--ease) both; }
+.ccard-logo { height:80px; display:flex; align-items:center; margin-bottom:1.5rem; }
+.ccard-logo-ph { font-size:1.5rem; color:var(--d); line-height:1; }
+.ccard-name { font-size:1rem; font-weight:600; color:var(--d); margin-bottom:0.625rem; }
+.ccard-desc { font-size:0.875rem; color:var(--g3); line-height:1.8; flex:1; }
+.collab-cta { margin-top:5rem; padding-top:4rem; border-top:1.5px solid var(--g1); }
+@media(max-width:860px) { .collab-grid{grid-template-columns:repeat(2,1fr)} }
+@media(max-width:520px) { .collab-grid{grid-template-columns:1fr} }
+</style>
