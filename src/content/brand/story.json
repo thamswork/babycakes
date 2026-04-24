@@ -1,14 +1,14 @@
 {
-  "headline": "Feel good food, baked with love.",
-  "body_1": "Babycakes was born from a simple belief: that food baked with love tastes different. We sit comfortably in the Affordable Luxury niche — more premium than street bakeries, more personal than hotel patisseries.",
-  "body_2": "The Soft Chocolate Baby Tray — built on a 1999 family recipe — remains our primary product. Priced from ฿210 to encourage everyday gifting and impulse buying.",
-  "popup_caption": "First pop-up at Refill Coffee, Bangna — sold out in 4 hours.",
+  "stat_rhythm": "Weekly",
+  "stat_locations_label": "Locations",
   "popup_year": "2022",
-  "popup_photo": "",
-  "stat_price": "฿210",
+  "popup_caption": "First pop-up at Refill Coffee, Bangna — sold out in 4 hours.",
   "stat_price_label": "Baby Tray from",
   "stat_locations": "12+",
-  "stat_locations_label": "Locations",
-  "stat_rhythm": "Weekly",
-  "stat_rhythm_label": "New flavors"
+  "body_1": "Babycakes was born from a simple belief: that food baked with love tastes different. We sit comfortably in the Affordable Luxury niche — more premium than street bakeries, more personal than hotel patisseries.",
+  "headline": "Feel good food, baked with love.",
+  "body_2": "The Soft Chocolate Baby Tray — built on a 1999 family recipe — remains our primary product. Priced from ฿210 to encourage everyday gifting and impulse buying.",
+  "stat_rhythm_label": "New flavors",
+  "stat_price": "฿210",
+  "popup_photo": "https://res.cloudinary.com/dynjnftnu/image/upload/v1777019062/SnapInsta.to_428685905_18012176984470390_4310837470188643558_n_nkfsrn.jpg"
 }
