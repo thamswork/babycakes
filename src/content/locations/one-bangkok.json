@@ -1,0 +1,13 @@
+{
+  "name": "One Bangkok",
+  "slug": "one-bangkok",
+  "zone": "Wireless",
+  "addr": "Floor B1, Take Home Zone, One Bangkok, Wireless Rd, Bangkok",
+  "hours": "10:00 – 22:00",
+  "transit": "MRT Lumphini",
+  "grab": "https://food.grab.com/th/en/search?keyword=babycakes+one+bangkok",
+  "maps": "https://maps.google.com/?q=Babycakes+One+Bangkok",
+  "image": "",
+  "hq": false,
+  "active": true
+}

@@ -1,0 +1,10 @@
+{
+  "name": "GrabFood",
+  "slug": "grabfood",
+  "type": "Delivery partner",
+  "desc": "Available on GrabFood at all 12+ branches. Delivery-first is core to the Babycakes model.",
+  "logo": "",
+  "line": "",
+  "url": "https://food.grab.com/th/en/search?keyword=babycakes",
+  "active": true
+}

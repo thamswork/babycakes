@@ -1,0 +1,13 @@
+{
+  "name": "Central Rama 9",
+  "slug": "rama9",
+  "zone": "Rama 9",
+  "addr": "Central Rama 9, Rama IX Rd, Huai Khwang, Bangkok 10310",
+  "hours": "10:00 – 22:00",
+  "transit": "MRT Rama 9",
+  "grab": "https://food.grab.com/th/en/search?keyword=babycakes+central+rama9",
+  "maps": "https://maps.google.com/?q=Babycakes+Central+Rama9",
+  "image": "",
+  "hq": false,
+  "active": true
+}

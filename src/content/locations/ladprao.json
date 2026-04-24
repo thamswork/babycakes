@@ -1,0 +1,13 @@
+{
+  "name": "Central Ladprao",
+  "slug": "ladprao",
+  "zone": "Ladprao",
+  "addr": "Floor G, Tops Food Hall, Central Ladprao, Bangkok 10900",
+  "hours": "10:00 – 22:00",
+  "transit": "MRT Phahon Yothin",
+  "grab": "https://food.grab.com/th/en/search?keyword=babycakes+ladprao",
+  "maps": "https://maps.google.com/?q=Babycakes+Central+Ladprao",
+  "image": "",
+  "hq": false,
+  "active": true
+}

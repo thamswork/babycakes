@@ -1,0 +1,13 @@
+{
+  "name": "EMSPHERE",
+  "slug": "emsphere",
+  "zone": "Sukhumvit",
+  "addr": "Floor G, EMSPHERE, Sukhumvit Rd, Khlong Toei, Bangkok 10110",
+  "hours": "10:00 – 22:00",
+  "transit": "BTS Phrom Phong",
+  "grab": "https://food.grab.com/th/en/search?keyword=babycakes+emsphere",
+  "maps": "https://maps.google.com/?q=Babycakes+Emsphere+Bangkok",
+  "image": "",
+  "hq": false,
+  "active": true
+}

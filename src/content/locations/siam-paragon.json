@@ -1,0 +1,13 @@
+{
+  "name": "Siam Paragon",
+  "slug": "siam-paragon",
+  "zone": "Siam",
+  "addr": "Floor G (near GOURMET), Siam Paragon, Rama I Rd, Bangkok 10330",
+  "hours": "10:00 – 22:00",
+  "transit": "BTS Siam",
+  "grab": "https://food.grab.com/th/en/search?keyword=babycakes+siam+paragon",
+  "maps": "https://maps.google.com/?q=Babycakes+Siam+Paragon",
+  "image": "",
+  "hq": false,
+  "active": true
+}
