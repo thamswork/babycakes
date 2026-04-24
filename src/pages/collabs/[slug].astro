@@ -179,4 +179,32 @@ const photos = [c.logo, c.photo_2, c.photo_3, c.photo_4].filter(Boolean);
   .cside-card { padding: 1.5rem; }
 }
 
+
+/* ── STICKY SIDEBAR FIX — mobile ── */
+@media(max-width: 960px) {
+  /* Kill sticky on ALL sidebars/asides — prevents overlay */
+  .collab-side,
+  .role-side,
+  aside,
+  [style*="position:sticky"],
+  [style*="position: sticky"] {
+    position: static !important;
+    top: auto !important;
+  }
+  /* Collab layout — single column */
+  .collab-layout {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  /* Sidebar cards go full width on mobile */
+  .cside-card, .scard {
+    position: static !important;
+  }
+  /* Remove bottom padding that was reserving space for sticky strip */
+  .role-layout {
+    padding-bottom: 5rem;
+  }
+}
+
+/* COLLAB STICKY FIX */
 </style>

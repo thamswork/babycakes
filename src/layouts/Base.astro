@@ -536,6 +536,18 @@ a, button { -webkit-tap-highlight-color: transparent; }
 /* ── TAGS — no overflow ── */
 .tag { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
+
+/* ── GLOBAL STICKY FIX ── */
+@media(max-width: 960px) {
+  aside,
+  .role-side,
+  .collab-side,
+  .cside-card {
+    position: static !important;
+    top: auto !important;
+  }
+}
+
 </style>
 
 <script>
