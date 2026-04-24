@@ -1,82 +1,44 @@
 ---
 import Base from '../../layouts/Base.astro';
-// CMS-ready: subcategories manageable via Decap CMS
-const categories = [
-  {
-    id: "tray-cakes",
-    label: "Tray Cakes",
-    desc: "Our signature format. Available in Baby Tray, Classic Tray, and Party Tray sizes — with or without a custom message.",
-    items: [
-      { slug:"chocolate",  name:"Chocolate",     bg:"#1e0c06", price:"from ฿160", desc:"Rich, dark, deeply comforting. Our original — never changes, never disappoints." },
-      { slug:"classic",    name:"Classic",       bg:"#5c4018", price:"from ฿160", desc:"Soft vanilla sponge with light cream. Timeless, tender, always satisfying." },
-      { slug:"thai-tea",   name:"Thai Tea",      bg:"#8c3410", price:"from ฿160", desc:"Bold, spiced, unmistakably Thai. A permanent fixture on our menu." },
-      { slug:"lemon",      name:"Lemon Yoghurt", bg:"#6a7c10", price:"from ฿180", desc:"Bright, tangy, fresh. A lighter option that punches above its weight." },
-      { slug:"red-velvet", name:"Red Velvet",    bg:"#5a1016", price:"from ฿160", desc:"Classic red velvet with cream cheese. Vibrant, velvety, crowd-pleasing." },
-      { slug:"strawberry", name:"Strawberry",    bg:"#7a2c38", price:"from ฿160", desc:"Fresh strawberry cream layered through soft sponge. Clean and classic." },
-    ]
-  },
-  {
-    id: "special-cakes",
-    label: "Special Cakes",
-    desc: "Custom message cakes and signature formats for every occasion — birthdays, anniversaries, corporate events.",
-    items: [
-      { slug:"the-babycakes", name:"The Babycakes",  bg:"#3a1e5c", price:"from ฿1,490", desc:"Our signature round cake. Fully customizable with your message and design." },
-      { slug:"party-tray",    name:"Party Tray",     bg:"#4C4378", price:"from ฿1,190", desc:"Mixed flavors in one large tray. Perfect for sharing at any occasion." },
-      { slug:"sprinkles",     name:"Sprinkles Cake", bg:"#502070", price:"from ฿1,990", desc:"Festive sprinkle-covered cake in two sizes. Add custom numbering for birthdays." },
-    ]
-  },
-  {
-    id: "cookies-bites",
-    label: "Cookies & Bites",
-    desc: "Smaller formats — same warmth, same care. Great for gifting or a sweet pick-me-up.",
-    items: [
-      { slug:"baby-cookies", name:"Baby Cookies", bg:"#6a2850", price:"฿159",  desc:"Our bite-sized cookies. Great for gifting or a sweet pick-me-up anytime." },
-      { slug:"cake-cube",    name:"Cake Cube",    bg:"#181818", price:"฿259",  desc:"Individual serves of our most popular flavors. A new format, same Babycakes quality." },
-    ]
-  }
-];
----
-<Base title="Always Available | Babycakes" description="Our permanent menu — always available at every Babycakes branch across Bangkok.">
+import { getCollection } from 'astro:content';
 
+const all = await getCollection('always-available', ({ data }) => data.available);
+const trayCakes    = all.filter(p => p.data.category === 'Tray Cakes');
+const specialCakes = all.filter(p => p.data.category === 'Special Cakes');
+const cookies      = all.filter(p => p.data.category === 'Cookies & Bites');
+const cats = [
+  { label:'Tray Cakes',      id:'tray-cakes',    items:trayCakes,    desc:'Our signature format. Baby Tray, Classic Tray, Party Tray.' },
+  { label:'Special Cakes',   id:'special-cakes', items:specialCakes, desc:'Custom message cakes for every occasion.' },
+  { label:'Cookies & Bites', id:'cookies-bites', items:cookies,      desc:'Smaller formats — same warmth, same care.' },
+].filter(c => c.items.length > 0);
+---
+<Base title="Always Available | Babycakes">
 <section class="pg-hero">
   <div class="dots"></div>
   <div class="wrap" style="position:relative;z-index:2">
-    <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.75rem">Always In Stock</div>
+    <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">Always In Stock</div>
     <h1 class="lf pg-h1 au au1">Always<br/>Available.</h1>
-    <p class="pg-sub au au2">Our permanent classics — at every branch, every day.<br/>No drop required.</p>
+    <p class="pg-sub au au2">Our permanent classics — at every branch, every day.</p>
   </div>
 </section>
-
-<div class="mq">
-  <div class="mq-t">
-    {["Chocolate","Classic","Thai Tea","Lemon Yoghurt","Red Velvet","Strawberry","The Babycakes","Party Tray","Sprinkles Cake","Baby Cookies","Cake Cube","feel good food","Chocolate","Classic","Thai Tea","Lemon Yoghurt","Red Velvet","Strawberry","The Babycakes","Party Tray","Sprinkles Cake","Baby Cookies","Cake Cube","feel good food"].map(t=>(
-      <span class="mq-i">{t}<span class="mq-dot">&#9632;</span></span>
-    ))}
-  </div>
-</div>
-
-{categories.map((cat, ci) => (
-  <section class={"sec" + (ci % 2 === 1 ? " sec-alt" : "")} id={cat.id}>
+<div class="mq"><div class="mq-t">{[...all.map(p=>p.data.name),"feel good food",...all.map(p=>p.data.name),"feel good food"].map(t=>(<span class="mq-i">{t}<span class="mq-dot-el"></span></span>))}</div></div>
+{cats.map(cat=>(
+  <section class="sec" id={cat.id}>
     <div class="wrap">
-      <div class="cat-hdr">
+      <div style="margin-bottom:2.5rem">
         <h2 class="lf sh-h">{cat.label}</h2>
-        <p class="cat-desc">{cat.desc}</p>
+        <p style="color:var(--g3);font-size:.9rem;margin-top:.5rem">{cat.desc}</p>
       </div>
-      <div class="g3">
-        {cat.items.map((p, i) => (
-          <a href={"/always-available/" + p.slug} class="pcard au" style={"animation-delay:" + (i * 0.05) + "s"}>
-            <div class="pimg" style={"background:" + p.bg}>
-              <div class="pov"></div>
-              <div class="pimg-top">
-                <span class="tag tag-ow">always available</span>
-                <span class="pprice">{p.price}</span>
-              </div>
-              <span class="lf pname">{p.name}</span>
+      <div class="aa-grid">
+        {cat.items.map((p,i)=>(
+          <a href={"/always-available/"+p.data.slug} class="pc au" style={"animation-delay:"+i*.05+"s"}>
+            <div class="pc-img" style={"aspect-ratio:4/3;background:"+p.data.bg}>
+              {p.data.image ? <img src={p.data.image} alt={p.data.name}/> : <div class="pc-ph">{p.data.name}</div>}
             </div>
-            <div class="pbody">
-              <h3 class="ptitle">{p.name}</h3>
-              <p class="pdesc">{p.desc}</p>
-              <span class="pmore">Learn more</span>
+            <div class="pc-body">
+              <div class="pc-meta"><span class="tag tag-cr">always available</span>{p.data.price && <span class="pc-per">{p.data.price}</span>}</div>
+              <div class="lf pc-name">{p.data.name}</div>
+              {p.data.desc && <p class="pc-desc">{p.data.desc}</p>}
             </div>
           </a>
         ))}
@@ -84,39 +46,11 @@ const categories = [
     </div>
   </section>
 ))}
-
-<section class="sec-sm" style="background:var(--y)">
-  <div class="wrap aa-cta">
-    <div>
-      <span class="tag tag-d sh-eye" style="margin-bottom:1rem">Order Now</span>
-      <h2 class="lf" style="font-size:clamp(2rem,4vw,3.25rem);color:var(--d);line-height:1.05;margin-top:0.5rem">Available at all branches<br/>and online delivery.</h2>
-      <p style="color:var(--d);opacity:0.6;margin-top:1rem;font-size:0.9rem;line-height:1.8;max-width:380px">Order via LINE or Grab from the branch nearest to you.</p>
-    </div>
-    <div class="aa-cta-btns">
-      <a href="https://line.me/R/ti/p/@babycakes" target="_blank" rel="noopener" class="btn btn-d btn-lg">Order via LINE</a>
-      <a href="/locations" class="btn btn-od btn-lg">Find a Branch</a>
-    </div>
-  </div>
-</section>
 </Base>
 <style>
-.pg-hero { position:relative; background:var(--d); padding:10rem var(--px) 6rem; overflow:hidden; }
-.pg-h1 { font-size:clamp(3.5rem,10vw,8.5rem); color:var(--y); line-height:0.9; letter-spacing:-0.025em; margin-bottom:1.5rem; }
-.pg-sub { color:rgba(251,245,171,0.45); font-size:clamp(0.95rem,1.6vw,1.05rem); line-height:1.9; max-width:420px; }
-.sec-alt { background:var(--off); }
-.cat-hdr { margin-bottom:3rem; }
-.cat-desc { font-size:0.92rem; color:var(--g3); margin-top:0.75rem; line-height:1.75; max-width:520px; }
-.pcard { display:flex; flex-direction:column; border-radius:var(--rm); overflow:hidden; background:var(--w); border:1px solid var(--g1); transition:transform 0.26s var(--ease),box-shadow 0.26s var(--ease); animation:fadeUp 0.6s var(--ease) both; text-decoration:none; color:inherit; }
-.pcard:hover { transform:translateY(-4px); box-shadow:0 12px 38px rgba(76,67,120,0.12); }
-.pimg { position:relative; aspect-ratio:3/2; display:flex; flex-direction:column; justify-content:space-between; padding:1.5rem 1.75rem; overflow:hidden; }
-.pov { position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,0.62) 0%,transparent 55%); }
-.pimg-top { position:relative; z-index:2; display:flex; align-items:center; justify-content:space-between; }
-.pprice { font-size:0.95rem; font-weight:600; color:var(--y); }
-.pname { position:relative; z-index:2; font-size:1.7rem; color:#fff; line-height:1.02; text-shadow:0 2px 14px rgba(0,0,0,0.3); }
-.pbody { padding:1.6rem 1.75rem 2rem; flex:1; display:flex; flex-direction:column; }
-.ptitle { font-size:1rem; font-weight:600; color:var(--d); margin-bottom:0.6rem; }
-.pdesc { font-size:0.875rem; color:var(--g3); line-height:1.75; flex:1; }
-.pmore { margin-top:1.25rem; font-size:0.78rem; font-weight:600; color:var(--pm); }
-.aa-cta { display:flex; align-items:center; justify-content:space-between; gap:3rem; flex-wrap:wrap; }
-.aa-cta-btns { display:flex; flex-direction:column; gap:0.875rem; min-width:220px; }
+.pg-hero{position:relative;background:var(--d);padding:clamp(8rem,14vw,11rem) var(--px) clamp(4rem,7vw,5.5rem);overflow:hidden}
+.pg-h1{font-size:clamp(3rem,10vw,8rem);color:var(--y);line-height:.9;letter-spacing:-.025em;margin-bottom:1.25rem}
+.pg-sub{color:rgba(251,245,171,.45);font-size:clamp(.95rem,1.6vw,1.05rem);line-height:1.9;max-width:420px}
+.aa-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
+@media(min-width:900px){.aa-grid{grid-template-columns:repeat(3,1fr)}}
 </style>

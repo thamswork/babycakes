@@ -1,39 +1,35 @@
 ---
 import Base from '../layouts/Base.astro';
-const drops = [
-  { slug:"strawberry-kiss",  name:"Strawberry Kiss",      period:"17 Feb – 13 March", bg:"#5a1e2a" },
-  { slug:"dubai-chocolate",  name:"Dubai Chocolate",       period:"17 Feb – 13 March", bg:"#100704" },
-  { slug:"mayongchid",       name:"Mayongchid",            period:"11 – 17 April",     bg:"#6a4610" },
-  { slug:"cheesecake",       name:"Cheesecake Blueberry",  period:"13 – 18 Feb",       bg:"#1c0e32" },
-  { slug:"nomyen",           name:"Nomyen",                period:"13 – 18 Feb",       bg:"#8a3050" },
-  { slug:"cake-cube",        name:"Cake Cube",             period:"New Drop",          bg:"#141414" },
-];
-const classics = [
-  { slug:"chocolate",  name:"Chocolate",  bg:"#160804" },
-  { slug:"classic",    name:"Classic",    bg:"#3e2c10" },
-  { slug:"thai-tea",   name:"Thai Tea",   bg:"#6a260a" },
-];
-const collabs = ["Refill Coffee","KitKat®","GrabFood","LINE MAN","Homeland"];
+import { getCollection } from 'astro:content';
+import orderLinks from '../content/settings/order-links.json';
+import brandPhotos from '../content/settings/brand-photos.json';
+
+// Read bi-weekly drops from CMS — sort by date desc, skip drafts
+const allDrops = await getCollection('weekly-updates', ({ data }) => !data.draft);
+allDrops.sort((a,b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0));
+const drops = allDrops.slice(0, 6);
+
+// Read always available — only available items
+const allClassics = await getCollection('always-available', ({ data }) => data.available);
+const classics = allClassics.slice(0, 3);
+
+const lineLink = orderLinks.line_main || 'https://lin.ee/babycakes';
+const heroPhoto = brandPhotos.hero_photo || '';
 ---
 <Base title="Babycakes — Feel Good Food">
 
-<!-- ══ HERO — Guss-style full-bleed ══ -->
 <section class="hero">
-  <!-- Photo layer: replace this div with <img> when photo is ready -->
-  <div class="hero-img">
-    <!-- <img src="/photos/hero.jpg" alt="Babycakes tray cake" /> -->
-    <!-- Placeholder gradient until photo is added -->
+  <div class="hero-img" style={heroPhoto ? '' : ''}>
+    {heroPhoto
+      ? <img src={heroPhoto} alt="Babycakes feel good food" />
+      : <div class="hero-img-ph"></div>
+    }
   </div>
-  <!-- Gradient overlay — heavier at bottom for legibility -->
   <div class="hero-ov"></div>
-
-  <!-- Top-left brand label — Guss style -->
   <div class="hero-brand-label">
     <span class="hero-brand-name lf">babycakes</span>
     <span class="hero-brand-tag">feel good food</span>
   </div>
-
-  <!-- Bottom-left: big type + CTA -->
   <div class="wrap hero-bottom">
     <div class="hero-copy">
       <h1 class="hero-h1 au">
@@ -41,15 +37,12 @@ const collabs = ["Refill Coffee","KitKat®","GrabFood","LINE MAN","Homeland"];
         <span class="hero-h1-light">good</span><br/>
         <span class="lf hero-h1-bold">food.</span>
       </h1>
-      <p class="hero-meta au au1">
-        Baby Tray from ฿210&nbsp;&nbsp;·&nbsp;&nbsp;12+ Branches&nbsp;&nbsp;·&nbsp;&nbsp;Bangkok 2021
-      </p>
+      <p class="hero-meta au au1">Baby Tray from ฿210 · 12+ Branches · Bangkok 2021</p>
       <div class="hero-btns au au2">
         <a href="/bi-weekly" class="btn hero-btn-primary">See This Week's Drop</a>
         <a href="/always-available" class="btn hero-btn-ghost">Always Available</a>
       </div>
     </div>
-    <!-- Slide indicators — cosmetic only, like Guss -->
     <div class="hero-dots" aria-hidden="true">
       <span class="hero-dot hero-dot-active"></span>
       <span class="hero-dot"></span>
@@ -57,20 +50,17 @@ const collabs = ["Refill Coffee","KitKat®","GrabFood","LINE MAN","Homeland"];
       <span class="hero-dot"></span>
     </div>
   </div>
-
   <div class="hero-scroll" aria-hidden="true">scroll</div>
 </section>
 
-<!-- MARQUEE -->
 <div class="mq">
   <div class="mq-t">
-    {["Strawberry Kiss","Dubai Chocolate","Mayongchid","Cheesecake Blueberry","Nomyen","Thai Tea","Cake Cube","Banoffee","Classic","Chocolate","feel good food","Baby Tray from ฿210","Strawberry Kiss","Dubai Chocolate","Mayongchid","Cheesecake Blueberry","Nomyen","Thai Tea","Cake Cube","Banoffee","Classic","Chocolate","feel good food","Baby Tray from ฿210"].map(t=>(
+    {[...drops.map(d=>d.data.name), "feel good food", "Baby Tray from ฿210", ...drops.map(d=>d.data.name), "feel good food", "Baby Tray from ฿210"].map(t=>(
       <span class="mq-i">{t}<span class="mq-dot-el"></span></span>
     ))}
   </div>
 </div>
 
-<!-- ══ BI-WEEKLY DROPS ══ -->
 <section class="sec">
   <div class="wrap">
     <div class="sh">
@@ -80,31 +70,30 @@ const collabs = ["Refill Coffee","KitKat®","GrabFood","LINE MAN","Homeland"];
       </div>
       <a href="/bi-weekly" class="btn btn-op">View All</a>
     </div>
-    <!-- 2-col grid on ALL screens including mobile -->
     <div class="drops-grid">
       {drops.map((d,i)=>(
-        <a href={"/bi-weekly/"+d.slug} class="pc au" style={"animation-delay:"+i*.05+"s"}>
-          <div class="pc-img" style={"aspect-ratio:3/4;background:linear-gradient(145deg,"+d.bg+","+d.bg+"99)"}>
-            <div class="pc-ph">{d.name}</div>
-            <!-- <img src={"/photos/"+d.slug+".jpg"} alt={d.name} /> -->
+        <a href={"/bi-weekly/"+d.data.slug} class="pc au" style={"animation-delay:"+i*.05+"s"}>
+          <div class="pc-img" style={"aspect-ratio:3/4;background:"+d.data.bg}>
+            {d.data.image
+              ? <img src={d.data.image} alt={d.data.name} />
+              : <div class="pc-ph">{d.data.name}</div>
+            }
           </div>
           <div class="pc-body">
             <div class="pc-meta">
               <span class="tag tag-y">bi-weekly</span>
-              <span class="pc-per">{d.period}</span>
+              <span class="pc-per">{d.data.period}</span>
             </div>
-            <div class="lf pc-name">{d.name}</div>
+            <div class="lf pc-name">{d.data.name}</div>
+            {d.data.desc && <p class="pc-desc">{d.data.desc}</p>}
           </div>
         </a>
       ))}
     </div>
-    <div class="drops-more">
-      <a href="/bi-weekly" class="btn btn-op">All Bi-Weekly Drops</a>
-    </div>
+    <div class="drops-more"><a href="/bi-weekly" class="btn btn-op">All Bi-Weekly Drops</a></div>
   </div>
 </section>
 
-<!-- ══ CLASSICS ══ -->
 <section class="sec sec-cr">
   <div class="wrap">
     <div class="sh">
@@ -114,17 +103,18 @@ const collabs = ["Refill Coffee","KitKat®","GrabFood","LINE MAN","Homeland"];
       </div>
       <a href="/always-available" class="btn btn-op">See All</a>
     </div>
-    <!-- 2-col on mobile, 3-col on desktop -->
     <div class="classics-grid">
       {classics.map(c=>(
-        <a href={"/always-available/"+c.slug} class="pc">
-          <div class="pc-img" style={"aspect-ratio:4/3;background:linear-gradient(145deg,"+c.bg+","+c.bg+"99)"}>
-            <div class="pc-ph">{c.name}</div>
-            <!-- <img src={"/photos/"+c.slug+".jpg"} alt={c.name} /> -->
+        <a href={"/always-available/"+c.data.slug} class="pc">
+          <div class="pc-img" style={"aspect-ratio:4/3;background:"+c.data.bg}>
+            {c.data.image
+              ? <img src={c.data.image} alt={c.data.name} />
+              : <div class="pc-ph">{c.data.name}</div>
+            }
           </div>
           <div class="pc-body">
             <div class="pc-meta"><span class="tag tag-cr">always available</span></div>
-            <div class="lf pc-name">{c.name}</div>
+            <div class="lf pc-name">{c.data.name}</div>
           </div>
         </a>
       ))}
@@ -132,20 +122,20 @@ const collabs = ["Refill Coffee","KitKat®","GrabFood","LINE MAN","Homeland"];
   </div>
 </section>
 
-<!-- ══ COLLABS STRIP ══ -->
 <section class="sec-sm" style="border-top:1px solid var(--g1);border-bottom:1px solid var(--g1)">
   <div class="wrap">
     <div class="collab-row">
       <p class="collab-label">Partners &amp; collabs</p>
       <div class="collab-marks">
-        {collabs.map(b=><span class="collab-mark">{b}</span>)}
+        {["Refill Coffee","KitKat®","GrabFood","LINE MAN","Homeland"].map(b=>(
+          <span class="collab-mark">{b}</span>
+        ))}
       </div>
       <a href="/collabs" class="collab-link">View all →</a>
     </div>
   </div>
 </section>
 
-<!-- ══ CAREERS BAND ══ -->
 <section class="sec-sm" style="background:var(--p)">
   <div class="wrap careers-row">
     <div>
@@ -156,189 +146,43 @@ const collabs = ["Refill Coffee","KitKat®","GrabFood","LINE MAN","Homeland"];
     <a href="/careers" class="btn btn-y btn-lg">See Open Roles</a>
   </div>
 </section>
-
 </Base>
 <style>
-/* ══ HERO — Guss Damn Good reference ══ */
-.hero {
-  position: relative;
-  width: 100%; height: 100svh;
-  min-height: 600px;
-  background: #0e0c12;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Photo layer — full bleed */
-.hero-img {
-  position: absolute; inset: 0;
-  background: linear-gradient(145deg, #1e1638 0%, #3a2060 40%, #4C4378 100%);
-  /* When photo added: position:absolute;inset:0; img fills 100%/100% */
-}
-.hero-img img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
-
-/* Gradient overlay — heavy bottom, light top like Guss */
-.hero-ov {
-  position: absolute; inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(10,8,20,0.92) 0%,
-    rgba(10,8,20,0.55) 35%,
-    rgba(10,8,20,0.2)  60%,
-    rgba(10,8,20,0.05) 100%
-  );
-}
-
-/* Brand label — top left, Guss style */
-.hero-brand-label {
-  position: relative; z-index: 2;
-  padding: clamp(1.25rem,3vw,2rem) var(--px);
-  display: flex; flex-direction: column; gap: 0.15rem;
-}
-.hero-brand-name {
-  font-size: clamp(1rem,2.2vw,1.35rem);
-  color: rgba(255,255,255,0.9);
-  letter-spacing: 0.01em;
-  line-height: 1;
-}
-.hero-brand-tag {
-  font-size: 0.58rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.35);
-}
-
-/* Bottom copy — pushed to bottom of screen */
-.hero-bottom {
-  position: relative; z-index: 2;
-  margin-top: auto;
-  padding-bottom: clamp(2rem,6vw,4rem);
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 2rem;
-}
-.hero-copy { flex: 1; }
-
-/* Big stacked type — Guss style: light weight + bold weight alternating */
-.hero-h1 {
-  font-size: clamp(3.5rem,16vw,12rem);
-  line-height: 0.88;
-  letter-spacing: -0.03em;
-  margin-bottom: clamp(1.25rem,3vw,2rem);
-}
-.hero-h1-light {
-  display: block;
-  font-family: 'Nunito', sans-serif;
-  font-weight: 300;
-  color: rgba(255,255,255,0.82);
-  font-style: italic;
-}
-.hero-h1-bold {
-  display: block;
-  color: var(--y);
-  line-height: 1;
-}
-
-/* Meta strip — like Guss's "200+ FLAVORS · 18 BRANCHES" */
-.hero-meta {
-  font-size: clamp(0.62rem,1.4vw,0.75rem);
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.38);
-  margin-bottom: clamp(1.25rem,3vw,2rem);
-  line-height: 1.6;
-}
-
-/* CTAs */
-.hero-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-.hero-btn-primary {
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.45);
-  color: rgba(255,255,255,0.9);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.875rem 1.75rem;
-  border-radius: var(--r);
-  transition: background 0.2s, border-color 0.2s;
-}
-.hero-btn-primary:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.7); }
-.hero-btn-ghost {
-  background: transparent;
-  border: none;
-  color: rgba(255,255,255,0.38);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  padding: 0.875rem 0;
-  transition: color 0.15s;
-}
-.hero-btn-ghost:hover { color: rgba(255,255,255,0.75); box-shadow:none; transform:none; }
-
-/* Slide dots — cosmetic */
-.hero-dots { display: flex; flex-direction: column; gap: 0.5rem; align-items: center; padding-bottom: 0.25rem; flex-shrink: 0; }
-.hero-dot { width: 20px; height: 2px; background: rgba(255,255,255,0.2); border-radius: 1px; transition: all 0.2s; }
-.hero-dot-active { background: rgba(255,255,255,0.85); width: 28px; }
-@media(max-width:500px) { .hero-dots { display: none; } }
-
-/* Scroll hint */
-.hero-scroll {
-  position: absolute; bottom: 1.25rem; right: var(--px);
-  font-size: 0.52rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
-  color: rgba(255,255,255,0.18); writing-mode: vertical-rl; z-index: 2;
-}
-
-/* Mobile hero */
-@media(max-width:480px) {
-  .hero-h1 { font-size: clamp(3.25rem,18vw,5rem); }
-  .hero-btns { flex-direction: column; }
-  .hero-btn-primary { text-align: center; }
-}
-
-/* ══ DROPS GRID — 2-col always ══ */
-.drops-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--gap);
-}
-/* Wider screens: 3-col */
-@media(min-width:1024px) {
-  .drops-grid { grid-template-columns: repeat(3, 1fr); }
-}
-.drops-more {
-  margin-top: clamp(2rem,4vw,3rem);
-  text-align: center;
-}
-
-/* ══ CLASSICS GRID — 2-col mobile, 3-col desktop ══ */
-.classics-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--gap);
-}
-@media(min-width:768px) {
-  .classics-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-/* ══ COLLABS ══ */
-.collab-row { display:flex; align-items:center; gap:clamp(1.25rem,3.5vw,3.5rem); flex-wrap:wrap; }
-.collab-label { font-size:.58rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--g2); white-space:nowrap; flex-shrink:0; }
-.collab-marks { display:flex; align-items:center; gap:clamp(1rem,2.5vw,2.5rem); flex-wrap:wrap; flex:1; }
-.collab-mark { font-size:clamp(.72rem,1.4vw,.95rem); font-weight:700; color:var(--g2); white-space:nowrap; transition:color .2s; }
-.collab-mark:hover { color:var(--d); }
-.collab-link { font-size:.7rem; font-weight:700; color:var(--d); letter-spacing:.04em; margin-left:auto; white-space:nowrap; transition:opacity .15s; flex-shrink:0; }
-.collab-link:hover { opacity:.6; }
-@media(max-width:600px) { .collab-row{gap:1rem} .collab-link{margin-left:0} }
-
-/* ══ CAREERS ══ */
-.careers-row { display:flex; align-items:center; justify-content:space-between; gap:2rem; flex-wrap:wrap; }
-@media(max-width:560px) { .careers-row{flex-direction:column;align-items:flex-start} .careers-row .btn{width:100%} }
+.hero{position:relative;width:100%;height:100svh;min-height:600px;background:#0e0c12;overflow:hidden;display:flex;flex-direction:column}
+.hero-img{position:absolute;inset:0}
+.hero-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-img-ph{position:absolute;inset:0;background:linear-gradient(145deg,#1e1638 0%,#3a2060 40%,#4C4378 100%)}
+.hero-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,20,.93) 0%,rgba(10,8,20,.55) 35%,rgba(10,8,20,.18) 62%,rgba(10,8,20,.04) 100%)}
+.hero-brand-label{position:relative;z-index:2;padding:clamp(1.25rem,3vw,2rem) var(--px);display:flex;flex-direction:column;gap:.15rem}
+.hero-brand-name{font-size:clamp(1rem,2.2vw,1.35rem);color:rgba(255,255,255,.9);line-height:1}
+.hero-brand-tag{font-size:.58rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.32)}
+.hero-bottom{position:relative;z-index:2;margin-top:auto;padding-bottom:clamp(2rem,6vw,4rem);display:flex;align-items:flex-end;justify-content:space-between;gap:2rem}
+.hero-h1{font-size:clamp(3.5rem,16vw,12rem);line-height:.88;letter-spacing:-.03em;margin-bottom:clamp(1.25rem,3vw,2rem)}
+.hero-h1-light{display:block;font-family:'Nunito',sans-serif;font-weight:300;color:rgba(255,255,255,.82);font-style:italic}
+.hero-h1-bold{display:block;color:var(--y);line-height:1}
+.hero-meta{font-size:clamp(.62rem,1.4vw,.75rem);font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.36);margin-bottom:clamp(1.25rem,3vw,2rem);line-height:1.6}
+.hero-btns{display:flex;gap:.75rem;flex-wrap:wrap}
+.hero-btn-primary{background:transparent;border:1px solid rgba(255,255,255,.4);color:rgba(255,255,255,.88);font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.875rem 1.75rem;border-radius:var(--r);transition:background .2s,border-color .2s;white-space:nowrap}
+.hero-btn-primary:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.7);transform:none;box-shadow:none}
+.hero-btn-ghost{background:transparent;border:none;color:rgba(255,255,255,.38);font-size:.72rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;text-decoration:underline;text-underline-offset:4px;padding:.875rem 0;transition:color .15s}
+.hero-btn-ghost:hover{color:rgba(255,255,255,.72);transform:none;box-shadow:none}
+.hero-dots{display:flex;flex-direction:column;gap:.5rem;align-items:center;padding-bottom:.25rem;flex-shrink:0}
+.hero-dot{width:20px;height:2px;background:rgba(255,255,255,.2);border-radius:1px}
+.hero-dot-active{background:rgba(255,255,255,.82);width:28px}
+.hero-scroll{position:absolute;bottom:1.25rem;right:var(--px);font-size:.52rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.14);writing-mode:vertical-rl;z-index:2}
+@media(max-width:480px){.hero-dots{display:none}.hero-h1{font-size:clamp(3.25rem,18vw,5rem)}.hero-btns{flex-direction:column}.hero-btn-primary{text-align:center}}
+.drops-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
+@media(min-width:1024px){.drops-grid{grid-template-columns:repeat(3,1fr)}}
+.drops-more{margin-top:clamp(2rem,4vw,3rem);text-align:center}
+.classics-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
+@media(min-width:768px){.classics-grid{grid-template-columns:repeat(3,1fr)}}
+.collab-row{display:flex;align-items:center;gap:clamp(1.25rem,3.5vw,3.5rem);flex-wrap:wrap}
+.collab-label{font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g2);white-space:nowrap;flex-shrink:0}
+.collab-marks{display:flex;align-items:center;gap:clamp(1rem,2.5vw,2.5rem);flex-wrap:wrap;flex:1}
+.collab-mark{font-size:clamp(.72rem,1.4vw,.95rem);font-weight:700;color:var(--g2);white-space:nowrap;transition:color .2s}
+.collab-mark:hover{color:var(--d)}
+.collab-link{font-size:.7rem;font-weight:700;color:var(--d);letter-spacing:.04em;margin-left:auto;white-space:nowrap;flex-shrink:0}
+.collab-link:hover{opacity:.6}
+.careers-row{display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+@media(max-width:560px){.careers-row{flex-direction:column;align-items:flex-start}.careers-row .btn{width:100%}}
 </style>
