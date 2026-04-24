@@ -32,7 +32,7 @@ const heroPhoto = brandPhotos.hero_photo || '';
   </div>
   <div class="wrap hero-bottom">
     <div class="hero-copy">
-      <h1 class="hero-h1 au">feel good food.</h1>
+      <h1 class="hero-h1 au">we feel good.</h1>
       <p class="hero-meta au au1">Baby Tray from ฿210 · 12+ Branches · Bangkok 2021</p>
       <div class="hero-btns au au2">
         <a href="/bi-weekly" class="btn hero-btn-primary">See This Week's Drop</a>
@@ -227,5 +227,43 @@ const heroPhoto = brandPhotos.hero_photo || '';
   .careers-row { flex-direction: column; align-items: flex-start; }
   .careers-row .btn { width: 100%; justify-content: center; }
 }
+
+
+/* ── HERO MOBILE — center aligned ── */
+@media(max-width: 768px) {
+  .hero-bottom {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-bottom: max(3rem, env(safe-area-inset-bottom, 3rem));
+    gap: 1.5rem;
+  }
+  .hero-copy { display: flex; flex-direction: column; align-items: center; }
+  .hero-h1 {
+    font-size: clamp(2.25rem, 10vw, 3.5rem);
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .hero-meta { text-align: center; font-size: .58rem; letter-spacing: .1em; margin-bottom: 1.25rem; }
+  .hero-btns { flex-direction: column; align-items: center; width: 100%; gap: .75rem; }
+  .hero-btn-primary { width: 100%; max-width: 320px; text-align: center; justify-content: center; }
+  .hero-brand-label { align-items: flex-start; } /* keep top-left */
+  .hero-scroll { display: none; }
+  .hero-dots { display: none; }
+}
+
+/* ── CARD ANIMATIONS — stagger on scroll ── */
+.pc { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
+.pc.in-view { opacity: 1; transform: translateY(0); }
+
+/* ── MARQUEE interactive pause ── */
+.mq:hover .mq-t { animation-play-state: paused; }
+
+/* ── CTA band pulse ── */
+@keyframes pulse-y {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(251,245,171,0); }
+  50% { box-shadow: 0 0 0 8px rgba(251,245,171,.15); }
+}
+.careers-cta-btn { animation: pulse-y 3s ease infinite; }
 
 </style>

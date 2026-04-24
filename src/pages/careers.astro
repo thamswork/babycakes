@@ -153,4 +153,39 @@ const deptColors: Record<string,string> = {
   .perk-d { font-size: .82rem; }
 }
 
+
+/* ── CAREERS MOBILE FINAL ── */
+@media(max-width: 768px) {
+  .roles-list { border-radius: var(--rm); }
+  .role-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 1.125rem var(--px);
+    min-height: 44px;
+  }
+  .role-dept-col { margin-bottom: .5rem; }
+  .role-dept-tag { font-size: .55rem; padding: .2rem .6rem; line-height: 1.8; }
+  .role-body-col { margin-bottom: .625rem; }
+  .role-title { font-size: .95rem; margin-bottom: .2rem; }
+  .role-desc { font-size: .78rem; line-height: 1.55; color: var(--g3); }
+  .role-meta-col {
+    display: flex; flex-wrap: wrap; gap: .25rem .75rem;
+    margin-bottom: .625rem; padding-bottom: .625rem;
+    border-bottom: 1px solid var(--g1);
+  }
+  .role-type { display: inline; font-size: .72rem; }
+  .role-loc  { display: inline; font-size: .72rem; margin-top: 0; }
+  .role-salary { display: inline; font-size: .72rem; margin-top: 0; width: 100%; }
+  /* Always show arrow on mobile */
+  .role-arrow-col {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .role-arrow { font-size: .75rem; color: var(--p); }
+}
+@media(max-width: 600px) {
+  .g3 { grid-template-columns: 1fr; }
+}
+
 </style>

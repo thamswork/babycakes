@@ -6,13 +6,9 @@ export async function getStaticPaths() {
   const roles = await getCollection('careers');
   const paths: any[] = [];
   roles.forEach(r => {
+    const fileId   = r.id;
     const dataSlug = (r.data as any).slug;
-    const fileId   = r.id; // Astro strips .json automatically
-
-    // Always add the file-id path
     paths.push({ params: { slug: fileId }, props: { role: r.data } });
-
-    // Also add data.slug path if different from file id
     if (dataSlug && dataSlug !== fileId) {
       paths.push({ params: { slug: dataSlug }, props: { role: r.data } });
     }
@@ -21,7 +17,6 @@ export async function getStaticPaths() {
 }
 
 const d = Astro.props.role as any;
-
 const deptColors: Record<string,string> = {
   Kitchen:'#FBF5AB', Marketing:'#c8d4f8', Creative:'#f8d4f0',
   Ops:'#d4f8e0', Service:'#f8ead4', Logistics:'#d4eaf8', Other:'#e8e8e8',
@@ -37,15 +32,16 @@ function bullets(text?: string): string[] {
 ---
 <Base title={d.title + " | Babycakes Careers"} description={d.desc}>
 
+<!-- HERO -->
 <section class="role-hero">
   <div class="wrap">
     <a href="/careers" class="back-link">← All open roles</a>
     <div class="rdept" style={"background:"+deptBg+";color:var(--d)"}>{d.dept}</div>
     <h1 class="lf role-h1">{d.title}</h1>
     <div class="rmeta">
-      <span>{d.type}</span><span class="rsep">·</span>
-      <span>{d.loc}</span>
-      {d.start_date && <><span class="rsep">·</span><span>Starts {d.start_date}</span></>}
+      <span class="rmeta-pill">{d.type}</span>
+      <span class="rmeta-pill">{d.loc}</span>
+      {d.start_date && <span class="rmeta-pill rmeta-start">Starts {d.start_date}</span>}
     </div>
     {d.salary_min && d.salary_max && (
       <div class="rsalary">
@@ -56,21 +52,56 @@ function bullets(text?: string): string[] {
   </div>
 </section>
 
+<!-- QUICK APPLY STRIP — mobile sticky bottom bar -->
+<div class="apply-strip" id="applyStrip">
+  <div class="apply-strip-in">
+    <div class="apply-strip-role">{d.title}</div>
+    <a href={"mailto:hello@babycakes.th?subject=Application: "+encodeURIComponent(d.title)}
+       class="btn btn-y btn-sm apply-strip-btn">
+      Apply now
+    </a>
+  </div>
+</div>
+
+<!-- BODY -->
 <div class="wrap role-layout">
+
+  <!-- MAIN CONTENT -->
   <div class="role-main">
-    <div class="rsec"><p class="roverview">{d.desc}</p></div>
+
+    <!-- Quick summary cards (mobile-first) -->
+    <div class="role-summary-cards">
+      <div class="rsc"><span class="rsc-l">Department</span><strong>{d.dept}</strong></div>
+      <div class="rsc"><span class="rsc-l">Type</span><strong>{d.type}</strong></div>
+      <div class="rsc"><span class="rsc-l">Location</span><strong>{d.loc}</strong></div>
+      {d.start_date && <div class="rsc"><span class="rsc-l">Start</span><strong>{d.start_date}</strong></div>}
+      {d.salary_min && d.salary_max && (
+        <div class="rsc rsc-salary">
+          <span class="rsc-l">Salary</span>
+          <strong>฿{Number(d.salary_min).toLocaleString()} – ฿{Number(d.salary_max).toLocaleString()}</strong>
+        </div>
+      )}
+    </div>
+
+    <div class="rsec">
+      <p class="roverview">{d.desc}</p>
+    </div>
 
     {bullets(d.responsibilities).length > 0 && (
       <div class="rsec">
         <h2 class="rsec-h">What you'll do</h2>
-        <ul class="rlist">{bullets(d.responsibilities).map((b:string)=><li>{b}</li>)}</ul>
+        <ul class="rlist">
+          {bullets(d.responsibilities).map((b:string) => <li>{b}</li>)}
+        </ul>
       </div>
     )}
 
     {bullets(d.requirements).length > 0 && (
       <div class="rsec">
         <h2 class="rsec-h">What we're looking for</h2>
-        <ul class="rlist">{bullets(d.requirements).map((b:string)=><li>{b}</li>)}</ul>
+        <ul class="rlist">
+          {bullets(d.requirements).map((b:string) => <li>{b}</li>)}
+        </ul>
       </div>
     )}
 
@@ -81,15 +112,20 @@ function bullets(text?: string): string[] {
       </div>
     )}
 
+    <!-- Apply CTA -->
     <div class="rapply-box">
       <div>
-        <h3 class="lf" style="font-size:1.75rem;color:var(--d);margin-bottom:.5rem">Ready to apply?</h3>
-        <p style="color:var(--g3);font-size:.9rem;line-height:1.75">Send your CV and a short note. Tell us why Babycakes.</p>
+        <h3 class="lf" style="font-size:1.5rem;color:var(--d);margin-bottom:.5rem">Ready to apply?</h3>
+        <p style="color:var(--g3);font-size:.875rem;line-height:1.75">Send your CV and a short note. Tell us why Babycakes.</p>
       </div>
-      <a href={"mailto:hello@babycakes.th?subject=Application: "+encodeURIComponent(d.title)} class="btn btn-d btn-lg">Apply for this role</a>
+      <a href={"mailto:hello@babycakes.th?subject=Application: "+encodeURIComponent(d.title)}
+         class="btn btn-d btn-lg rapply-btn">
+        Apply for this role
+      </a>
     </div>
   </div>
 
+  <!-- DESKTOP SIDEBAR — hidden on mobile (replaced by summary cards + strip) -->
   <aside class="role-side">
     <div class="scard">
       <h4 class="scardh">Role details</h4>
@@ -98,59 +134,230 @@ function bullets(text?: string): string[] {
       <div class="sr"><span>Location</span><strong>{d.loc}</strong></div>
       {d.start_date && <div class="sr"><span>Start date</span><strong>{d.start_date}</strong></div>}
       {d.salary_min && d.salary_max && (
-        <div class="sr"><span>Salary</span><strong style="color:var(--p)">฿{Number(d.salary_min).toLocaleString()} – ฿{Number(d.salary_max).toLocaleString()}</strong></div>
+        <div class="sr">
+          <span>Salary</span>
+          <strong style="color:var(--p)">฿{Number(d.salary_min).toLocaleString()} – ฿{Number(d.salary_max).toLocaleString()}</strong>
+        </div>
       )}
     </div>
     <div class="scard" style="background:var(--d);border-color:transparent">
       <h4 class="scardh" style="color:rgba(251,245,171,.4)">Apply now</h4>
       <p style="font-size:.82rem;color:rgba(251,245,171,.42);line-height:1.75;margin-bottom:1.25rem">Send your CV and a short intro.</p>
-      <a href={"mailto:hello@babycakes.th?subject=Application: "+encodeURIComponent(d.title)} class="btn btn-y" style="width:100%;justify-content:center">hello@babycakes.th</a>
+      <a href={"mailto:hello@babycakes.th?subject=Application: "+encodeURIComponent(d.title)}
+         class="btn btn-y" style="width:100%;justify-content:center">
+        hello@babycakes.th
+      </a>
     </div>
     <a href="/careers" class="sback">← Back to all roles</a>
   </aside>
 </div>
+
 </Base>
 <style>
-.role-hero{background:var(--cr);border-bottom:1px solid var(--g1);padding:clamp(7rem,12vw,10rem) var(--px) clamp(3rem,5vw,4rem)}
-.back-link{display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--p);margin-bottom:2rem;transition:opacity .15s;-webkit-tap-highlight-color:transparent}
-.back-link:hover{opacity:.7}
-.rdept{display:inline-flex;align-items:center;padding:.3rem .875rem;border-radius:var(--r);font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.25rem}
-.role-h1{font-size:clamp(2.5rem,7vw,5.5rem);color:var(--d);line-height:.95;letter-spacing:-.025em;margin-bottom:1.5rem}
-.rmeta{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem;font-size:.85rem;color:var(--g3);font-weight:500}
-.rsep{color:var(--g2)}
-.rsalary{font-size:1.5rem;font-weight:700;color:var(--p);margin-top:.5rem}
-.rsalary-note{font-size:.78rem;font-weight:500;color:var(--g3)}
-.role-layout{display:grid;grid-template-columns:1fr 320px;gap:4rem;align-items:start;padding-block:clamp(3.5rem,7vw,6rem)}
-@media(max-width:960px){.role-layout{grid-template-columns:1fr}.role-side{order:-1}}
-.role-main{display:flex;flex-direction:column;gap:3rem}
-.rsec{display:flex;flex-direction:column;gap:1rem}
-.rsec-h{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);padding-bottom:.75rem;border-bottom:1px solid var(--g1)}
-.roverview{font-size:1rem;color:var(--tx);line-height:1.9}
-.rlist{display:flex;flex-direction:column;gap:.75rem;list-style:none;padding:0}
-.rlist li{font-size:.95rem;color:var(--tx);line-height:1.8;padding-left:1.5rem;position:relative}
-.rlist li::before{content:"–";position:absolute;left:0;color:var(--p);font-weight:700}
-.rapply-box{display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;padding:2.5rem;background:var(--cr);border-radius:var(--rl);border:1px solid var(--g1)}
-.role-side{display:flex;flex-direction:column;gap:1.25rem;position:sticky;top:calc(var(--nav-h) + 2rem)}
-.scard{border-radius:var(--rl);padding:2rem;background:var(--cr);border:1px solid var(--g1)}
-.scardh{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);margin-bottom:1.25rem}
-.sr{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.625rem 0;border-bottom:1px solid var(--g1);font-size:.82rem}
-.sr:last-child{border-bottom:none}
-.sr span{color:var(--g3)}
-.sr strong{color:var(--d);font-weight:700;text-align:right}
-.sback{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--p);text-align:center;transition:opacity .15s}
-.sback:hover{opacity:.7}
-@media(max-width:600px){.rapply-box{flex-direction:column;align-items:flex-start}.rapply-box .btn{width:100%;text-align:center}}
+/* BASE */
+.role-hero {
+  background: var(--cr);
+  border-bottom: 1px solid var(--g1);
+  padding: clamp(6rem,12vw,10rem) var(--px) clamp(2.5rem,5vw,4rem);
+}
+.back-link {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--p); margin-bottom: 1.75rem; transition: opacity .15s;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px; align-items: center;
+}
+.back-link:hover { opacity: .7; }
+.rdept {
+  display: inline-flex; align-items: center;
+  padding: .3rem .875rem; border-radius: var(--r);
+  font-size: .6rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+.role-h1 {
+  font-size: clamp(2rem, 7vw, 5.5rem);
+  color: var(--d); line-height: .95; letter-spacing: -.025em; margin-bottom: 1.25rem;
+}
+.rmeta { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.rmeta-pill {
+  font-size: .72rem; font-weight: 600; padding: .3rem .75rem;
+  background: var(--w); border: 1px solid var(--g1);
+  border-radius: 999px; color: var(--d);
+}
+.rmeta-start { background: var(--y); border-color: var(--y); color: var(--d); }
+.rsalary { font-size: 1.5rem; font-weight: 700; color: var(--p); margin-top: .5rem; }
+.rsalary-note { font-size: .78rem; font-weight: 500; color: var(--g3); }
 
-/* ── CAREER LANDING MOBILE ── */
-@media(max-width:600px) {
-  .role-hero { padding-top: clamp(5.5rem, 14vw, 8rem); padding-bottom: 2rem; }
-  .role-h1 { font-size: clamp(2rem, 9vw, 3.5rem); margin-bottom: 1rem; }
-  .rmeta { font-size: .78rem; gap: .5rem; }
-  .rsalary { font-size: 1.2rem; }
-  .role-layout { padding-block: 2.5rem; gap: 2rem; }
-  .rapply-box { flex-direction: column; align-items: flex-start; padding: 1.5rem; }
-  .rapply-box .btn { width: 100%; justify-content: center; }
-  .scard { padding: 1.5rem; }
+/* LAYOUT */
+.role-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 4rem; align-items: start;
+  padding-block: clamp(3rem,6vw,6rem);
+}
+.role-main { display: flex; flex-direction: column; gap: 2.5rem; }
+
+/* Summary cards — hidden on desktop, shown on mobile */
+.role-summary-cards { display: none; }
+
+/* Sections */
+.rsec { display: flex; flex-direction: column; gap: 1rem; }
+.rsec-h {
+  font-size: .65rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--g3); padding-bottom: .75rem; border-bottom: 1px solid var(--g1);
+}
+.roverview { font-size: 1rem; color: var(--tx); line-height: 1.9; }
+.rlist { display: flex; flex-direction: column; gap: .75rem; list-style: none; padding: 0; }
+.rlist li {
+  font-size: .95rem; color: var(--tx); line-height: 1.8;
+  padding-left: 1.5rem; position: relative;
+}
+.rlist li::before { content: "–"; position: absolute; left: 0; color: var(--p); font-weight: 700; }
+
+.rapply-box {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 2rem; flex-wrap: wrap;
+  padding: 2.5rem; background: var(--cr);
+  border-radius: var(--rl); border: 1px solid var(--g1);
 }
 
+/* Sidebar */
+.role-side {
+  display: flex; flex-direction: column; gap: 1.25rem;
+  position: sticky; top: calc(var(--nav-h) + 2rem);
+}
+.scard { border-radius: var(--rl); padding: 2rem; background: var(--cr); border: 1px solid var(--g1); }
+.scardh {
+  font-size: .6rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--g3); margin-bottom: 1.25rem;
+}
+.sr {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 1rem; padding: .625rem 0; border-bottom: 1px solid var(--g1); font-size: .82rem;
+}
+.sr:last-child { border-bottom: none; }
+.sr span { color: var(--g3); }
+.sr strong { color: var(--d); font-weight: 700; text-align: right; }
+.sback {
+  font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--p); text-align: center; transition: opacity .15s;
+}
+.sback:hover { opacity: .7; }
+
+/* Sticky apply strip — hidden on desktop */
+.apply-strip { display: none; }
+
+/* ══════════════════════════════════════════
+   MOBILE OVERRIDES
+   ══════════════════════════════════════════ */
+@media(max-width: 768px) {
+  /* Show summary cards, hide desktop sidebar */
+  .role-summary-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .625rem;
+    background: var(--w);
+    border: 1px solid var(--g1);
+    border-radius: var(--rl);
+    overflow: hidden;
+    padding: 0;
+  }
+  .rsc {
+    display: flex; flex-direction: column; gap: .25rem;
+    padding: 1rem 1.125rem;
+    border-right: 1px solid var(--g1);
+    border-bottom: 1px solid var(--g1);
+  }
+  .rsc:nth-child(even) { border-right: none; }
+  .rsc:nth-last-child(-n+2) { border-bottom: none; }
+  .rsc-salary { grid-column: 1 / -1; border-right: none; }
+  .rsc-l { font-size: .55rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--g3); }
+  .rsc strong { font-size: .88rem; font-weight: 700; color: var(--d); line-height: 1.3; }
+  .rsc-salary strong { color: var(--p); }
+
+  .role-side { display: none; }
+
+  /* Single column layout */
+  .role-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-block: 2rem;
+    /* Extra bottom padding for sticky strip */
+    padding-bottom: 5rem;
+  }
+
+  /* Hero tighter */
+  .role-hero {
+    padding-top: clamp(5rem, 14vw, 7rem);
+    padding-bottom: 1.75rem;
+  }
+  .role-h1 { font-size: clamp(2rem, 9vw, 3.25rem); margin-bottom: 1rem; }
+  .rsalary { font-size: 1.2rem; }
+
+  /* Sections tighter */
+  .role-main { gap: 2rem; }
+  .roverview { font-size: .95rem; line-height: 1.85; }
+  .rlist li { font-size: .9rem; line-height: 1.75; }
+
+  /* Apply box stacks */
+  .rapply-box {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.5rem;
+    gap: 1.25rem;
+  }
+  .rapply-btn { width: 100%; justify-content: center; text-align: center; }
+
+  /* Sticky apply strip at bottom */
+  .apply-strip {
+    display: block;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 800;
+    background: var(--w);
+    border-top: 1px solid var(--g1);
+    padding: .875rem var(--px);
+    padding-bottom: max(.875rem, env(safe-area-inset-bottom, .875rem));
+    box-shadow: 0 -4px 24px rgba(0,0,0,.08);
+    transform: translateY(100%);
+    transition: transform .3s cubic-bezier(.22,1,.36,1);
+  }
+  .apply-strip.visible { transform: translateY(0); }
+  .apply-strip-in {
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 1rem;
+  }
+  .apply-strip-role {
+    font-size: .82rem; font-weight: 700; color: var(--d);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;
+  }
+  .apply-strip-btn { flex-shrink: 0; padding: .75rem 1.5rem; font-size: .78rem; }
+}
+
+@media(max-width: 400px) {
+  .role-summary-cards { grid-template-columns: 1fr; }
+  .rsc { border-right: none; }
+  .rsc:nth-child(even) { border-right: none; }
+}
 </style>
+<script>
+// Sticky apply strip — appears after scrolling past hero
+(function() {
+  var strip = document.getElementById('applyStrip');
+  if (!strip) return;
+  var hero = document.querySelector('.role-hero');
+  if (!hero) return;
+
+  function check() {
+    var heroBottom = hero.getBoundingClientRect().bottom;
+    if (heroBottom < 0) {
+      strip.classList.add('visible');
+    } else {
+      strip.classList.remove('visible');
+    }
+  }
+
+  window.addEventListener('scroll', check, { passive: true });
+  check();
+})();
+</script>
