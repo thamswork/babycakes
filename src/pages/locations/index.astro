@@ -1,28 +1,26 @@
 ---
 import Base from '../../layouts/Base.astro';
-const branches = [
-  { id:"bangna-hq",    name:"HQ Bangna",         zone:"Bangna",    addr:"94/8 Soi Wachiratham Sathit, Bang Na Nuea, Bang Na District, Bangkok 10260", hours:"10:00 – 20:00", transit:"Bang Na BTS",                grab:"https://food.grab.com/th/en/search?keyword=babycakes+bangna",           maps:"https://maps.google.com/?q=Babycakes+Bangna+Bangkok",         hq:true  },
-  { id:"emsphere",     name:"EMSPHERE",           zone:"Sukhumvit", addr:"Floor G, EMSPHERE, Sukhumvit Rd, Khlong Toei, Bangkok 10110",                 hours:"10:00 – 22:00", transit:"BTS Phrom Phong",             grab:"https://food.grab.com/th/en/search?keyword=babycakes+emsphere",          maps:"https://maps.google.com/?q=Babycakes+Emsphere+Bangkok",       hq:false },
-  { id:"one-bangkok",  name:"One Bangkok",        zone:"Wireless",  addr:"Floor B1, Take Home Zone, One Bangkok, Wireless Rd, Bangkok",                 hours:"10:00 – 22:00", transit:"MRT Lumphini",                grab:"https://food.grab.com/th/en/search?keyword=babycakes+one+bangkok",        maps:"https://maps.google.com/?q=Babycakes+One+Bangkok",            hq:false },
-  { id:"samyan",       name:"Samyan Mitrtown",    zone:"Samyan",    addr:"Samyan Mitrtown, Rama IV Rd, Pathum Wan, Bangkok 10330",                       hours:"10:00 – 22:00", transit:"MRT Sam Yan",                 grab:"https://food.grab.com/th/en/search?keyword=babycakes+samyan",            maps:"https://maps.google.com/?q=Babycakes+Samyan+Mitrtown",        hq:false },
-  { id:"siam-paragon", name:"Siam Paragon",       zone:"Siam",      addr:"Floor G (near GOURMET), Siam Paragon, Rama I Rd, Bangkok 10330",              hours:"10:00 – 22:00", transit:"BTS Siam",                    grab:"https://food.grab.com/th/en/search?keyword=babycakes+siam+paragon",       maps:"https://maps.google.com/?q=Babycakes+Siam+Paragon",           hq:false },
-  { id:"zpell",        name:"ZPELL Future Park",  zone:"Rangsit",   addr:"ZPELL @ Future Park Rangsit, Phahonyothin Rd, Pathum Thani",                   hours:"10:00 – 21:00", transit:"Future Park Rangsit",         grab:"https://food.grab.com/th/en/search?keyword=babycakes+zpell",             maps:"https://maps.google.com/?q=Babycakes+ZPELL+Future+Park",      hq:false },
-  { id:"rama9",        name:"Central Rama 9",     zone:"Rama 9",    addr:"Central Rama 9, Rama IX Rd, Huai Khwang, Bangkok 10310",                      hours:"10:00 – 22:00", transit:"MRT Rama 9",                  grab:"https://food.grab.com/th/en/search?keyword=babycakes+central+rama9",     maps:"https://maps.google.com/?q=Babycakes+Central+Rama9",          hq:false },
-  { id:"chidlom",      name:"BTS Chidlom",        zone:"Chidlom",   addr:"BTS Chidlom area, Phloen Chit Rd, Pathum Wan, Bangkok 10330",                  hours:"10:00 – 21:00", transit:"BTS Chidlom",                 grab:"https://food.grab.com/th/en/search?keyword=babycakes+chidlom",           maps:"https://maps.google.com/?q=Babycakes+Chidlom+Bangkok",        hq:false },
-  { id:"dusit",        name:"Dusit Central Park", zone:"Silom",     addr:"Dusit Central Park, Rama IV Rd, Bang Rak, Bangkok 10500",                      hours:"10:00 – 22:00", transit:"BTS Sala Daeng / MRT Si Lom",  grab:"https://food.grab.com/th/en/search?keyword=babycakes+dusit",             maps:"https://maps.google.com/?q=Babycakes+Dusit+Central+Park",     hq:false },
-  { id:"ladprao",      name:"Central Ladprao",    zone:"Ladprao",   addr:"Floor G, Tops Food Hall, Central Ladprao, Bangkok 10900",                      hours:"10:00 – 22:00", transit:"MRT Phahon Yothin",            grab:"https://food.grab.com/th/en/search?keyword=babycakes+ladprao",           maps:"https://maps.google.com/?q=Babycakes+Central+Ladprao",        hq:false },
-];
+import { getCollection } from 'astro:content';
+
+const all = await getCollection('locations', ({data}) => data.active !== false);
+all.sort((a,b) => {
+  if (a.data.hq && !b.data.hq) return -1;
+  if (!a.data.hq && b.data.hq) return 1;
+  return a.data.name.localeCompare(b.data.name);
+});
+const hq = all.filter(l => l.data.hq);
+const branches = all.filter(l => !l.data.hq);
 ---
-<Base title="Locations | Babycakes" description="Find Babycakes across Bangkok — 10 branches plus Grab delivery and LINE ordering.">
+<Base title="Locations | Babycakes" description="Find Babycakes across Bangkok — 12+ branches plus Grab delivery.">
 
 <section class="pg-hero">
   <div class="dots"></div>
   <div class="wrap" style="position:relative;z-index:2">
-    <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.75rem">{branches.length} Locations Across Bangkok</div>
+    <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">{all.length} Locations Across Bangkok</div>
     <h1 class="lf pg-h1 au au1">Find<br/>Babycakes.</h1>
-    <p class="pg-sub au au2">Walk in at any branch, or order via Grab and LINE.<br/>We're closer than you think.</p>
-    <div class="au au3" style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.5rem">
-      <a href="https://line.me/R/ti/p/@babycakes" target="_blank" rel="noopener" class="btn btn-y btn-lg">Order via LINE</a>
+    <p class="pg-sub au au2">Walk in at any branch or order via Grab and LINE.<br/>We're closer than you think.</p>
+    <div class="au au3" style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem">
+      <a href="https://lin.ee/babycakes" target="_blank" rel="noopener" class="btn btn-y btn-lg">Order via LINE</a>
       <a href="https://food.grab.com/th/en/search?keyword=babycakes" target="_blank" rel="noopener" class="btn btn-ow btn-lg">Order on Grab</a>
     </div>
   </div>
@@ -31,53 +29,66 @@ const branches = [
 <section class="sec" id="branches">
   <div class="wrap">
 
-    <!-- HQ CARD -->
-    {branches.filter(b => b.hq).map(b => (
+    <!-- HQ card -->
+    {hq.map(h => (
       <div class="hq-card">
-        <div class="hq-left">
-          <div class="hq-tags">
-            <span class="tag tag-d">Headquarters</span>
-            <span class="tag tag-o">Urgent Orders Available</span>
-          </div>
-          <h3 class="lf hq-name">{b.name}</h3>
-          <p class="hq-addr">{b.addr}</p>
-          <div class="hq-meta">
-            <div><span class="hq-label">Hours</span><span>{b.hours}</span></div>
-            <div><span class="hq-label">Transit</span><span>{b.transit}</span></div>
-          </div>
+        <div class="hq-photo">
+          {h.data.image
+            ? <img src={h.data.image} alt={h.data.name} loading="eager"/>
+            : <div class="hq-photo-ph"><span>Upload HQ photo in CMS</span></div>
+          }
         </div>
-        <div class="hq-btns">
-          <a href={b.grab} target="_blank" rel="noopener" class="btn btn-y" style="width:100%;justify-content:center">Order on Grab</a>
-          <a href={b.maps} target="_blank" rel="noopener" class="btn btn-ow" style="width:100%;justify-content:center">Open in Maps</a>
-          <a href="https://line.me/R/ti/p/@babycakes" target="_blank" rel="noopener" class="btn btn-ow" style="width:100%;justify-content:center">Order via LINE</a>
+        <div class="hq-info">
+          <div style="display:flex;gap:.625rem;flex-wrap:wrap;margin-bottom:1.25rem">
+            <span class="tag tag-d">Headquarters</span>
+            <span class="tag tag-y">Urgent Orders Available</span>
+          </div>
+          <h2 class="lf hq-name">{h.data.name}</h2>
+          <p class="hq-addr">{h.data.addr}</p>
+          <div class="hq-meta">
+            <div><span class="meta-lbl">Hours</span><span>{h.data.hours}</span></div>
+            <div><span class="meta-lbl">Transit</span><span>{h.data.transit}</span></div>
+          </div>
+          <div class="hq-btns">
+            <a href={h.data.grab} target="_blank" rel="noopener" class="btn btn-y">Order on Grab</a>
+            <a href={h.data.maps} target="_blank" rel="noopener" class="btn btn-od">Open in Maps</a>
+            <a href="https://lin.ee/babycakes" target="_blank" rel="noopener" class="btn btn-d">Order via LINE</a>
+          </div>
         </div>
       </div>
     ))}
 
-    <!-- BRANCH LIST HEADER -->
-    <div class="sh" style="margin-top:5rem;margin-bottom:2rem">
+    <!-- Branch grid — card layout -->
+    <div class="sh" style="margin-top:5rem;margin-bottom:2.5rem">
       <div>
         <span class="tag tag-p sh-eye">All Branches</span>
-        <h2 class="lf sh-h">{branches.filter(b=>!b.hq).length} Other Locations.</h2>
+        <h2 class="lf sh-h">{branches.length} Other Locations.</h2>
       </div>
     </div>
 
-    <!-- BRANCH TABLE -->
-    <div class="br-list">
-      {branches.filter(b => !b.hq).map((b, i) => (
-        <div class="br-row au" style={"animation-delay:" + (i * 0.04) + "s"}>
-          <div class="br-info">
-            <span class="br-zone">{b.zone}</span>
-            <h3 class="lf br-name">{b.name}</h3>
-            <p class="br-addr">{b.addr}</p>
+    <div class="branch-grid">
+      {branches.map((b,i) => (
+        <div class="branch-card au" style={"animation-delay:"+i*.04+"s"}>
+          <!-- Photo slot -->
+          <div class="branch-photo">
+            {b.data.image
+              ? <img src={b.data.image} alt={b.data.name} loading="lazy"/>
+              : <div class="branch-photo-ph" style={"background:var(--d)"}><span class="lf" style="font-size:1.1rem;color:rgba(255,255,255,.15)">{b.data.zone}</span></div>
+            }
           </div>
-          <div class="br-meta">
-            <span>{b.hours}</span>
-            <span>{b.transit}</span>
-          </div>
-          <div class="br-btns">
-            <a href={b.grab} target="_blank" rel="noopener" class="br-btn br-g">Grab</a>
-            <a href={b.maps} target="_blank" rel="noopener" class="br-btn br-m">Maps</a>
+          <div class="branch-body">
+            <span class="branch-zone">{b.data.zone}</span>
+            <h3 class="lf branch-name">{b.data.name}</h3>
+            <p class="branch-addr">{b.data.addr}</p>
+            <div class="branch-meta">
+              <span>{b.data.hours}</span>
+              <span class="meta-sep">·</span>
+              <span>{b.data.transit}</span>
+            </div>
+            <div class="branch-btns">
+              <a href={b.data.grab} target="_blank" rel="noopener" class="btn btn-d btn-sm">Grab</a>
+              <a href={b.data.maps} target="_blank" rel="noopener" class="btn btn-tx btn-sm">Maps</a>
+            </div>
           </div>
         </div>
       ))}
@@ -86,49 +97,59 @@ const branches = [
 </section>
 
 <section class="sec-sm" style="background:var(--y)">
-  <div class="wrap loc-cta">
+  <div class="wrap" style="display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:center">
     <div>
       <span class="tag tag-d sh-eye" style="margin-bottom:1rem">Delivery Available</span>
-      <h2 class="lf" style="font-size:clamp(2rem,4vw,3.25rem);color:var(--d);line-height:1.05;margin-top:0.5rem">Can't make it to a branch?</h2>
-      <p style="color:var(--d);opacity:0.6;margin-top:1rem;font-size:0.9rem;line-height:1.8;max-width:360px">Order via Grab from any branch near you, or message us on LINE for a custom order.</p>
+      <h2 class="lf" style="font-size:clamp(2rem,4vw,3.25rem);color:var(--d);line-height:1.05;margin-top:.5rem">Can't make it to a branch?</h2>
+      <p style="color:var(--d);opacity:.6;margin-top:1rem;font-size:.9rem;line-height:1.8;max-width:360px">Order via Grab from any branch near you, or message us on LINE.</p>
     </div>
-    <div class="loc-cta-btns">
-      <a href="https://food.grab.com/th/en/search?keyword=babycakes" target="_blank" rel="noopener" class="btn btn-d btn-lg">Order on Grab</a>
-      <a href="https://line.me/R/ti/p/@babycakes" target="_blank" rel="noopener" class="btn btn-od btn-lg">Message on LINE</a>
+    <div style="display:flex;flex-direction:column;gap:.75rem;min-width:200px">
+      <a href="https://food.grab.com/th/en/search?keyword=babycakes" target="_blank" rel="noopener" class="btn btn-d">Order on Grab</a>
+      <a href="https://lin.ee/babycakes" target="_blank" rel="noopener" class="btn btn-od">Message on LINE</a>
     </div>
   </div>
 </section>
 </Base>
 <style>
-.pg-hero { position:relative; background:var(--d); padding:10rem var(--px) 6rem; overflow:hidden; }
-.pg-h1 { font-size:clamp(3.5rem,10vw,8.5rem); color:var(--y); line-height:0.9; letter-spacing:-0.025em; margin-bottom:1.5rem; }
-.pg-sub { color:rgba(251,245,171,0.45); font-size:clamp(0.95rem,1.6vw,1.05rem); line-height:1.9; max-width:420px; }
-.hq-card { display:grid; grid-template-columns:1fr 220px; gap:3.5rem; align-items:center; background:var(--d); border-radius:var(--rl); padding:3rem 3.5rem; }
-.hq-tags { display:flex; gap:0.625rem; flex-wrap:wrap; margin-bottom:1.5rem; }
-.hq-name { font-family:'Shrikhand',serif; font-size:clamp(2rem,4vw,3rem); color:var(--y); line-height:1; margin-bottom:1rem; }
-.hq-addr { color:rgba(251,245,171,0.55); font-size:0.9rem; line-height:1.75; margin-bottom:1.5rem; }
-.hq-meta { display:flex; gap:2.5rem; flex-wrap:wrap; }
-.hq-meta div { display:flex; flex-direction:column; gap:0.2rem; }
-.hq-label { font-size:0.62rem; font-weight:600; letter-spacing:0.09em; text-transform:uppercase; color:rgba(251,245,171,0.3); }
-.hq-meta span:last-child { font-size:0.85rem; color:rgba(251,245,171,0.58); }
-.hq-btns { display:flex; flex-direction:column; gap:0.75rem; }
-@media(max-width:768px) { .hq-card{grid-template-columns:1fr;padding:2rem} }
-.br-list { display:flex; flex-direction:column; border:1px solid var(--g1); border-radius:var(--rl); overflow:hidden; }
-.br-row { display:grid; grid-template-columns:1fr 200px 130px; align-items:center; gap:2.5rem; padding:1.75rem 2.25rem; border-bottom:1px solid var(--g1); background:var(--w); transition:background 0.15s; animation:fadeUp 0.5s var(--ease) both; }
-.br-row:last-child { border-bottom:none; }
-.br-row:hover { background:var(--off); }
-.br-zone { font-size:0.62rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--pm); display:block; margin-bottom:0.4rem; }
-.br-name { font-family:'Shrikhand',serif; font-size:1.2rem; color:var(--d); line-height:1.1; margin-bottom:0.35rem; }
-.br-addr { font-size:0.78rem; color:var(--g3); line-height:1.65; }
-.br-meta span { display:block; font-size:0.78rem; font-weight:500; color:var(--g3); line-height:1.85; }
-.br-btns { display:flex; gap:0.5rem; }
-.br-btn { display:flex; align-items:center; justify-content:center; padding:0.55rem 1.1rem; border-radius:var(--r); font-size:0.72rem; font-weight:600; transition:all 0.15s; white-space:nowrap; }
-.br-g { background:var(--d); color:var(--y); }
-.br-g:hover { background:var(--dk); }
-.br-m { background:var(--g1); color:var(--d); border:1px solid var(--g2); }
-.br-m:hover { background:var(--g2); }
-@media(max-width:860px) { .br-row{grid-template-columns:1fr;gap:1rem;padding:1.5rem 1.75rem} }
-.loc-cta { display:grid; grid-template-columns:1fr auto; gap:3rem; align-items:center; }
-.loc-cta-btns { display:flex; flex-direction:column; gap:0.75rem; min-width:200px; }
-@media(max-width:640px) { .loc-cta{grid-template-columns:1fr} }
+.pg-hero{position:relative;background:var(--d);padding:clamp(8rem,14vw,11rem) var(--px) clamp(4rem,7vw,5.5rem);overflow:hidden}
+.pg-h1{font-size:clamp(3rem,10vw,8rem);color:var(--y);line-height:.9;letter-spacing:-.025em;margin-bottom:1.25rem}
+.pg-sub{color:rgba(251,245,171,.45);font-size:clamp(.95rem,1.6vw,1.05rem);line-height:1.9;max-width:420px}
+
+/* HQ */
+.hq-card{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--rl);overflow:hidden;background:var(--d)}
+.hq-photo{position:relative;min-height:400px}
+.hq-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hq-photo-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,var(--dk),#3a2060)}
+.hq-photo-ph span{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.18);text-align:center;padding:2rem}
+.hq-info{padding:clamp(2.5rem,5vw,4rem);display:flex;flex-direction:column;justify-content:center}
+.hq-name{font-family:'Shrikhand',serif;font-size:clamp(2rem,4vw,3rem);color:var(--y);line-height:1;margin-bottom:1rem}
+.hq-addr{color:rgba(251,245,171,.55);font-size:.9rem;line-height:1.75;margin-bottom:1.5rem}
+.hq-meta{display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:2rem}
+.hq-meta div{display:flex;flex-direction:column;gap:.2rem}
+.meta-lbl{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(251,245,171,.3)}
+.hq-meta span:last-child{font-size:.85rem;color:rgba(251,245,171,.6)}
+.hq-btns{display:flex;gap:.75rem;flex-wrap:wrap}
+@media(max-width:768px){.hq-card{grid-template-columns:1fr}.hq-photo{min-height:260px}}
+
+/* Branch grid — 3-col desktop, 2-col tablet, 1-col mobile */
+.branch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+@media(max-width:1024px){.branch-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.branch-grid{grid-template-columns:1fr}}
+
+.branch-card{border-radius:var(--rm);overflow:hidden;background:var(--cr);border:1px solid var(--g1);animation:fadeUp .55s var(--ease) both;display:flex;flex-direction:column}
+.branch-card:hover{box-shadow:0 8px 28px rgba(76,67,120,.1)}
+.branch-photo{position:relative;aspect-ratio:16/9;background:var(--d);overflow:hidden}
+.branch-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.branch-photo-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.branch-body{padding:1.25rem 1.5rem 1.5rem;flex:1;display:flex;flex-direction:column;gap:.35rem}
+.branch-zone{font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--p)}
+.branch-name{font-family:'Shrikhand',serif;font-size:1.2rem;color:var(--d);line-height:1.1}
+.branch-addr{font-size:.78rem;color:var(--g3);line-height:1.6;flex:1}
+.branch-meta{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:var(--g3);font-weight:500;margin-top:.35rem;flex-wrap:wrap}
+.meta-sep{color:var(--g2)}
+.branch-btns{display:flex;gap:.5rem;margin-top:.875rem}
+
+@media(max-width:640px){
+  div[style*="grid-template-columns:1fr auto"]{grid-template-columns:1fr!important}
+}
 </style>

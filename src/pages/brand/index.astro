@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 
 // Static JSON imports — work at build time on Cloudflare Pages
-import brandPhotosRaw from '../content/settings/brand-photos.json';
+import brandPhotosRaw from '../../content/settings/brand-photos.json';
 
 // Load brand content collection
 const brandFiles = await getCollection('brand');
