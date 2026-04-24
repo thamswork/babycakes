@@ -13,5 +13,6 @@
   "title": "Brand Designer",
   "type": "Full-time",
   "benefits": "Monthly tasting sessions, birthday cake, wellness allowance, flexible hours",
-  "salary_min": 25000
+  "open": true,
+  "hero_photo": ""
 }

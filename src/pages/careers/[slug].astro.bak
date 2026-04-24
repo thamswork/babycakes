@@ -163,6 +163,7 @@ const heroPhoto = d.hero_photo || '';
   position:relative;z-index:2;
   padding-top:clamp(6rem,14vw,10rem);
   text-align:left;
+  width:100%;
 }
 .back-link{
   display:inline-flex;align-items:center;gap:.5rem;
@@ -284,6 +285,15 @@ const heroPhoto = d.hero_photo || '';
   .role-layout{grid-template-columns:1fr}
   .role-layout{padding-bottom:5rem}
 }
+
+/* Force left-align on career hero — overrides any inherited center */
+.role-hero { justify-content: flex-start; }
+.role-hero-in { text-align: left !important; align-items: flex-start; }
+.role-hero-in .back-link,
+.role-hero-in .rdept,
+.role-hero-in .role-h1,
+.role-hero-in .rmeta { text-align: left; align-self: flex-start; margin-left: 0; }
+
 </style>
 <script>
 (function() {
