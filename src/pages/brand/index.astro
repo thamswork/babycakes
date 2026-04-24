@@ -1,10 +1,11 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
 
-// Load brand JSON files from CMS collection
+// Static JSON imports — work at build time on Cloudflare Pages
+import brandPhotosRaw from '../content/settings/brand-photos.json';
+
+// Load brand content collection
 const brandFiles = await getCollection('brand');
 const getFile = (id: string) => brandFiles.find(f => f.id === id)?.data ?? {};
 const hero        = getFile('hero') as any;
@@ -12,14 +13,9 @@ const story       = getFile('story') as any;
 const timeline    = getFile('timeline') as any;
 const founderNile = getFile('founder-nile') as any;
 const founderTess = getFile('founder-tess') as any;
-const founders    = [founderNile, founderTess].sort((a,b)=>(a.order||0)-(b.order||0));
+const founders    = [founderNile, founderTess].sort((a:any,b:any)=>(a.order||0)-(b.order||0));
 
-// Read brand-photos.json directly (where CMS saves Cloudinary URLs)
-let bp: any = {};
-try {
-  const raw = readFileSync(resolve('src/content/settings/brand-photos.json'), 'utf-8');
-  bp = JSON.parse(raw);
-} catch { bp = {}; }
+const bp = brandPhotosRaw as any;
 
 const nilePhotos = [bp.nile_photo, bp.nile_photo_2, bp.nile_photo_3].filter(Boolean);
 const tessPhotos = [bp.tess_photo, bp.tess_photo_2, bp.tess_photo_3].filter(Boolean);
@@ -43,12 +39,12 @@ const lastIdx = ms.length - 1;
   <div class="wrap" style="position:relative;z-index:2">
     <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">{hero.tagline ?? 'Our Brand'}</div>
     <h1 class="lf bh-h1 au au1">{hero.headline_1 ?? 'The Babycakes'}<br/>{hero.headline_2 ?? 'Story.'}</h1>
-    <p class="bh-sub au au2">{hero.subheading}</p>
+    <p class="bh-sub au au2">{hero.subheading ?? 'A 1999 family recipe. A home kitchen in Bangna. Two founders who believed food baked with love tastes different.'}</p>
     <div class="bh-stats au au3">
-      <div class="bh-s"><strong class="lf">{hero.stat_1_value}</strong><span>{hero.stat_1_label}</span></div>
-      <div class="bh-s"><strong class="lf">{hero.stat_2_value}</strong><span>{hero.stat_2_label}</span></div>
-      <div class="bh-s"><strong class="lf">{hero.stat_3_value}</strong><span>{hero.stat_3_label}</span></div>
-      <div class="bh-s"><strong class="lf">{hero.stat_4_value}</strong><span>{hero.stat_4_label}</span></div>
+      <div class="bh-s"><strong class="lf">{hero.stat_1_value ?? '2021'}</strong><span>{hero.stat_1_label ?? 'Founded'}</span></div>
+      <div class="bh-s"><strong class="lf">{hero.stat_2_value ?? '12+'}</strong><span>{hero.stat_2_label ?? 'Locations'}</span></div>
+      <div class="bh-s"><strong class="lf">{hero.stat_3_value ?? '฿1M+'}</strong><span>{hero.stat_3_label ?? 'Peak month'}</span></div>
+      <div class="bh-s"><strong class="lf">{hero.stat_4_value ?? '3.4M'}</strong><span>{hero.stat_4_label ?? 'TikTok likes'}</span></div>
     </div>
   </div>
 </section>
@@ -67,8 +63,10 @@ const lastIdx = ms.length - 1;
     <div class="story-g">
       <div>
         <span class="tag tag-p sh-eye">What is Babycakes</span>
-        <h2 class="lf" style="font-size:clamp(2rem,4.5vw,3.5rem);color:var(--d);line-height:1.02;margin-top:.75rem;margin-bottom:1.75rem">{story.headline ?? 'Feel good food, baked with love.'}</h2>
-        <p class="sbp">{story.body_1}</p>
+        <h2 class="lf" style="font-size:clamp(2rem,4.5vw,3.5rem);color:var(--d);line-height:1.02;margin-top:.75rem;margin-bottom:1.75rem">
+          {story.headline ?? 'Feel good food, baked with love.'}
+        </h2>
+        <p class="sbp">{story.body_1 ?? 'Babycakes was born from a simple belief: that food baked with love tastes different.'}</p>
         {story.body_2 && <p class="sbp">{story.body_2}</p>}
         <div class="story-links">
           <a href="/bi-weekly" class="btn btn-d btn-lg">This Week's Drop</a>
@@ -79,16 +77,17 @@ const lastIdx = ms.length - 1;
         <div class="story-img">
           {bp.popup_photo
             ? <img src={bp.popup_photo} alt="First Babycakes pop-up" loading="eager"/>
-            : <div class="story-img-ph"><span>Upload first pop-up photo in CMS</span></div>}
+            : <div class="story-img-ph"><span>Upload first pop-up photo<br/>CMS → Site Settings → Brand Photos</span></div>
+          }
         </div>
         <div class="story-cap">
           <span class="lf story-cap-y">{story.popup_year ?? '2022'}</span>
-          <p>{story.popup_caption}</p>
+          <p>{story.popup_caption ?? 'First pop-up at Refill Coffee, Bangna — sold out in 4 hours.'}</p>
         </div>
         <div class="story-nums">
-          <div><strong class="lf">{story.stat_price}</strong><span>{story.stat_price_label}</span></div>
-          <div><strong class="lf">{story.stat_locations}</strong><span>{story.stat_locations_label}</span></div>
-          <div><strong class="lf">{story.stat_rhythm}</strong><span>{story.stat_rhythm_label}</span></div>
+          <div><strong class="lf">{story.stat_price ?? '฿210'}</strong><span>{story.stat_price_label ?? 'Baby Tray from'}</span></div>
+          <div><strong class="lf">{story.stat_locations ?? '12+'}</strong><span>{story.stat_locations_label ?? 'Locations'}</span></div>
+          <div><strong class="lf">{story.stat_rhythm ?? 'Weekly'}</strong><span>{story.stat_rhythm_label ?? 'New flavors'}</span></div>
         </div>
       </div>
     </div>
@@ -100,11 +99,11 @@ const lastIdx = ms.length - 1;
     const photos = photoMap[f.id] ?? [];
     const sid = `sl-${f.id}`;
     return (
-      <section class={"founder-sec" + (fi%2===1?" founder-sec-r":"")}>
+      <section class={"founder-sec" + (fi%2===1 ? " founder-sec-r" : "")}>
         <div class="founder-photo" style={"background:"+(f.bg_color??'#2a1640')}>
           {photos.length > 0 ? (
             <div class="fslider" id={sid}>
-              {photos.map((src:string,pi:number)=>(
+              {photos.map((src:string, pi:number) => (
                 <div class={"fslide"+(pi===0?" active":"")} data-idx={pi}>
                   <img src={src} alt={f.full_name} loading={pi===0?"eager":"lazy"} fetchpriority={pi===0?"high":"auto"}/>
                 </div>
@@ -113,7 +112,7 @@ const lastIdx = ms.length - 1;
                 <div class="fctrl">
                   <button class="fbtn fprev" data-sid={sid} aria-label="Prev">&#8592;</button>
                   <div class="fdots">
-                    {photos.map((_:string,pi:number)=>(
+                    {photos.map((_:string, pi:number) => (
                       <button class={"fdot"+(pi===0?" active":"")} data-sid={sid} data-idx={pi} aria-label={"Photo "+(pi+1)}></button>
                     ))}
                   </div>
@@ -123,22 +122,22 @@ const lastIdx = ms.length - 1;
             </div>
           ) : (
             <div class="founder-ph">
-              <span>Upload {f.nickname}'s photo<br/>CMS → Site Settings → Brand Photos</span>
+              <span>Upload {f.nickname ?? 'founder'}'s photo<br/>CMS → Site Settings → Brand Photos</span>
             </div>
           )}
-          <div class="founder-watermark lf">{f.nickname}</div>
+          <div class="founder-watermark lf">{f.nickname ?? ''}</div>
         </div>
         <div class="founder-txt">
           <span class="tag tag-p sh-eye">Co-founder</span>
-          <h2 class="lf founder-nm">{f.nickname}.</h2>
-          <p class="founder-full-name">{f.full_name}</p>
-          <p class="founder-role-lbl">{f.role}</p>
-          <p class="founder-bio">{f.bio_1}</p>
+          <h2 class="lf founder-nm">{f.nickname ?? ''}.</h2>
+          <p class="founder-full-name">{f.full_name ?? ''}</p>
+          <p class="founder-role-lbl">{f.role ?? ''}</p>
+          <p class="founder-bio">{f.bio_1 ?? ''}</p>
           {f.bio_2 && <p class="founder-bio">{f.bio_2}</p>}
           <div class="founder-stats">
-            <div><strong class="lf">{f.stat_1_value}</strong><span>{f.stat_1_label}</span></div>
-            <div><strong class="lf">{f.stat_2_value}</strong><span>{f.stat_2_label}</span></div>
-            <div><strong class="lf">{f.stat_3_value}</strong><span>{f.stat_3_label}</span></div>
+            <div><strong class="lf">{f.stat_1_value ?? ''}</strong><span>{f.stat_1_label ?? ''}</span></div>
+            <div><strong class="lf">{f.stat_2_value ?? ''}</strong><span>{f.stat_2_label ?? ''}</span></div>
+            <div><strong class="lf">{f.stat_3_value ?? ''}</strong><span>{f.stat_3_label ?? ''}</span></div>
           </div>
         </div>
       </section>
@@ -149,17 +148,22 @@ const lastIdx = ms.length - 1;
 <section class="sec" id="timeline">
   <div class="wrap">
     <div class="sh">
-      <div><span class="tag tag-p sh-eye">Our Journey</span><h2 class="lf sh-h">From home kitchen<br/>to Bangkok staple.</h2></div>
+      <div>
+        <span class="tag tag-p sh-eye">Our Journey</span>
+        <h2 class="lf sh-h">From home kitchen<br/>to Bangkok staple.</h2>
+      </div>
     </div>
     <div class="tl">
-      {ms.map((m:any,i:number)=>{
-        const tlp = bp["tl_"+m.year] || m.photo || "";
+      {ms.map((m:any, i:number) => {
+        const tlp = (bp as any)["tl_"+m.year] || m.photo || "";
         return (
           <div class={"tl-row au"+(i===lastIdx?" tl-last":"")} style={"animation-delay:"+(i*.07)+"s"}>
             <span class="lf tl-y">{m.year}</span>
             <div class="tl-conn"><div class="tl-dot"></div><div class="tl-line"></div></div>
             <div class="tl-body">
-              <div class="tl-img">{tlp ? <img src={tlp} alt={m.event} loading="lazy"/> : <div class="tl-img-ph">Photo {m.year}</div>}</div>
+              <div class="tl-img">
+                {tlp ? <img src={tlp} alt={m.event} loading="lazy"/> : <div class="tl-img-ph">Photo {m.year}</div>}
+              </div>
               <h3 class="tl-e">{m.event}</h3>
               <p class="tl-d">{m.desc}</p>
             </div>
@@ -219,7 +223,7 @@ const lastIdx = ms.length - 1;
 .story-links{display:flex;gap:.875rem;flex-wrap:wrap;margin-top:2.25rem}
 .story-img{aspect-ratio:4/3;border-radius:var(--rm);overflow:hidden;position:relative;background:var(--d)}
 .story-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.story-img-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.18);text-align:center;padding:1.5rem}
+.story-img-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.18);text-align:center;padding:1.5rem;line-height:1.8}
 .story-cap{display:flex;gap:.875rem;align-items:flex-start;margin-top:1rem}
 .story-cap-y{font-family:'Shrikhand',serif;font-size:1.75rem;color:var(--d);line-height:1;flex-shrink:0}
 .story-cap p{font-size:.82rem;color:var(--g3);line-height:1.65;padding-top:.3rem}
@@ -272,24 +276,32 @@ const lastIdx = ms.length - 1;
 .cult-d{font-size:.875rem;color:var(--g3);line-height:1.8}
 </style>
 <script>
-document.querySelectorAll('.fslider').forEach(slider=>{
-  const sid=slider.id;
-  const slides=Array.from(slider.querySelectorAll('.fslide'));
-  const dots=Array.from(document.querySelectorAll(`.fdot[data-sid="${sid}"]`));
-  let cur=0,timer:any;
-  function go(n:number){
+document.querySelectorAll('.fslider').forEach(function(slider) {
+  var sid = slider.id;
+  var slides = Array.from(slider.querySelectorAll('.fslide'));
+  var dots = Array.from(document.querySelectorAll('.fdot[data-sid="' + sid + '"]'));
+  var cur = 0;
+  var timer;
+  function go(n) {
     slides[cur].classList.remove('active');
-    dots[cur]?.classList.remove('active');
-    cur=(n+slides.length)%slides.length;
+    if(dots[cur]) dots[cur].classList.remove('active');
+    cur = (n + slides.length) % slides.length;
     slides[cur].classList.add('active');
-    dots[cur]?.classList.add('active');
+    if(dots[cur]) dots[cur].classList.add('active');
   }
-  document.querySelectorAll(`.fprev[data-sid="${sid}"]`).forEach(b=>b.addEventListener('click',()=>{clearInterval(timer);go(cur-1)}));
-  document.querySelectorAll(`.fnext[data-sid="${sid}"]`).forEach(b=>b.addEventListener('click',()=>{clearInterval(timer);go(cur+1)}));
-  dots.forEach((d,i)=>d.addEventListener('click',()=>{clearInterval(timer);go(i)}));
-  if(slides.length>1){timer=setInterval(()=>go(cur+1),4000);}
-  let sx=0;
-  slider.addEventListener('touchstart',(e:any)=>{sx=e.touches[0].clientX},{passive:true});
-  slider.addEventListener('touchend',(e:any)=>{const dx=sx-e.changedTouches[0].clientX;if(Math.abs(dx)>40){clearInterval(timer);go(cur+(dx>0?1:-1))}});
+  document.querySelectorAll('.fprev[data-sid="' + sid + '"]').forEach(function(b){
+    b.addEventListener('click', function(){ clearInterval(timer); go(cur-1); });
+  });
+  document.querySelectorAll('.fnext[data-sid="' + sid + '"]').forEach(function(b){
+    b.addEventListener('click', function(){ clearInterval(timer); go(cur+1); });
+  });
+  dots.forEach(function(d,i){ d.addEventListener('click', function(){ clearInterval(timer); go(i); }); });
+  if(slides.length > 1){ timer = setInterval(function(){ go(cur+1); }, 4000); }
+  var sx = 0;
+  slider.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; }, {passive:true});
+  slider.addEventListener('touchend', function(e){
+    var dx = sx - e.changedTouches[0].clientX;
+    if(Math.abs(dx) > 40){ clearInterval(timer); go(cur + (dx > 0 ? 1 : -1)); }
+  });
 });
 </script>

@@ -4,13 +4,17 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const roles = await getCollection('careers');
-  return roles.map(r => ({
-    params: { slug: String(r.data.slug || r.id.replace('.json','')) },
-    props:  { role: r.data },
-  }));
+  return roles.map(r => {
+    // r.id is the filename e.g. "pastry-chef" (no .json in Astro content)
+    const slug = (r.data as any).slug || r.id;
+    return {
+      params: { slug },
+      props:  { role: r.data },
+    };
+  });
 }
 
-const { role: d } = Astro.props as { role: any };
+const d = Astro.props.role as any;
 
 const deptColors: Record<string,string> = {
   Kitchen:'#FBF5AB', Marketing:'#c8d4f8', Creative:'#f8d4f0',
@@ -20,94 +24,83 @@ const deptBg = deptColors[d.dept] ?? '#e8e8e8';
 
 function bullets(text?: string): string[] {
   if (!text) return [];
-  return text.split(/\.\s+|[;\n]/).map((s:string)=>s.trim().replace(/\.$/,'')).filter(Boolean);
+  return text.split(/\.\s+|[;\n]/)
+    .map((s: string) => s.trim().replace(/\.$/, ''))
+    .filter(Boolean);
 }
 ---
 <Base title={d.title + " | Babycakes Careers"} description={d.desc}>
 
 <section class="role-hero">
   <div class="wrap">
-    <a href="/careers" class="back-link">
-      ← All open roles
-    </a>
-    <div class="role-dept-pill" style={"background:"+deptBg+";color:var(--d)"}>{d.dept}</div>
+    <a href="/careers" class="back-link">← All open roles</a>
+    <div class="rdept" style={"background:"+deptBg+";color:var(--d)"}>{d.dept}</div>
     <h1 class="lf role-h1">{d.title}</h1>
-    <div class="role-meta-strip">
-      <span class="rms-i">{d.type}</span>
-      <span class="rms-sep">·</span>
-      <span class="rms-i">{d.loc}</span>
-      {d.start_date && <><span class="rms-sep">·</span><span class="rms-i">Starts {d.start_date}</span></>}
+    <div class="rmeta">
+      <span>{d.type}</span><span class="rsep">·</span>
+      <span>{d.loc}</span>
+      {d.start_date && <><span class="rsep">·</span><span>Starts {d.start_date}</span></>}
     </div>
-    {(d.salary_min && d.salary_max) && (
-      <div class="role-salary">
+    {d.salary_min && d.salary_max && (
+      <div class="rsalary">
         ฿{Number(d.salary_min).toLocaleString()} – ฿{Number(d.salary_max).toLocaleString()}
-        {d.salary_note && <span class="role-salary-note"> · {d.salary_note}</span>}
+        {d.salary_note && <span class="rsalary-note"> · {d.salary_note}</span>}
       </div>
     )}
   </div>
 </section>
 
-<div class="wrap role-body">
+<div class="wrap role-layout">
   <div class="role-main">
-    <section class="role-sec">
-      <p class="role-overview">{d.desc}</p>
-    </section>
+    <div class="rsec"><p class="roverview">{d.desc}</p></div>
 
     {bullets(d.responsibilities).length > 0 && (
-      <section class="role-sec">
-        <h2 class="role-sec-h">What you'll do</h2>
-        <ul class="role-list">
-          {bullets(d.responsibilities).map((b:string) => <li>{b}</li>)}
-        </ul>
-      </section>
+      <div class="rsec">
+        <h2 class="rsec-h">What you'll do</h2>
+        <ul class="rlist">{bullets(d.responsibilities).map((b:string)=><li>{b}</li>)}</ul>
+      </div>
     )}
 
     {bullets(d.requirements).length > 0 && (
-      <section class="role-sec">
-        <h2 class="role-sec-h">What we're looking for</h2>
-        <ul class="role-list">
-          {bullets(d.requirements).map((b:string) => <li>{b}</li>)}
-        </ul>
-      </section>
+      <div class="rsec">
+        <h2 class="rsec-h">What we're looking for</h2>
+        <ul class="rlist">{bullets(d.requirements).map((b:string)=><li>{b}</li>)}</ul>
+      </div>
     )}
 
     {d.benefits && (
-      <section class="role-sec">
-        <h2 class="role-sec-h">Benefits</h2>
-        <p class="role-overview">{d.benefits}</p>
-      </section>
+      <div class="rsec">
+        <h2 class="rsec-h">Benefits</h2>
+        <p class="roverview">{d.benefits}</p>
+      </div>
     )}
 
-    <div class="role-apply-box">
+    <div class="rapply-box">
       <div>
         <h3 class="lf" style="font-size:1.75rem;color:var(--d);margin-bottom:.5rem">Ready to apply?</h3>
         <p style="color:var(--g3);font-size:.9rem;line-height:1.75">Send your CV and a short note. Tell us why Babycakes.</p>
       </div>
-      <a href={"mailto:hello@babycakes.th?subject=Application: "+encodeURIComponent(d.title)} class="btn btn-d btn-lg">
-        Apply for this role
-      </a>
+      <a href={"mailto:hello@babycakes.th?subject=Application: "+encodeURIComponent(d.title)} class="btn btn-d btn-lg">Apply for this role</a>
     </div>
   </div>
 
-  <aside class="role-sidebar">
-    <div class="sidebar-card">
-      <h4 class="sidebar-h">Role details</h4>
+  <aside class="role-side">
+    <div class="scard">
+      <h4 class="scardh">Role details</h4>
       <div class="sr"><span>Department</span><strong>{d.dept}</strong></div>
       <div class="sr"><span>Type</span><strong>{d.type}</strong></div>
       <div class="sr"><span>Location</span><strong>{d.loc}</strong></div>
       {d.start_date && <div class="sr"><span>Start date</span><strong>{d.start_date}</strong></div>}
-      {(d.salary_min && d.salary_max) && (
+      {d.salary_min && d.salary_max && (
         <div class="sr"><span>Salary</span><strong style="color:var(--p)">฿{Number(d.salary_min).toLocaleString()} – ฿{Number(d.salary_max).toLocaleString()}</strong></div>
       )}
     </div>
-    <div class="sidebar-card" style="background:var(--d);border-color:transparent">
-      <h4 class="sidebar-h" style="color:rgba(251,245,171,.4)">Apply now</h4>
+    <div class="scard" style="background:var(--d);border-color:transparent">
+      <h4 class="scardh" style="color:rgba(251,245,171,.4)">Apply now</h4>
       <p style="font-size:.82rem;color:rgba(251,245,171,.42);line-height:1.75;margin-bottom:1.25rem">Send your CV and a short intro.</p>
-      <a href={"mailto:hello@babycakes.th?subject=Application: "+encodeURIComponent(d.title)} class="btn btn-y" style="width:100%;justify-content:center">
-        hello@babycakes.th
-      </a>
+      <a href={"mailto:hello@babycakes.th?subject=Application: "+encodeURIComponent(d.title)} class="btn btn-y" style="width:100%;justify-content:center">hello@babycakes.th</a>
     </div>
-    <a href="/careers" class="sidebar-back">← Back to all roles</a>
+    <a href="/careers" class="sback">← Back to all roles</a>
   </aside>
 </div>
 </Base>
@@ -115,31 +108,30 @@ function bullets(text?: string): string[] {
 .role-hero{background:var(--cr);border-bottom:1px solid var(--g1);padding:clamp(7rem,12vw,10rem) var(--px) clamp(3rem,5vw,4rem)}
 .back-link{display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--p);margin-bottom:2rem;transition:opacity .15s}
 .back-link:hover{opacity:.7}
-.role-dept-pill{display:inline-flex;align-items:center;padding:.3rem .875rem;border-radius:var(--r);font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.25rem}
+.rdept{display:inline-flex;align-items:center;padding:.3rem .875rem;border-radius:var(--r);font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.25rem}
 .role-h1{font-size:clamp(2.5rem,7vw,5.5rem);color:var(--d);line-height:.95;letter-spacing:-.025em;margin-bottom:1.5rem}
-.role-meta-strip{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem}
-.rms-i{font-size:.85rem;color:var(--g3);font-weight:500}
-.rms-sep{color:var(--g2)}
-.role-salary{font-size:1.5rem;font-weight:700;color:var(--p);margin-top:.5rem}
-.role-salary-note{font-size:.78rem;font-weight:500;color:var(--g3)}
-.role-body{display:grid;grid-template-columns:1fr 320px;gap:4rem;align-items:start;padding-block:clamp(3.5rem,7vw,6rem)}
-@media(max-width:960px){.role-body{grid-template-columns:1fr}.role-sidebar{order:-1}}
+.rmeta{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem;font-size:.85rem;color:var(--g3);font-weight:500}
+.rsep{color:var(--g2)}
+.rsalary{font-size:1.5rem;font-weight:700;color:var(--p);margin-top:.5rem}
+.rsalary-note{font-size:.78rem;font-weight:500;color:var(--g3)}
+.role-layout{display:grid;grid-template-columns:1fr 320px;gap:4rem;align-items:start;padding-block:clamp(3.5rem,7vw,6rem)}
+@media(max-width:960px){.role-layout{grid-template-columns:1fr}.role-side{order:-1}}
 .role-main{display:flex;flex-direction:column;gap:3rem}
-.role-sec{display:flex;flex-direction:column;gap:1rem}
-.role-sec-h{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);padding-bottom:.75rem;border-bottom:1px solid var(--g1)}
-.role-overview{font-size:1rem;color:var(--tx);line-height:1.9}
-.role-list{display:flex;flex-direction:column;gap:.75rem;list-style:none;padding:0}
-.role-list li{font-size:.95rem;color:var(--tx);line-height:1.8;padding-left:1.5rem;position:relative}
-.role-list li::before{content:"–";position:absolute;left:0;color:var(--p);font-weight:700}
-.role-apply-box{display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;padding:2.5rem;background:var(--cr);border-radius:var(--rl);border:1px solid var(--g1)}
-.role-sidebar{display:flex;flex-direction:column;gap:1.25rem;position:sticky;top:calc(var(--nav-h) + 2rem)}
-.sidebar-card{border-radius:var(--rl);padding:2rem;background:var(--cr);border:1px solid var(--g1)}
-.sidebar-h{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);margin-bottom:1.25rem}
+.rsec{display:flex;flex-direction:column;gap:1rem}
+.rsec-h{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);padding-bottom:.75rem;border-bottom:1px solid var(--g1)}
+.roverview{font-size:1rem;color:var(--tx);line-height:1.9}
+.rlist{display:flex;flex-direction:column;gap:.75rem;list-style:none;padding:0}
+.rlist li{font-size:.95rem;color:var(--tx);line-height:1.8;padding-left:1.5rem;position:relative}
+.rlist li::before{content:"–";position:absolute;left:0;color:var(--p);font-weight:700}
+.rapply-box{display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;padding:2.5rem;background:var(--cr);border-radius:var(--rl);border:1px solid var(--g1)}
+.role-side{display:flex;flex-direction:column;gap:1.25rem;position:sticky;top:calc(var(--nav-h) + 2rem)}
+.scard{border-radius:var(--rl);padding:2rem;background:var(--cr);border:1px solid var(--g1)}
+.scardh{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);margin-bottom:1.25rem}
 .sr{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.625rem 0;border-bottom:1px solid var(--g1);font-size:.82rem}
 .sr:last-child{border-bottom:none}
 .sr span{color:var(--g3)}
 .sr strong{color:var(--d);font-weight:700;text-align:right}
-.sidebar-back{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--p);text-align:center;transition:opacity .15s}
-.sidebar-back:hover{opacity:.7}
-@media(max-width:600px){.role-apply-box{flex-direction:column;align-items:flex-start}.role-apply-box .btn{width:100%;text-align:center}}
+.sback{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--p);text-align:center;transition:opacity .15s}
+.sback:hover{opacity:.7}
+@media(max-width:600px){.rapply-box{flex-direction:column;align-items:flex-start}.rapply-box .btn{width:100%;text-align:center}}
 </style>
