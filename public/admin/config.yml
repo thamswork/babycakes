@@ -1,3 +1,9 @@
+# ══════════════════════════════════════════════════════
+# BABYCAKES CMS — Decap CMS Configuration
+# Live: https://babycakes.pages.dev/admin
+# Auth: GitHub OAuth via Cloudflare Worker
+# ══════════════════════════════════════════════════════
+
 backend:
   name: github
   repo: thamswork/babycakes
@@ -6,217 +12,661 @@ backend:
   auth_endpoint: /api/auth
 
 publish_mode: editorial_workflow
+
 media_folder: "public/photos"
 public_folder: "/photos"
+
 site_url: https://babycakes.pages.dev
 
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+
+# ══════════════════════════════════════════════════════
+# COLLECTIONS — ordered by how often you'll use them
+# ══════════════════════════════════════════════════════
 collections:
 
-  - name: settings
-    label: "Site Settings"
-    files:
-      - label: "Order Links"
-        name: order_links
-        file: "src/content/settings/order-links.json"
-        fields:
-          - { label: "Main Order LINE link",      name: line_main,   widget: string }
-          - { label: "Collab / Partnership LINE", name: line_collab, widget: string }
-          - { label: "GrabFood link",             name: grab,        widget: string }
-          - { label: "LINE MAN link",             name: lineman,     widget: string }
-
-      - label: "Brand Photos"
-        name: brand_photos
-        file: "src/content/settings/brand-photos.json"
-        fields:
-          - { label: "Hero / Homepage photo",   name: hero_photo,   widget: image, required: false }
-          - { label: "Nile — Photo 1 (main)",   name: nile_photo,   widget: image, required: false }
-          - { label: "Nile — Photo 2",          name: nile_photo_2, widget: image, required: false }
-          - { label: "Nile — Photo 3",          name: nile_photo_3, widget: image, required: false }
-          - { label: "Tess — Photo 1 (main)",   name: tess_photo,   widget: image, required: false }
-          - { label: "Tess — Photo 2",          name: tess_photo_2, widget: image, required: false }
-          - { label: "Tess — Photo 3",          name: tess_photo_3, widget: image, required: false }
-          - { label: "First pop-up photo 2022", name: popup_photo,  widget: image, required: false }
-          - { label: "Timeline 2021",           name: tl_2021,      widget: image, required: false }
-          - { label: "Timeline 2022",           name: tl_2022,      widget: image, required: false }
-          - { label: "Timeline 2023",           name: tl_2023,      widget: image, required: false }
-          - { label: "Timeline 2024",           name: tl_2024,      widget: image, required: false }
-          - { label: "Timeline 2025",           name: tl_2025,      widget: image, required: false }
-
+  # ─────────────────────────────────────────────────────
+  # 1. BI-WEEKLY FLAVORS
+  #    Add a new flavor every two weeks.
+  #    Photo goes here → appears on homepage + bi-weekly page.
+  # ─────────────────────────────────────────────────────
   - name: weekly_updates
-    label: "Bi-Weekly Flavors"
-    label_singular: "Flavor Drop"
+    label: "🎂 Bi-Weekly Flavors"
+    label_singular: "Flavor"
+    description: "Add and manage rotating bi-weekly flavor drops. Each entry = one card on the Bi-Weekly page and homepage."
     folder: "src/content/weekly-updates"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{fields.slug}}"
+    preview_path: "/bi-weekly/{{fields.slug}}"
+    summary: "{{fields.name}} — {{fields.period}}"
+    sortable_fields: ["date", "name"]
+    view_groups:
+      - label: "Featured"
+        field: featured
+      - label: "Draft"
+        field: draft
     fields:
-      - { label: "Flavor Name",       name: name,     widget: string }
-      - { label: "URL Slug",          name: slug,     widget: string }
-      - { label: "Publish Date",      name: date,     widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
-      - { label: "Campaign Period",   name: period,   widget: string }
-      - { label: "Tag",               name: tag,      widget: select, options: ["bi-weekly","limited","new-drop","collab"] }
-      - { label: "Photo",             name: image,    widget: image, required: false }
-      - { label: "Card BG Color",     name: bg,       widget: string, default: "#4C4378" }
-      - { label: "Short Description", name: desc,     widget: text }
-      - { label: "Price (THB)",       name: price,    widget: number, required: false, value_type: float }
-      - { label: "Featured?",         name: featured, widget: boolean, default: false }
-      - { label: "Draft?",            name: draft,    widget: boolean, default: false }
-      - { label: "Full Story",        name: body,     widget: markdown, required: false }
+      - label: "Flavor Name"
+        name: name
+        widget: string
+        hint: "e.g. Strawberry Kiss, Dubai Chocolate"
 
+      - label: "URL Slug"
+        name: slug
+        widget: string
+        hint: "Lowercase, hyphens only. e.g. strawberry-kiss"
+        pattern: ['^[a-z0-9-]+$', "Lowercase letters, numbers, hyphens only"]
+
+      - label: "Publish Date"
+        name: date
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: false
+
+      - label: "Campaign Period"
+        name: period
+        widget: string
+        hint: "Shown on card. e.g. 17 Feb – 13 March"
+
+      - label: "Availability Tag"
+        name: tag
+        widget: select
+        options:
+          - { label: "Bi-Weekly Drop", value: "bi-weekly" }
+          - { label: "Limited Edition", value: "limited" }
+          - { label: "New Drop", value: "new-drop" }
+          - { label: "Collab", value: "collab" }
+        default: "bi-weekly"
+
+      - label: "Product Photo"
+        name: image
+        widget: image
+        required: false
+        hint: "Upload the product photo. Square or portrait works best."
+        media_folder: "/public/photos"
+        public_folder: "/photos"
+
+      - label: "Card Background Color"
+        name: bg
+        widget: string
+        default: "#4C4378"
+        hint: "Hex color shown as placeholder until photo loads. e.g. #5a1e2a"
+
+      - label: "Short Description"
+        name: desc
+        widget: text
+        hint: "1–2 sentences shown on the card."
+
+      - label: "Price (THB)"
+        name: price
+        widget: number
+        required: false
+        value_type: float
+        hint: "e.g. 259"
+
+      - label: "⭐ Featured (pin to top)"
+        name: featured
+        widget: boolean
+        default: false
+
+      - label: "📝 Draft (hide from site)"
+        name: draft
+        widget: boolean
+        default: false
+
+      - label: "Full Story (detail page body)"
+        name: body
+        widget: markdown
+        required: false
+        hint: "Optional long-form content for the detail page."
+
+  # ─────────────────────────────────────────────────────
+  # 2. ALWAYS AVAILABLE
+  #    Permanent products. Grouped by subcategory.
+  # ─────────────────────────────────────────────────────
   - name: always_available
-    label: "Always Available"
+    label: "🧁 Always Available"
     label_singular: "Product"
+    description: "Permanent menu items — always in stock at every branch. Grouped by Tray Cakes, Special Cakes, or Cookies & Bites."
     folder: "src/content/always-available"
     create: true
     slug: "{{fields.slug}}"
+    summary: "{{fields.name}} — {{fields.category}} — {{fields.price}}"
+    sortable_fields: ["name", "category"]
+    view_groups:
+      - label: "By Category"
+        field: category
     fields:
-      - { label: "Product Name", name: name,      widget: string }
-      - { label: "Slug",         name: slug,      widget: string }
-      - { label: "Subcategory",  name: category,  widget: select, options: ["Tray Cakes","Special Cakes","Cookies & Bites"] }
-      - { label: "Price",        name: price,     widget: string }
-      - { label: "Photo",        name: image,     widget: image, required: false }
-      - { label: "Card BG",      name: bg,        widget: string, default: "#1e0c06" }
-      - { label: "Description",  name: desc,      widget: text }
-      - { label: "Available?",   name: available, widget: boolean, default: true }
+      - label: "Product Name"
+        name: name
+        widget: string
+        hint: "e.g. Chocolate, Thai Tea, Red Velvet"
 
+      - label: "URL Slug"
+        name: slug
+        widget: string
+        hint: "e.g. chocolate, thai-tea, red-velvet"
+
+      - label: "Subcategory"
+        name: category
+        widget: select
+        options:
+          - { label: "🎂 Tray Cakes", value: "Tray Cakes" }
+          - { label: "🎉 Special Cakes", value: "Special Cakes" }
+          - { label: "🍪 Cookies & Bites", value: "Cookies & Bites" }
+
+      - label: "Price"
+        name: price
+        widget: string
+        hint: "e.g. from ฿160  or  ฿259 each"
+
+      - label: "Product Photo"
+        name: image
+        widget: image
+        required: false
+        hint: "Square or portrait photo of the product."
+        media_folder: "/public/photos"
+        public_folder: "/photos"
+
+      - label: "Card Background Color"
+        name: bg
+        widget: string
+        default: "#1e0c06"
+        hint: "Shown as placeholder before photo loads."
+
+      - label: "Short Description"
+        name: desc
+        widget: text
+        hint: "1–2 sentences describing this product."
+
+      - label: "Available? (uncheck to hide)"
+        name: available
+        widget: boolean
+        default: true
+
+  # ─────────────────────────────────────────────────────
+  # 3. LOCATIONS
+  #    One entry per branch. CMS shows all 10 branches.
+  #    Upload a branch photo to show it on the locations page.
+  # ─────────────────────────────────────────────────────
   - name: locations
-    label: "Locations"
+    label: "📍 Locations"
     label_singular: "Branch"
+    description: "All Babycakes branches. Update hours, Grab links, or upload a branch photo here."
     folder: "src/content/locations"
     create: true
     slug: "{{fields.slug}}"
     extension: json
     format: json
+    summary: "{{fields.name}} — {{fields.zone}} — {{fields.hours}}"
+    sortable_fields: ["name", "zone"]
+    view_groups:
+      - label: "By Zone"
+        field: zone
+      - label: "HQ"
+        field: hq
     fields:
-      - { label: "Branch Name",  name: name,    widget: string }
-      - { label: "Slug",         name: slug,    widget: string }
-      - { label: "Zone / Area",  name: zone,    widget: string }
-      - { label: "Address",      name: addr,    widget: text }
-      - { label: "Hours",        name: hours,   widget: string }
-      - { label: "Transit",      name: transit, widget: string }
-      - { label: "Grab Link",    name: grab,    widget: string }
-      - { label: "Google Maps",  name: maps,    widget: string }
-      - { label: "Branch Photo", name: image,   widget: image, required: false }
-      - { label: "HQ?",          name: hq,      widget: boolean, default: false }
-      - { label: "Active?",      name: active,  widget: boolean, default: true }
+      - label: "Branch Name"
+        name: name
+        widget: string
+        hint: "e.g. EMSPHERE, HQ Bangna"
 
+      - label: "Slug"
+        name: slug
+        widget: string
+        hint: "Lowercase, hyphens. e.g. emsphere, bangna-hq"
+
+      - label: "Zone / Area"
+        name: zone
+        widget: string
+        hint: "e.g. Sukhumvit, Siam, Bangna, Rama 9"
+
+      - label: "Full Address"
+        name: addr
+        widget: text
+        hint: "Full address shown on the card."
+
+      - label: "Opening Hours"
+        name: hours
+        widget: string
+        hint: "e.g. 10:00 – 22:00"
+
+      - label: "Nearest Transit"
+        name: transit
+        widget: string
+        hint: "e.g. BTS Siam, MRT Sam Yan"
+
+      - label: "GrabFood Link"
+        name: grab
+        widget: string
+        hint: "Full GrabFood URL for this specific branch."
+
+      - label: "Google Maps Link"
+        name: maps
+        widget: string
+        hint: "Full Google Maps URL to pin this branch."
+
+      - label: "Branch Photo"
+        name: image
+        widget: image
+        required: false
+        hint: "Interior or storefront photo — 16:9 works best."
+        media_folder: "/public/photos"
+        public_folder: "/photos"
+
+      - label: "🏠 This is HQ?"
+        name: hq
+        widget: boolean
+        default: false
+        hint: "HQ gets a special large card at the top."
+
+      - label: "Active? (uncheck to hide)"
+        name: active
+        widget: boolean
+        default: true
+
+  # ─────────────────────────────────────────────────────
+  # 4. COLLABORATIONS
+  #    Partner brands. Upload up to 4 photos for collage.
+  # ─────────────────────────────────────────────────────
   - name: collabs
-    label: "Collaborations"
+    label: "🤝 Collaborations"
     label_singular: "Collab"
+    description: "Partner brands and collaborations. Add up to 4 photos — they form an automatic collage on the landing page."
     folder: "src/content/collabs"
     create: true
     slug: "{{fields.slug}}"
     extension: json
     format: json
+    summary: "{{fields.name}} — {{fields.type}}"
+    sortable_fields: ["name", "type"]
+    view_groups:
+      - label: "By Type"
+        field: type
     fields:
-      - { label: "Partner Name", name: name,    widget: string }
-      - { label: "Slug",         name: slug,    widget: string }
-      - { label: "Type",         name: type,    widget: select, options: ["Product collab","Pop-up partner","Delivery partner","Sourcing partner","Brand collab","Other"] }
-      - { label: "Description",  name: desc,    widget: text }
-      - { label: "Logo / Main Photo", name: logo,    widget: image, required: false }
-      - { label: "Photo 2",      name: photo_2, widget: image, required: false }
-      - { label: "Photo 3",      name: photo_3, widget: image, required: false }
-      - { label: "Photo 4",      name: photo_4, widget: image, required: false }
-      - { label: "Collab LINE",  name: line,    widget: string, required: false }
-      - { label: "Website",      name: url,     widget: string, required: false }
-      - { label: "Active?",      name: active,  widget: boolean, default: true }
+      - label: "Partner Name"
+        name: name
+        widget: string
+        hint: "e.g. KitKat®, Refill Coffee, GrabFood"
 
+      - label: "Slug"
+        name: slug
+        widget: string
+        hint: "e.g. kitkat, refill-coffee, grabfood"
+
+      - label: "Partnership Type"
+        name: type
+        widget: select
+        options:
+          - { label: "Product Collab", value: "Product collab" }
+          - { label: "Pop-up Partner", value: "Pop-up partner" }
+          - { label: "Delivery Partner", value: "Delivery partner" }
+          - { label: "Sourcing Partner", value: "Sourcing partner" }
+          - { label: "Brand Collab", value: "Brand collab" }
+          - { label: "Other", value: "Other" }
+
+      - label: "Description"
+        name: desc
+        widget: text
+        hint: "2–3 sentences about this partnership. Shown on card and landing page."
+
+      - label: "Logo / Main Photo"
+        name: logo
+        widget: image
+        required: false
+        hint: "Primary image — shown on the collab card and as the first collage photo."
+        media_folder: "/public/photos"
+        public_folder: "/photos"
+
+      - label: "Photo 2 (collage)"
+        name: photo_2
+        widget: image
+        required: false
+        hint: "Second photo for the collage on the landing page."
+        media_folder: "/public/photos"
+        public_folder: "/photos"
+
+      - label: "Photo 3 (collage)"
+        name: photo_3
+        widget: image
+        required: false
+        media_folder: "/public/photos"
+        public_folder: "/photos"
+
+      - label: "Photo 4 (collage)"
+        name: photo_4
+        widget: image
+        required: false
+        hint: "4 photos = 2×2 grid. 3 = big left + 2 right. 2 = side by side. 1 = full width."
+        media_folder: "/public/photos"
+        public_folder: "/photos"
+
+      - label: "Collab LINE Link"
+        name: line
+        widget: string
+        required: false
+        hint: "Specific LINE link for this collab (optional — uses partnership LINE if blank)"
+
+      - label: "Website"
+        name: url
+        widget: string
+        required: false
+        hint: "Partner's website URL"
+
+      - label: "Active? (uncheck to hide)"
+        name: active
+        widget: boolean
+        default: true
+
+  # ─────────────────────────────────────────────────────
+  # 5. CAREERS
+  #    Open job roles. Each gets its own landing page.
+  # ─────────────────────────────────────────────────────
   - name: careers
-    label: "Careers"
+    label: "👩‍🍳 Careers"
     label_singular: "Role"
+    description: "Open job listings. Each role gets a full landing page at /careers/[slug] with salary, responsibilities, and apply button."
     folder: "src/content/careers"
     create: true
     slug: "{{fields.slug}}"
     extension: json
     format: json
+    summary: "{{fields.title}} — {{fields.dept}} — {{fields.type}}"
+    sortable_fields: ["title", "dept", "type"]
+    view_groups:
+      - label: "By Department"
+        field: dept
+      - label: "Open Roles"
+        field: open
     fields:
-      - { label: "Job Title",        name: title,           widget: string }
-      - { label: "Slug",             name: slug,            widget: string }
-      - { label: "Department",       name: dept,            widget: select, options: ["Kitchen","Marketing","Creative","Ops","Service","Logistics","Other"] }
-      - { label: "Type",             name: type,            widget: select, options: ["Full-time","Part-time","Contract","Internship"] }
-      - { label: "Location",         name: loc,             widget: string, default: "Bangkok, TH" }
-      - { label: "Salary Min (THB)", name: salary_min,      widget: number, required: false }
-      - { label: "Salary Max (THB)", name: salary_max,      widget: number, required: false }
-      - { label: "Salary Note",      name: salary_note,     widget: string, required: false }
-      - { label: "Start Date",       name: start_date,      widget: string, required: false }
-      - { label: "Description",      name: desc,            widget: text }
-      - { label: "Responsibilities", name: responsibilities, widget: text, required: false }
-      - { label: "Requirements",     name: requirements,    widget: text, required: false }
-      - { label: "Benefits",         name: benefits,        widget: string, required: false }
-      - { label: "Open?",            name: open,            widget: boolean, default: true }
+      - label: "Job Title"
+        name: title
+        widget: string
+        hint: "e.g. Pastry Chef, Brand Designer"
 
-  - name: brand_hero
-    label: "Brand Page — Hero"
+      - label: "Slug"
+        name: slug
+        widget: string
+        hint: "e.g. pastry-chef, brand-designer"
+
+      - label: "Department"
+        name: dept
+        widget: select
+        options:
+          - { label: "🍴 Kitchen", value: "Kitchen" }
+          - { label: "📣 Marketing", value: "Marketing" }
+          - { label: "🎨 Creative", value: "Creative" }
+          - { label: "⚙️ Operations", value: "Ops" }
+          - { label: "💬 Service", value: "Service" }
+          - { label: "🚚 Logistics", value: "Logistics" }
+          - { label: "Other", value: "Other" }
+
+      - label: "Employment Type"
+        name: type
+        widget: select
+        options:
+          - { label: "Full-time", value: "Full-time" }
+          - { label: "Part-time", value: "Part-time" }
+          - { label: "Contract", value: "Contract" }
+          - { label: "Internship", value: "Internship" }
+
+      - label: "Location"
+        name: loc
+        widget: string
+        default: "Bangkok, TH"
+        hint: "e.g. Bangkok, TH (HQ Bangna)"
+
+      - label: "Salary Min (THB/month)"
+        name: salary_min
+        widget: number
+        required: false
+        value_type: int
+        hint: "e.g. 25000"
+
+      - label: "Salary Max (THB/month)"
+        name: salary_max
+        widget: number
+        required: false
+        value_type: int
+        hint: "e.g. 40000"
+
+      - label: "Salary Note"
+        name: salary_note
+        widget: string
+        required: false
+        default: "THB/month depending on experience"
+
+      - label: "Ideal Start Date"
+        name: start_date
+        widget: string
+        required: false
+        hint: "e.g. June 2026  or  Immediate"
+
+      - label: "Short Description"
+        name: desc
+        widget: text
+        hint: "One sentence shown on the careers listing. e.g. Lead bi-weekly flavor development."
+
+      - label: "What You'll Do (responsibilities)"
+        name: responsibilities
+        widget: text
+        required: false
+        hint: "Separate each point with a full stop and space. e.g. Develop new flavors. Train the team. Manage quality."
+
+      - label: "What We're Looking For (requirements)"
+        name: requirements
+        widget: text
+        required: false
+        hint: "Separate each point with a full stop and space."
+
+      - label: "Benefits"
+        name: benefits
+        widget: string
+        required: false
+        hint: "e.g. Monthly tasting sessions, birthday cake, wellness allowance"
+
+      - label: "✅ Open? (uncheck to hide role)"
+        name: open
+        widget: boolean
+        default: true
+
+  # ─────────────────────────────────────────────────────
+  # 6. SITE SETTINGS
+  #    Links, social, hero photo. Rarely changes.
+  # ─────────────────────────────────────────────────────
+  - name: settings
+    label: "⚙️ Site Settings"
+    description: "Global settings — order links, social URLs, and all photos for the Brand page."
     files:
-      - label: "Hero Content"
+
+      - label: "Order Links"
+        name: order_links
+        file: "src/content/settings/order-links.json"
+        fields:
+          - label: "Main Order LINE link"
+            name: line_main
+            widget: string
+            hint: "Your LINE deep link for cake orders. e.g. https://line.me/ti/p/~@babycakes"
+
+          - label: "Collab / Partnership LINE"
+            name: line_collab
+            widget: string
+            hint: "Separate LINE OA for partnership enquiries."
+
+          - label: "GrabFood link"
+            name: grab
+            widget: string
+
+          - label: "LINE MAN link"
+            name: lineman
+            widget: string
+
+      - label: "Brand Photos"
+        name: brand_photos
+        file: "src/content/settings/brand-photos.json"
+        fields:
+          - label: "🏠 Hero / Homepage photo"
+            name: hero_photo
+            widget: image
+            required: false
+            hint: "Main hero — wide landscape, food photo. Shown full-screen on homepage."
+
+          - label: "👤 Nile — Portrait 1 (main)"
+            name: nile_photo
+            widget: image
+            required: false
+            hint: "Primary portrait of Nile. Shown on Brand page."
+
+          - label: "👤 Nile — Portrait 2"
+            name: nile_photo_2
+            widget: image
+            required: false
+            hint: "Adds a slideshow if uploaded."
+
+          - label: "👤 Nile — Portrait 3"
+            name: nile_photo_3
+            widget: image
+            required: false
+
+          - label: "👤 Tess — Portrait 1 (main)"
+            name: tess_photo
+            widget: image
+            required: false
+            hint: "Primary portrait of Tess."
+
+          - label: "👤 Tess — Portrait 2"
+            name: tess_photo_2
+            widget: image
+            required: false
+            hint: "Adds a slideshow if uploaded."
+
+          - label: "👤 Tess — Portrait 3"
+            name: tess_photo_3
+            widget: image
+            required: false
+
+          - label: "📸 First pop-up photo (2022)"
+            name: popup_photo
+            widget: image
+            required: false
+            hint: "Shown in the Story section on the Brand page."
+
+          - label: "📅 Timeline 2021"
+            name: tl_2021
+            widget: image
+            required: false
+
+          - label: "📅 Timeline 2022"
+            name: tl_2022
+            widget: image
+            required: false
+
+          - label: "📅 Timeline 2023"
+            name: tl_2023
+            widget: image
+            required: false
+
+          - label: "📅 Timeline 2024"
+            name: tl_2024
+            widget: image
+            required: false
+
+          - label: "📅 Timeline 2025"
+            name: tl_2025
+            widget: image
+            required: false
+
+  # ─────────────────────────────────────────────────────
+  # 7. BRAND PAGE — TEXT CONTENT
+  #    Edit founder bios, story text, timeline events.
+  # ─────────────────────────────────────────────────────
+  - name: brand_content
+    label: "📖 Brand Page — Content"
+    description: "Edit the text content on the Brand page — hero stats, founder bios, story, and timeline."
+    files:
+
+      - label: "Hero Section"
         name: hero
         file: "src/content/brand/hero.json"
         fields:
-          - { label: "Tagline",       name: tagline,      widget: string }
-          - { label: "Headline 1",    name: headline_1,   widget: string }
-          - { label: "Headline 2",    name: headline_2,   widget: string }
-          - { label: "Subheading",    name: subheading,   widget: text }
-          - { label: "Stat 1 Value",  name: stat_1_value, widget: string }
-          - { label: "Stat 1 Label",  name: stat_1_label, widget: string }
-          - { label: "Stat 2 Value",  name: stat_2_value, widget: string }
-          - { label: "Stat 2 Label",  name: stat_2_label, widget: string }
-          - { label: "Stat 3 Value",  name: stat_3_value, widget: string }
-          - { label: "Stat 3 Label",  name: stat_3_label, widget: string }
-          - { label: "Stat 4 Value",  name: stat_4_value, widget: string }
-          - { label: "Stat 4 Label",  name: stat_4_label, widget: string }
+          - { label: "Tagline (small label)", name: tagline,      widget: string, hint: "e.g. Our Brand" }
+          - { label: "Headline Line 1",       name: headline_1,   widget: string, hint: "e.g. The Babycakes" }
+          - { label: "Headline Line 2",       name: headline_2,   widget: string, hint: "e.g. Story." }
+          - { label: "Subheading",            name: subheading,   widget: text }
+          - { label: "Stat 1 — Value",        name: stat_1_value, widget: string, hint: "e.g. 2021" }
+          - { label: "Stat 1 — Label",        name: stat_1_label, widget: string, hint: "e.g. Founded" }
+          - { label: "Stat 2 — Value",        name: stat_2_value, widget: string }
+          - { label: "Stat 2 — Label",        name: stat_2_label, widget: string }
+          - { label: "Stat 3 — Value",        name: stat_3_value, widget: string }
+          - { label: "Stat 3 — Label",        name: stat_3_label, widget: string }
+          - { label: "Stat 4 — Value",        name: stat_4_value, widget: string }
+          - { label: "Stat 4 — Label",        name: stat_4_label, widget: string }
 
-  - name: brand_founders
-    label: "Brand Page — Founders"
-    files:
+      - label: "Story Section"
+        name: story
+        file: "src/content/brand/story.json"
+        fields:
+          - { label: "Section Headline",   name: headline,             widget: string }
+          - { label: "Body — Paragraph 1", name: body_1,               widget: text }
+          - { label: "Body — Paragraph 2", name: body_2,               widget: text, required: false }
+          - { label: "Pop-up Year",        name: popup_year,           widget: string, default: "2022" }
+          - { label: "Pop-up Caption",     name: popup_caption,        widget: string }
+          - { label: "Stat 1 — Value",     name: stat_price,           widget: string, hint: "e.g. ฿210" }
+          - { label: "Stat 1 — Label",     name: stat_price_label,     widget: string, hint: "e.g. Baby Tray from" }
+          - { label: "Stat 2 — Value",     name: stat_locations,       widget: string }
+          - { label: "Stat 2 — Label",     name: stat_locations_label, widget: string }
+          - { label: "Stat 3 — Value",     name: stat_rhythm,          widget: string }
+          - { label: "Stat 3 — Label",     name: stat_rhythm_label,    widget: string }
+
       - label: "Founder — Nile"
         name: founder_nile
         file: "src/content/brand/founder-nile.json"
         fields:
-          - { label: "Order",         name: order,        widget: number, default: 1 }
-          - { label: "Nickname",      name: nickname,     widget: string }
-          - { label: "Full Name",     name: full_name,    widget: string }
-          - { label: "Role title",    name: role,         widget: string }
-          - { label: "Portrait photo",name: photo,        widget: image, required: false }
-          - { label: "BG color",      name: bg_color,     widget: string, default: "#2a1640" }
-          - { label: "Bio 1",         name: bio_1,        widget: text }
-          - { label: "Bio 2",         name: bio_2,        widget: text, required: false }
-          - { label: "Stat 1 Value",  name: stat_1_value, widget: string }
-          - { label: "Stat 1 Label",  name: stat_1_label, widget: string }
-          - { label: "Stat 2 Value",  name: stat_2_value, widget: string }
-          - { label: "Stat 2 Label",  name: stat_2_label, widget: string }
-          - { label: "Stat 3 Value",  name: stat_3_value, widget: string }
-          - { label: "Stat 3 Label",  name: stat_3_label, widget: string }
+          - { label: "Display Order",  name: order,        widget: number, default: 1 }
+          - { label: "Nickname",       name: nickname,     widget: string }
+          - { label: "Full Name",      name: full_name,    widget: string }
+          - { label: "Role Title",     name: role,         widget: string }
+          - { label: "Background Color", name: bg_color,   widget: string, default: "#2a1640", hint: "Photo placeholder color" }
+          - { label: "Bio — Paragraph 1", name: bio_1,    widget: text }
+          - { label: "Bio — Paragraph 2", name: bio_2,    widget: text, required: false }
+          - { label: "Stat 1 — Value", name: stat_1_value, widget: string }
+          - { label: "Stat 1 — Label", name: stat_1_label, widget: string }
+          - { label: "Stat 2 — Value", name: stat_2_value, widget: string }
+          - { label: "Stat 2 — Label", name: stat_2_label, widget: string }
+          - { label: "Stat 3 — Value", name: stat_3_value, widget: string }
+          - { label: "Stat 3 — Label", name: stat_3_label, widget: string }
 
       - label: "Founder — Tess"
         name: founder_tess
         file: "src/content/brand/founder-tess.json"
         fields:
-          - { label: "Order",         name: order,        widget: number, default: 2 }
-          - { label: "Nickname",      name: nickname,     widget: string }
-          - { label: "Full Name",     name: full_name,    widget: string }
-          - { label: "Role title",    name: role,         widget: string }
-          - { label: "Portrait photo",name: photo,        widget: image, required: false }
-          - { label: "BG color",      name: bg_color,     widget: string, default: "#101828" }
-          - { label: "Bio 1",         name: bio_1,        widget: text }
-          - { label: "Bio 2",         name: bio_2,        widget: text, required: false }
-          - { label: "Stat 1 Value",  name: stat_1_value, widget: string }
-          - { label: "Stat 1 Label",  name: stat_1_label, widget: string }
-          - { label: "Stat 2 Value",  name: stat_2_value, widget: string }
-          - { label: "Stat 2 Label",  name: stat_2_label, widget: string }
-          - { label: "Stat 3 Value",  name: stat_3_value, widget: string }
-          - { label: "Stat 3 Label",  name: stat_3_label, widget: string }
+          - { label: "Display Order",  name: order,        widget: number, default: 2 }
+          - { label: "Nickname",       name: nickname,     widget: string }
+          - { label: "Full Name",      name: full_name,    widget: string }
+          - { label: "Role Title",     name: role,         widget: string }
+          - { label: "Background Color", name: bg_color,   widget: string, default: "#101828" }
+          - { label: "Bio — Paragraph 1", name: bio_1,    widget: text }
+          - { label: "Bio — Paragraph 2", name: bio_2,    widget: text, required: false }
+          - { label: "Stat 1 — Value", name: stat_1_value, widget: string }
+          - { label: "Stat 1 — Label", name: stat_1_label, widget: string }
+          - { label: "Stat 2 — Value", name: stat_2_value, widget: string }
+          - { label: "Stat 2 — Label", name: stat_2_label, widget: string }
+          - { label: "Stat 3 — Value", name: stat_3_value, widget: string }
+          - { label: "Stat 3 — Label", name: stat_3_label, widget: string }
 
-  - name: brand_timeline
-    label: "Brand Page — Timeline"
-    files:
-      - label: "Timeline"
+      - label: "Timeline Events"
         name: timeline
         file: "src/content/brand/timeline.json"
         fields:
-          - label: "Timeline Events"
+          - label: "Events"
             name: items
             widget: list
+            summary: "{{fields.year}} — {{fields.event}}"
             fields:
-              - { label: "Year",  name: year,  widget: string }
-              - { label: "Event", name: event, widget: string }
-              - { label: "Desc",  name: desc,  widget: text }
-              - { label: "Photo", name: photo, widget: image, required: false }
+              - { label: "Year",        name: year,  widget: string }
+              - { label: "Event Title", name: event, widget: string }
+              - { label: "Description", name: desc,  widget: text }
+              - { label: "Photo",       name: photo, widget: image, required: false, hint: "Upload via Site Settings → Brand Photos → Timeline [year] instead" }
