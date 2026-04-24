@@ -1,54 +1,53 @@
 ---
 import Base from '../../layouts/Base.astro';
-// CMS-ready: these will come from getCollection('weekly-updates') once content is added
 const posts = [
-  { slug:"strawberry-kiss",      name:"Strawberry Kiss",       period:"17 Feb – 13 March", bg:"#8a3a46", desc:"Layered sponge with fresh strawberry cream. A gentle taste of nostalgia, made to sweeten every moment." },
-  { slug:"dubai-chocolate",      name:"Dubai Chocolate",       period:"17 Feb – 13 March", bg:"#180a04", desc:"Crispy knafeh, dark chocolate. A viral sensation reimagined with care and intention." },
-  { slug:"mayongchid",           name:"Mayongchid",            period:"11 – 17 April",     bg:"#8a5c10", desc:"Thai mango custard. Seasonal, sun-golden, and gone before you know it. A true Thai treasure." },
-  { slug:"cheesecake-blueberry", name:"Cheesecake Blueberry",  period:"13 – 18 Feb",       bg:"#281640", desc:"Velvety cheesecake meets jammy blueberry. A classic, perfected with every batch." },
-  { slug:"nomyen",               name:"Nomyen",                period:"13 – 18 Feb",       bg:"#a86070", desc:"Thai milk tea in cake form. Soft, sweet, pink, and deeply comforting." },
-  { slug:"cake-cube",            name:"Cake Cube",             period:"New Drop",          bg:"#181818", desc:"Our iconic flavors in a bold new individual format. Available at select branches." },
-  { slug:"banoffee",             name:"Banoffee",              period:"13 – 18 Feb",       bg:"#6a4816", desc:"Banana, toffee, cream. A British classic that never gets old." },
-  { slug:"thai-tea",             name:"Thai Tea",              period:"15 – 22 April",     bg:"#a03c14", desc:"Bold, spiced, unmistakably Thai. A flavor that tells a whole story in every bite." },
-  { slug:"crunchy-cake",         name:"Crunchy Cake",          period:"Limited",           bg:"#2e1408", desc:"Made with KitKat. Crispy layers, rich chocolate drizzle. Pure indulgence." },
+  { slug:"strawberry-kiss",      name:"Strawberry Kiss",       period:"17 Feb – 13 March", bg:"#5a1e2a", desc:"Layered sponge, fresh strawberry cream. The season's most romantic slice." },
+  { slug:"dubai-chocolate",      name:"Dubai Chocolate",       period:"17 Feb – 13 March", bg:"#100704", desc:"Crispy knafeh, dark chocolate. A viral sensation, perfected." },
+  { slug:"mayongchid",           name:"Mayongchid",            period:"11 – 17 April",     bg:"#6a4610", desc:"Thai mango custard. Seasonal, sun-golden, and gone before you know it." },
+  { slug:"cheesecake-blueberry", name:"Cheesecake Blueberry",  period:"13 – 18 Feb",       bg:"#1c0e32", desc:"Velvety cheesecake meets jammy blueberry. A classic, perfected." },
+  { slug:"nomyen",               name:"Nomyen",                period:"13 – 18 Feb",       bg:"#8a3050", desc:"Thai milk tea in cake form. Soft, sweet, and deeply comforting." },
+  { slug:"cake-cube",            name:"Cake Cube",             period:"New Drop",          bg:"#141414", desc:"Our iconic flavors in a bold new individual format." },
+  { slug:"banoffee",             name:"Banoffee",              period:"13 – 18 Feb",       bg:"#5c3c10", desc:"Banana, toffee, cream. A classic that never gets old." },
+  { slug:"thai-tea",             name:"Thai Tea",              period:"15 – 22 April",     bg:"#7a2c0e", desc:"Bold, spiced, unmistakably Thai." },
+  { slug:"crunchy-cake",         name:"Crunchy Cake",          period:"Limited",           bg:"#1e1008", desc:"Made with KitKat. Crispy layers, rich chocolate drizzle." },
 ];
 ---
-<Base title="Bi-Weekly Flavors | Babycakes" description="Babycakes bi-weekly flavor drops — updated every two weeks across all Bangkok branches.">
+<Base title="Bi-Weekly Flavors | Babycakes" description="Babycakes bi-weekly flavor drops — updated every two weeks.">
 
 <section class="pg-hero">
   <div class="dots"></div>
   <div class="wrap" style="position:relative;z-index:2">
-    <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.75rem">Updated Every Two Weeks</div>
+    <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">Updated Every Two Weeks</div>
     <h1 class="lf pg-h1 au au1">Bi-Weekly<br/>Flavors.</h1>
-    <p class="pg-sub au au2">A new flavor, a new story — every two weeks.<br/>This is the drop you don't want to miss.</p>
+    <p class="pg-sub au au2">A new flavor, a new story — every two weeks. Don't miss the drop.</p>
   </div>
 </section>
 
 <div class="mq">
   <div class="mq-t">
     {["Strawberry Kiss","Dubai Chocolate","Mayongchid","Cheesecake Blueberry","Nomyen","Cake Cube","Banoffee","Thai Tea","Crunchy Cake","feel good food","Strawberry Kiss","Dubai Chocolate","Mayongchid","Cheesecake Blueberry","Nomyen","Cake Cube","Banoffee","Thai Tea","Crunchy Cake","feel good food"].map(t=>(
-      <span class="mq-i">{t}<span class="mq-dot">&#9632;</span></span>
+      <span class="mq-i">{t}<span class="mq-dot-el"></span></span>
     ))}
   </div>
 </div>
 
 <section class="sec">
   <div class="wrap">
-    <div class="g3">
-      {posts.map((p, i) => (
-        <a href={"/bi-weekly/" + p.slug} class="jcard au" style={"animation-delay:" + (i * 0.05) + "s"}>
-          <div class="jimg" style={"background:" + p.bg}>
-            <div class="jov"></div>
-            <span class="lf jname">{p.name}</span>
+    <!-- 2-col on mobile, 3-col on desktop -->
+    <div class="bw-grid">
+      {posts.map((p,i)=>(
+        <a href={"/bi-weekly/"+p.slug} class="pc au" style={"animation-delay:"+i*.05+"s"}>
+          <div class="pc-img" style={"aspect-ratio:3/4;background:linear-gradient(145deg,"+p.bg+","+p.bg+"99)"}>
+            <div class="pc-ph">{p.name}</div>
+            <!-- <img src={"/photos/"+p.slug+".jpg"} alt={p.name} /> -->
           </div>
-          <div class="jbody">
-            <div class="jmeta">
+          <div class="pc-body">
+            <div class="pc-meta">
               <span class="tag tag-y">bi-weekly</span>
-              <span class="jper">{p.period}</span>
+              <span class="pc-per">{p.period}</span>
             </div>
-            <h2 class="jtitle">{p.name}</h2>
-            <p class="jdesc">{p.desc}</p>
-            <span class="jmore">Read more</span>
+            <div class="lf pc-name">{p.name}</div>
+            <p class="pc-desc">{p.desc}</p>
           </div>
         </a>
       ))}
@@ -57,18 +56,16 @@ const posts = [
 </section>
 </Base>
 <style>
-.pg-hero { position:relative; background:var(--d); padding:10rem var(--px) 6rem; overflow:hidden; }
-.pg-h1 { font-size:clamp(3.5rem,10vw,8.5rem); color:var(--y); line-height:0.9; letter-spacing:-0.025em; margin-bottom:1.5rem; }
-.pg-sub { color:rgba(251,245,171,0.45); font-size:clamp(0.95rem,1.6vw,1.05rem); line-height:1.9; max-width:420px; }
-.jcard { display:flex; flex-direction:column; border-radius:var(--rm); overflow:hidden; background:var(--w); border:1px solid var(--g1); transition:transform 0.26s var(--ease),box-shadow 0.26s var(--ease); animation:fadeUp 0.6s var(--ease) both; text-decoration:none; color:inherit; }
-.jcard:hover { transform:translateY(-5px); box-shadow:0 16px 44px rgba(76,67,120,0.13); }
-.jimg { position:relative; aspect-ratio:3/2; display:flex; align-items:flex-end; padding:1.5rem 1.75rem; overflow:hidden; }
-.jov { position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,0.68) 0%,transparent 56%); }
-.jname { position:relative; z-index:2; font-size:1.7rem; color:#fff; line-height:1.02; text-shadow:0 2px 14px rgba(0,0,0,0.3); }
-.jbody { padding:1.6rem 1.75rem 2rem; flex:1; display:flex; flex-direction:column; }
-.jmeta { display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; }
-.jper { font-size:0.7rem; font-weight:500; color:var(--pm); letter-spacing:0.04em; }
-.jtitle { font-size:1rem; font-weight:600; color:var(--d); margin-bottom:0.65rem; line-height:1.4; }
-.jdesc { font-size:0.875rem; color:var(--g3); line-height:1.75; flex:1; }
-.jmore { margin-top:1.25rem; font-size:0.78rem; font-weight:600; color:var(--pm); }
+.pg-hero { position:relative; background:var(--d); padding:clamp(8rem,14vw,11rem) var(--px) clamp(4rem,7vw,5.5rem); overflow:hidden; }
+.pg-h1 { font-size:clamp(3rem,10vw,8rem); color:var(--y); line-height:.9; letter-spacing:-.025em; margin-bottom:1.25rem; }
+.pg-sub { color:rgba(251,245,171,.45); font-size:clamp(.95rem,1.6vw,1.05rem); line-height:1.9; max-width:420px; }
+/* 2-col mobile, 3-col desktop */
+.bw-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap);
+}
+@media(min-width:900px) {
+  .bw-grid { grid-template-columns: repeat(3, 1fr); }
+}
 </style>
