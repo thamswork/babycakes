@@ -468,15 +468,6 @@ collections:
         required: false
         hint: "e.g. Monthly tasting sessions, birthday cake, wellness allowance"
 
-
-      - label: "🖼️ Role Hero Photo"
-        name: hero_photo
-        widget: image
-        required: false
-        hint: "Wide landscape photo shown full-bleed behind the role title. 16:9 recommended."
-        media_folder: "/public/photos"
-        public_folder: "/photos"
-
       - label: "✅ Open? (uncheck to hide role)"
         name: open
         widget: boolean
