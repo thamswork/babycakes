@@ -4,14 +4,20 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const roles = await getCollection('careers');
-  return roles.map(r => {
-    // r.id is the filename e.g. "pastry-chef" (no .json in Astro content)
-    const slug = (r.data as any).slug || r.id;
-    return {
-      params: { slug },
-      props:  { role: r.data },
-    };
+  const paths: any[] = [];
+  roles.forEach(r => {
+    const dataSlug = (r.data as any).slug;
+    const fileId   = r.id; // Astro strips .json automatically
+
+    // Always add the file-id path
+    paths.push({ params: { slug: fileId }, props: { role: r.data } });
+
+    // Also add data.slug path if different from file id
+    if (dataSlug && dataSlug !== fileId) {
+      paths.push({ params: { slug: dataSlug }, props: { role: r.data } });
+    }
   });
+  return paths;
 }
 
 const d = Astro.props.role as any;
@@ -106,7 +112,7 @@ function bullets(text?: string): string[] {
 </Base>
 <style>
 .role-hero{background:var(--cr);border-bottom:1px solid var(--g1);padding:clamp(7rem,12vw,10rem) var(--px) clamp(3rem,5vw,4rem)}
-.back-link{display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--p);margin-bottom:2rem;transition:opacity .15s}
+.back-link{display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--p);margin-bottom:2rem;transition:opacity .15s;-webkit-tap-highlight-color:transparent}
 .back-link:hover{opacity:.7}
 .rdept{display:inline-flex;align-items:center;padding:.3rem .875rem;border-radius:var(--r);font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.25rem}
 .role-h1{font-size:clamp(2.5rem,7vw,5.5rem);color:var(--d);line-height:.95;letter-spacing:-.025em;margin-bottom:1.5rem}

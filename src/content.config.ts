@@ -52,14 +52,17 @@ const locations = defineCollection({
 const collabs = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/collabs' }),
   schema: z.object({
-    name:   z.string(),
-    slug:   z.string(),
-    type:   z.string(),
-    desc:   z.string().optional(),
-    logo:   z.string().optional(),
-    line:   z.string().optional(),
-    url:    z.string().optional(),
-    active: z.boolean().default(true),
+    name:    z.string(),
+    slug:    z.string(),
+    type:    z.string(),
+    desc:    z.string().optional(),
+    logo:    z.string().optional(),
+    photo_2: z.string().optional(),
+    photo_3: z.string().optional(),
+    photo_4: z.string().optional(),
+    line:    z.string().optional(),
+    url:     z.string().optional(),
+    active:  z.boolean().default(true),
   }),
 });
 

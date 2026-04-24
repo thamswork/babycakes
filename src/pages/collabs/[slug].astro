@@ -4,22 +4,28 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const all = await getCollection('collabs');
-  return all.map(c => ({
-    params: { slug: String(c.data.slug || c.id) },
-    props:  { collab: c.data },
-  }));
+  const paths: any[] = [];
+  all.forEach(c => {
+    const fileId  = c.id;
+    const dataSlug = (c.data as any).slug;
+    paths.push({ params: { slug: fileId }, props: { collab: c.data } });
+    if (dataSlug && dataSlug !== fileId) {
+      paths.push({ params: { slug: dataSlug }, props: { collab: c.data } });
+    }
+  });
+  return paths;
 }
 
 const c = Astro.props.collab as any;
 
 const bgMap: Record<string,string> = {
-  'refill-coffee': '#2a1c0e',
-  'kitkat':        '#8B0000',
-  'grabfood':      '#00a651',
-  'line-man':      '#1a1a2e',
-  'homeland':      '#1a3320',
+  'refill-coffee':'#2a1c0e','kitkat':'#8B0000',
+  'grabfood':'#00a651','line-man':'#1a1a2e','homeland':'#1a3320',
 };
 const bg = bgMap[c.slug] || '#2a1640';
+
+// Build photos array — logo + extra photos
+const photos = [c.logo, c.photo_2, c.photo_3, c.photo_4].filter(Boolean);
 ---
 <Base title={c.name + " | Babycakes Collabs"} description={c.desc}>
 
@@ -41,15 +47,24 @@ const bg = bgMap[c.slug] || '#2a1640';
 
 <section class="sec">
   <div class="wrap collab-layout">
-    <!-- Main content -->
     <div class="collab-main">
-      <!-- Logo/photo area -->
-      <div class="collab-visual" style={"background:"+bg}>
-        {c.logo
-          ? <img src={c.logo} alt={c.name+" logo"} style="max-width:280px;object-fit:contain;margin:auto"/>
-          : <div class="lf" style="font-size:clamp(2rem,6vw,4rem);color:rgba(255,255,255,.5);text-align:center;padding:2rem">{c.name}</div>
-        }
-      </div>
+
+      <!-- Photo collage — adapts to number of photos -->
+      {photos.length > 0 && (
+        <div class={"photo-collage photos-"+Math.min(photos.length,4)}>
+          {photos.slice(0,4).map((src:string, i:number) => (
+            <div class={"collage-item item-"+(i+1)}>
+              <img src={src} alt={c.name+" photo "+(i+1)} loading={i===0?"eager":"lazy"}/>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {!photos.length && (
+        <div class="collab-visual" style={"background:"+bg}>
+          <div class="lf" style="font-size:clamp(2rem,6vw,4rem);color:rgba(255,255,255,.4);text-align:center;padding:2rem">{c.name}</div>
+        </div>
+      )}
 
       {c.desc && (
         <div class="collab-section">
@@ -58,10 +73,9 @@ const bg = bgMap[c.slug] || '#2a1640';
         </div>
       )}
 
-      <!-- CTA -->
       <div class="collab-apply">
         <div>
-          <h3 class="lf" style="font-size:1.5rem;color:var(--d);margin-bottom:.5rem">Interested in a collaboration?</h3>
+          <h3 class="lf" style="font-size:1.5rem;color:var(--d);margin-bottom:.5rem">Interested in collaborating?</h3>
           <p style="color:var(--g3);font-size:.9rem;line-height:1.75">Reach out on our partnership LINE or email us directly.</p>
         </div>
         <div style="display:flex;gap:.875rem;flex-wrap:wrap">
@@ -71,13 +85,13 @@ const bg = bgMap[c.slug] || '#2a1640';
       </div>
     </div>
 
-    <!-- Sidebar -->
     <aside class="collab-side">
       <div class="cside-card">
         <h4 class="cside-h">Partnership details</h4>
         <div class="csr"><span>Partner</span><strong>{c.name}</strong></div>
         <div class="csr"><span>Type</span><strong>{c.type}</strong></div>
-        {c.url && <div class="csr"><span>Website</span><a href={c.url} target="_blank" rel="noopener" style="color:var(--p);font-weight:700;font-size:.82rem">{c.url.replace('https://','')}</a></div>}
+        {c.url && <div class="csr"><span>Website</span><a href={c.url} target="_blank" rel="noopener" style="color:var(--p);font-weight:700;font-size:.82rem;word-break:break-all">{c.url.replace(/^https?:\/\//,'')}</a></div>}
+        {photos.length > 0 && <div class="csr"><span>Photos</span><strong>{photos.length} uploaded</strong></div>}
       </div>
       {c.line && (
         <div class="cside-card" style="background:var(--d);border-color:transparent">
@@ -97,21 +111,54 @@ const bg = bgMap[c.slug] || '#2a1640';
 .back-link:hover{opacity:.7}
 .ch-h1{font-size:clamp(3rem,9vw,7rem);color:#fff;line-height:.9;letter-spacing:-.025em;margin-bottom:1.25rem}
 .ch-sub{color:rgba(255,255,255,.5);font-size:clamp(.95rem,1.7vw,1.1rem);line-height:1.9;max-width:520px}
+
 .collab-layout{display:grid;grid-template-columns:1fr 300px;gap:4rem;align-items:start}
 @media(max-width:900px){.collab-layout{grid-template-columns:1fr}.collab-side{order:-1}}
+
 .collab-main{display:flex;flex-direction:column;gap:3rem}
+
+/* ── PHOTO COLLAGE ── */
+.photo-collage{display:grid;border-radius:var(--rl);overflow:hidden;gap:3px;background:var(--g1)}
+
+/* 1 photo — full width */
+.photos-1{grid-template-columns:1fr}
+.photos-1 .item-1{aspect-ratio:16/9}
+
+/* 2 photos — side by side */
+.photos-2{grid-template-columns:1fr 1fr}
+.photos-2 .collage-item{aspect-ratio:4/3}
+
+/* 3 photos — big left, two stacked right */
+.photos-3{grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr}
+.photos-3 .item-1{grid-row:1/3;aspect-ratio:auto}
+.photos-3 .item-2,.photos-3 .item-3{aspect-ratio:4/3}
+
+/* 4 photos — 2x2 grid */
+.photos-4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+.photos-4 .collage-item{aspect-ratio:4/3}
+
+.collage-item{position:relative;overflow:hidden;min-height:160px}
+.collage-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.collage-item:hover img{transform:scale(1.04)}
+
+@media(max-width:640px){
+  .photos-3{grid-template-columns:1fr;grid-template-rows:auto}
+  .photos-3 .item-1{aspect-ratio:4/3;grid-row:auto}
+  .photos-4{grid-template-columns:1fr 1fr}
+}
+
 .collab-visual{border-radius:var(--rl);overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}
-.collab-visual img{width:100%;height:100%;object-fit:contain;padding:2rem}
 .collab-section{display:flex;flex-direction:column;gap:1rem}
 .csec-h{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);padding-bottom:.75rem;border-bottom:1px solid var(--g1)}
 .csec-body{font-size:1rem;color:var(--tx);line-height:1.9}
 .collab-apply{display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;padding:2.5rem;background:var(--cr);border-radius:var(--rl);border:1px solid var(--g1)}
+
 .collab-side{display:flex;flex-direction:column;gap:1.25rem;position:sticky;top:calc(var(--nav-h) + 2rem)}
 .cside-card{border-radius:var(--rl);padding:2rem;background:var(--cr);border:1px solid var(--g1)}
 .cside-h{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);margin-bottom:1.25rem}
-.csr{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.625rem 0;border-bottom:1px solid var(--g1);font-size:.82rem}
+.csr{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;padding:.625rem 0;border-bottom:1px solid var(--g1);font-size:.82rem}
 .csr:last-child{border-bottom:none}
-.csr span{color:var(--g3)}
+.csr span{color:var(--g3);flex-shrink:0}
 .csr strong{color:var(--d);font-weight:700;text-align:right}
 .sback{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--p);text-align:center;transition:opacity .15s}
 .sback:hover{opacity:.7}
