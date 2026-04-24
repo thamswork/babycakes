@@ -9,7 +9,7 @@ backend:
   branch: main
   # Cloudflare Pages OAuth Worker — replaces Netlify Identity
   # After deploying the worker (see instructions below), paste its URL here:
-  base_url: https://babycakes-cms-oauth.thamswork.workers.dev
+  base_url: https://babycakes-cms-oauth.tyme-sak.workers.dev
   auth_endpoint: /api/auth
 
 publish_mode: editorial_workflow
