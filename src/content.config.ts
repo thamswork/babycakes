@@ -1,7 +1,8 @@
 import { defineCollection, z } from 'astro:content';
+import { glob, file } from 'astro/loaders';
 
 const weeklyUpdates = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/weekly-updates' }),
   schema: z.object({
     name:     z.string(),
     slug:     z.string(),
@@ -18,7 +19,7 @@ const weeklyUpdates = defineCollection({
 });
 
 const alwaysAvailable = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/always-available' }),
   schema: z.object({
     name:      z.string(),
     slug:      z.string(),
@@ -32,7 +33,7 @@ const alwaysAvailable = defineCollection({
 });
 
 const locations = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/locations' }),
   schema: z.object({
     name:    z.string(),
     slug:    z.string(),
@@ -49,7 +50,7 @@ const locations = defineCollection({
 });
 
 const collabs = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/collabs' }),
   schema: z.object({
     name:   z.string(),
     slug:   z.string(),
@@ -63,7 +64,7 @@ const collabs = defineCollection({
 });
 
 const careers = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/careers' }),
   schema: z.object({
     title: z.string(),
     slug:  z.string(),
