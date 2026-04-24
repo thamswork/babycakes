@@ -17,7 +17,7 @@ const cats = [
   <div class="dots"></div>
   <div class="wrap" style="position:relative;z-index:2">
     <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">Always In Stock</div>
-    <h1 class="lf pg-h1 au au1">Always<br/>Available</h1>
+    <h1 class="lf pg-h1 au au1">Always<br/>Available.</h1>
     <p class="pg-sub au au2">Our permanent classics — at every branch, every day.</p>
   </div>
 </section>

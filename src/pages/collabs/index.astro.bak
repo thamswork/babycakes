@@ -18,7 +18,7 @@ const bgMap: Record<string,string> = {
   <div class="dots"></div>
   <div class="wrap" style="position:relative;z-index:2">
     <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">Partners &amp; Collabs</div>
-    <h1 class="lf pg-h1 au au1">We work with<br/>the best.</h1>
+    <h1 class="pg-h1 au au1">We work with<br/>the best.</h1>
     <p class="pg-sub au au2">Limited drops, delivery partners, and brand collaborations.<br/>Want to work with us? <a href="mailto:hello@babycakes.th" style="color:var(--y);text-decoration:underline;text-underline-offset:3px">Get in touch.</a></p>
   </div>
 </section>
@@ -35,8 +35,10 @@ const bgMap: Record<string,string> = {
   <div class="wrap">
     <div class="sh">
       <div>
-        <span class="tag tag-p sh-eye">All Partners</span>
-        <h2 class="lf sh-h">Current collaborations.</h2>
+        <!-- Yellow bar tag with dark purple text — prominent, matches reference -->
+        <span class="tag tag-y sh-eye" style="padding-inline:1.25rem;border-radius:var(--r)">All Partners</span>
+        <!-- Headline: Neulis Neue 800 italic, medium purple — not Shrikhand -->
+        <h2 class="collab-sh">Current collaborations.</h2>
       </div>
     </div>
 
@@ -45,7 +47,6 @@ const bgMap: Record<string,string> = {
         const bg = bgMap[c.id] || bgMap[c.data.slug] || '#2a1640';
         return (
           <a href={"/collabs/"+c.data.slug} class="pc collab-card au" style={"animation-delay:"+i*.06+"s"}>
-            <!-- Photo / logo slot -->
             <div class="pc-img collab-img" style={"aspect-ratio:4/3;position:relative;background:"+bg}>
               {c.data.logo
                 ? <img src={c.data.logo} alt={c.data.name+" logo"} style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:2rem" loading="lazy"/>
@@ -55,7 +56,7 @@ const bgMap: Record<string,string> = {
             </div>
             <div class="pc-body">
               <div class="pc-meta"><span class="tag tag-cr">{c.data.type}</span></div>
-              <div class="lf pc-name">{c.data.name}</div>
+              <div class="pc-name">{c.data.name}</div>
               <p class="pc-desc">{c.data.desc}</p>
               <span class="pc-more">View collab →</span>
             </div>
@@ -66,7 +67,7 @@ const bgMap: Record<string,string> = {
 
     <div class="collab-cta">
       <div>
-        <h3 class="lf" style="font-size:clamp(1.75rem,3.5vw,2.75rem);color:var(--d);line-height:1.05">Want to collaborate?</h3>
+        <h3 style="font-family:var(--font);font-weight:800;font-style:italic;font-size:clamp(1.75rem,3.5vw,2.75rem);color:var(--p);line-height:1.05">Want to collaborate?</h3>
         <p style="color:var(--g3);font-size:.95rem;line-height:1.8;margin-top:.625rem;max-width:420px">Open to limited flavor drops, pop-ups, and brand collabs. Reach out on LINE or email.</p>
       </div>
       <div style="display:flex;gap:.875rem;flex-wrap:wrap">
@@ -78,18 +79,38 @@ const bgMap: Record<string,string> = {
 </section>
 </Base>
 <style>
-.pg-hero{position:relative;background:var(--d);padding:clamp(8rem,14vw,11rem) var(--px) clamp(4rem,7vw,5.5rem);overflow:hidden}
-.pg-h1{font-size:clamp(3rem,9vw,7rem);color:var(--y);line-height:.9;letter-spacing:-.025em;margin-bottom:1.25rem}
-.pg-sub{color:rgba(251,245,171,.45);font-size:clamp(.95rem,1.6vw,1.05rem);line-height:1.9;max-width:480px}
+/* ── Hero ── */
+.pg-hero{position:relative;background:var(--p);padding:clamp(8rem,14vw,11rem) var(--px) clamp(4rem,7vw,5.5rem);overflow:hidden}
+/* Hero headline: Neulis Neue 800 italic, yellow on purple bg */
+.pg-h1{font-family:var(--font);font-weight:800;font-style:italic;font-size:clamp(3rem,9vw,7rem);color:var(--y);line-height:.95;letter-spacing:-.025em;margin-bottom:1.25rem}
+.pg-sub{color:rgba(255,255,255,.65);font-family:var(--font);font-size:clamp(.95rem,1.6vw,1.05rem);line-height:1.9;max-width:480px}
+
+/* ── Section heading — medium purple, bold italic Neulis Neue ── */
+.collab-sh{
+  font-family: var(--font);
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(2.25rem,5.5vw,4rem);
+  color: var(--p);
+  line-height: 1;
+  letter-spacing: -.025em;
+  margin-top: .875rem;
+}
+
+/* ── Cards ── */
 .collab-card{text-decoration:none}
 .collab-img{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.collab-name-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(1.25rem,3vw,2rem);color:rgba(255,255,255,.6);text-align:center;padding:1.5rem;line-height:1.1}
-.collab-type-badge{position:absolute;top:1rem;left:1rem;font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .7rem;border-radius:var(--r);background:rgba(0,0,0,.4);color:rgba(255,255,255,.75);backdrop-filter:blur(4px)}
+.collab-name-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-logo);font-size:clamp(1.25rem,3vw,2rem);color:rgba(255,255,255,.6);text-align:center;padding:1.5rem;line-height:1.1}
+.collab-type-badge{position:absolute;top:1rem;left:1rem;font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .7rem;border-radius:var(--r);background:rgba(0,0,0,.4);color:rgba(255,255,255,.75);backdrop-filter:blur(4px);font-family:var(--font)}
+.pc-more{display:inline-block;margin-top:.875rem;font-size:.75rem;font-weight:600;color:var(--p);letter-spacing:.04em;font-family:var(--font)}
+
+/* ── CTA strip ── */
 .collab-cta{display:flex;align-items:center;justify-content:space-between;gap:2.5rem;flex-wrap:wrap;margin-top:5rem;padding-top:4rem;border-top:1.5px solid var(--g1)}
 
-/* ── COLLABS MOBILE ── */
+/* ── Mobile ── */
 @media(max-width:600px) {
   .pg-h1 { font-size: clamp(2.75rem, 13vw, 5rem); }
+  .collab-sh { font-size: clamp(1.875rem, 10vw, 3rem); }
   .g3 { grid-template-columns: repeat(2, 1fr); gap: .625rem; }
   .pc-body { padding: .875rem .875rem 1rem; }
   .pc-name { font-size: .95rem; }
@@ -98,5 +119,8 @@ const bgMap: Record<string,string> = {
   .collab-cta > div:last-child { flex-direction: column; width: 100%; }
   .collab-cta .btn { width: 100%; justify-content: center; }
 }
-
+@media(max-width:960px) {
+  aside, .role-side, .collab-side, .cside-card { position: static !important; top: auto !important; }
+  .collab-layout { grid-template-columns: 1fr !important; gap: 2rem !important; }
+}
 </style>

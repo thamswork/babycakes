@@ -17,7 +17,7 @@ const branches = all.filter(l => !l.data.hq);
   <div class="dots"></div>
   <div class="wrap" style="position:relative;z-index:2">
     <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">{all.length} Locations Across Bangkok</div>
-    <h1 class="lf pg-h1 au au1">Find<br/>Babycakes</h1>
+    <h1 class="lf pg-h1 au au1">Find<br/>Babycakes.</h1>
     <p class="pg-sub au au2">Walk in at any branch or order via Grab and LINE.<br/>We're closer than you think.</p>
     <div class="au au3" style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem">
       <a href="https://lin.ee/babycakes" target="_blank" rel="noopener" class="btn btn-y btn-lg">Order via LINE</a>
@@ -62,7 +62,7 @@ const branches = all.filter(l => !l.data.hq);
     <div class="sh" style="margin-top:5rem;margin-bottom:2.5rem">
       <div>
         <span class="tag tag-p sh-eye">All Branches</span>
-        <h2 class="lf sh-h">{branches.length} Other Locations</h2>
+        <h2 class="lf sh-h">{branches.length} Other Locations.</h2>
       </div>
     </div>
 
