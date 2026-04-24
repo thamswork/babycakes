@@ -83,6 +83,7 @@ const careers = defineCollection({
     requirements:     z.string().optional(),
     benefits:         z.string().optional(),
     open:             z.boolean().default(true),
+    hero_photo:       z.string().optional(),
   }),
 });
 
