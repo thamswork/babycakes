@@ -1,0 +1,186 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const allRoles = await getCollection('careers', ({data}) => data.open);
+allRoles.sort((a,b) => {
+  if (a.data.type === b.data.type) return a.data.dept.localeCompare(b.data.dept);
+  return a.data.type === 'Full-time' ? -1 : 1;
+});
+
+const perks = [
+  { t:"Monthly Tasting Sessions", d:"You taste the product — it is literally part of the job." },
+  { t:"Birthday Cake Policy", d:"Every team member gets a custom Babycakes on their birthday." },
+  { t:"Wellness Allowance", d:"Monthly allowance for gym, therapy, or massage." },
+  { t:"Flexible Hours", d:"We care about output, not clock-watching." },
+  { t:"Learning Fridays", d:"Monthly guest sessions with chefs, designers, and brand builders." },
+  { t:"Team Bake Days", d:"Collaborative baking — your idea might be next." },
+];
+
+const deptColors: Record<string,string> = {
+  Kitchen:'#FBF5AB', Marketing:'#c8d4f8', Creative:'#f8d4f0',
+  Ops:'#d4f8e0', Service:'#f8ead4', Logistics:'#d4eaf8', Other:'#e8e8e8',
+};
+---
+<Base title="Careers | Babycakes">
+
+<!-- HERO -->
+<section class="pg-hero">
+  <div class="dots"></div>
+  <div class="wrap" style="position:relative;z-index:2">
+    <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.75rem">We're Hiring</div>
+    <h1 class="pg-h1 au au1">Join the<br/>family</h1>
+    <p class="pg-sub au au2">Passionate about feel-good food? You'll fit right in.</p>
+    <a href="#roles" class="btn btn-y btn-lg au au3" style="margin-top:2.5rem;display:inline-flex">See Open Roles</a>
+  </div>
+</section>
+
+<!-- PERKS -->
+<section class="sec sec-cr">
+  <div class="wrap">
+    <div class="sh">
+      <div>
+        <span class="tag tag-y sh-eye" style="padding-inline:1.25rem">Why Join Us</span>
+        <h2 class="sh-h" style="margin-top:.875rem">The good stuff</h2>
+      </div>
+    </div>
+    <div class="g3">
+      {perks.map((p,i)=>(
+        <div class="perk-card au" style={"animation-delay:"+i*.07+"s"}>
+          <h3 class="perk-t">{p.t}</h3>
+          <p class="perk-d">{p.d}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ROLES LIST -->
+<section class="sec" id="roles">
+  <div class="wrap">
+    <div class="sh">
+      <div>
+        <span class="tag tag-y sh-eye" style="padding-inline:1.25rem">Open Positions</span>
+        <h2 class="sh-h" style="margin-top:.875rem">{allRoles.length} Open Roles</h2>
+      </div>
+    </div>
+    <div class="roles-list">
+      {allRoles.map((r,i) => (
+        <a href={"/careers/" + r.id} class="role-row au" style={"animation-delay:"+i*.05+"s"}>
+          <div class="role-dept-col">
+            <span class="role-dept-tag" style={"background:"+(deptColors[r.data.dept]??'#e8e8e8')+";color:var(--d)"}>
+              {r.data.dept}
+            </span>
+          </div>
+          <div class="role-body-col">
+            <h3 class="role-title">{r.data.title}</h3>
+            <p class="role-desc">{r.data.desc}</p>
+          </div>
+          <div class="role-meta-col">
+            <span class="role-type">{r.data.type}</span>
+            <span class="role-loc">{r.data.loc}</span>
+            <!-- salary intentionally hidden from listing -->
+          </div>
+          <div class="role-arrow-col">
+            <span class="role-arrow">View role →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- SAY HELLO CTA -->
+<section class="careers-cta">
+  <div class="wrap" style="max-width:560px;text-align:center;margin-inline:auto">
+    <span class="tag tag-y" style="margin-bottom:1.5rem;display:inline-flex">Don't see your role?</span>
+    <h2 class="careers-cta-h">Say hello</h2>
+    <p class="careers-cta-sub">Always open to meeting great people.</p>
+    <a href="mailto:hello@babycakes.th" class="btn btn-y btn-lg">hello@babycakes.th</a>
+  </div>
+</section>
+</Base>
+<style>
+/* ── Hero: medium purple bg ── */
+.pg-hero{position:relative;background:var(--p);padding:clamp(8rem,14vw,11rem) var(--px) clamp(4rem,7vw,5.5rem);overflow:hidden}
+.pg-h1{font-family:var(--font);font-weight:800;font-style:italic;font-size:clamp(3rem,10vw,8rem);color:var(--y);line-height:.9;letter-spacing:-.03em;margin-bottom:1.25rem}
+.pg-sub{font-family:var(--font);color:rgba(255,255,255,.7);font-size:clamp(.95rem,1.6vw,1.05rem);line-height:1.9;max-width:480px}
+
+/* ── Perks ── */
+.perk-card{background:var(--w);border:1px solid var(--g1);border-radius:var(--rm);padding:clamp(1.5rem,3vw,2.25rem)}
+.perk-t{font-family:var(--font);font-size:1rem;font-weight:700;color:var(--p);margin-bottom:.75rem}
+.perk-d{font-family:var(--font);font-size:.875rem;color:var(--g3);line-height:1.8}
+
+/* ── Roles list ── */
+.roles-list{display:flex;flex-direction:column;border:1px solid var(--g1);border-radius:var(--rl);overflow:hidden}
+.role-row{
+  display:grid;
+  grid-template-columns:120px 1fr 160px 120px;
+  align-items:center;gap:2rem;
+  padding:1.75rem 2rem;
+  border-bottom:1px solid var(--g1);
+  background:var(--w);
+  transition:background .15s;
+  text-decoration:none;color:inherit;cursor:pointer;
+}
+.role-row:last-child{border-bottom:none}
+.role-row:hover{background:var(--cr)}
+.role-dept-tag{
+  display:inline-flex;padding:.3rem .75rem;border-radius:var(--r);
+  font-family:var(--font);font-size:.6rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;line-height:2;white-space:nowrap;
+}
+.role-title{font-family:var(--font);font-size:1rem;font-weight:700;color:var(--p);margin-bottom:.35rem}
+.role-desc{font-family:var(--font);font-size:.82rem;color:var(--g3);line-height:1.65}
+.role-type{font-family:var(--font);display:block;font-size:.78rem;font-weight:700;color:var(--d)}
+.role-loc{font-family:var(--font);display:block;font-size:.75rem;color:var(--g3);margin-top:.2rem}
+.role-arrow{font-family:var(--font);font-size:.78rem;font-weight:700;color:var(--p);white-space:nowrap}
+
+/* ── CTA ── */
+.careers-cta{background:var(--dk);padding:clamp(5rem,10vw,9rem) var(--px)}
+.careers-cta-h{font-family:var(--font);font-weight:800;font-style:italic;font-size:clamp(2.75rem,7vw,5rem);color:var(--y);line-height:.92;margin-bottom:1.5rem}
+.careers-cta-sub{font-family:var(--font);color:rgba(255,255,255,.45);font-size:1rem;line-height:1.85;margin-bottom:3rem}
+
+/* ── Tablet ── */
+@media(max-width:900px){
+  .role-row{grid-template-columns:1fr;gap:1rem;padding:1.5rem}
+  .role-arrow-col{display:none}
+}
+
+/* ── Mobile ── */
+@media(max-width:768px){
+  .roles-list{border-radius:var(--rm)}
+  .role-row{
+    grid-template-columns:1fr;
+    gap:0;
+    padding:1.125rem var(--px);
+  }
+  .role-dept-col{margin-bottom:.5rem}
+  .role-dept-tag{font-size:.55rem;padding:.2rem .6rem;line-height:1.8}
+  .role-body-col{margin-bottom:.625rem}
+  .role-title{font-size:.95rem;margin-bottom:.2rem}
+  .role-desc{font-size:.78rem;line-height:1.55}
+  /* meta row: type + loc inline, NO salary, single bottom border */
+  .role-meta-col{
+    display:flex;flex-wrap:wrap;gap:.25rem .75rem;
+    padding-bottom:.625rem;
+    border-bottom:1px solid var(--g1);
+    margin-bottom:.625rem;
+  }
+  .role-type{display:inline;font-size:.72rem;margin-top:0}
+  .role-loc{display:inline;font-size:.72rem;margin-top:0}
+  /* arrow always visible on mobile */
+  .role-arrow-col{display:flex !important;align-items:center;justify-content:flex-start}
+  .role-arrow{font-size:.72rem;color:var(--p);font-weight:700}
+  /* no extra border-bottom on last row */
+  .role-row:last-child .role-meta-col{border-bottom:none}
+}
+
+@media(max-width:600px){
+  .pg-h1{font-size:clamp(2.75rem,13vw,5rem)}
+  .g3{grid-template-columns:1fr}
+  .perk-card{padding:1.25rem}
+  .perk-t{font-size:.95rem;margin-bottom:.5rem}
+  .perk-d{font-size:.82rem}
+}
+</style>

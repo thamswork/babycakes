@@ -6,11 +6,9 @@ import brandPhotos from '../content/settings/brand-photos.json';
 
 const allDrops = await getCollection('weekly-updates', ({ data }) => !data.draft);
 allDrops.sort((a,b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0));
-const drops = allDrops.slice(0, 6);
-
-const allClassics = await getCollection('always-available', ({ data }) => data.available);
-const classics = allClassics.slice(0, 3);
-
+const drops   = allDrops.slice(0, 6);
+const allCls  = await getCollection('always-available', ({ data }) => data.available);
+const classics = allCls.slice(0, 3);
 const lineLink = orderLinks.line_main || 'https://lin.ee/babycakes';
 const heroPhoto = brandPhotos.hero_photo || '';
 ---
@@ -20,31 +18,23 @@ const heroPhoto = brandPhotos.hero_photo || '';
 <section class="hero">
   <div class="hero-img">
     {heroPhoto
-      ? <img src={heroPhoto} alt="Babycakes feel good food" loading="eager" fetchpriority="high"/>
+      ? <img src={heroPhoto} alt="Babycakes" loading="eager" fetchpriority="high"/>
       : <div class="hero-img-ph"></div>
     }
   </div>
   <div class="hero-ov"></div>
+  <!-- Top-left brand label -->
   <div class="hero-brand-label">
-    <!-- babycakes wordmark: Shrikhand (logo) -->
     <span class="hero-brand-name lf">babycakes</span>
     <span class="hero-brand-tag">we feel good</span>
   </div>
+  <!-- Bottom center content -->
   <div class="wrap hero-bottom">
-    <div class="hero-copy">
-      <!-- Hero headline: Neulis Neue light italic — cinematic, editorial feel -->
-      <h1 class="hero-h1 au">we feel good</h1>
-      <p class="hero-meta au au1">Baby Tray from ฿210 · 12+ Branches · Bangkok 2021</p>
-      <div class="hero-btns au au2">
-        <a href="/bi-weekly" class="btn hero-btn-primary">See This Week's Drop</a>
-        <a href="/always-available" class="btn hero-btn-ghost">Always Available</a>
-      </div>
-    </div>
-    <div class="hero-dots" aria-hidden="true">
-      <span class="hero-dot hero-dot-active"></span>
-      <span class="hero-dot"></span>
-      <span class="hero-dot"></span>
-      <span class="hero-dot"></span>
+    <h1 class="hero-h1 au">we feel good</h1>
+    <p class="hero-meta au au1">Baby Tray from ฿210 · 12+ Branches · Bangkok 2021</p>
+    <div class="hero-btns au au2">
+      <a href="/bi-weekly" class="btn hero-btn-primary">See This Week's Drop</a>
+      <a href="/always-available" class="btn hero-btn-ghost">Always Available</a>
     </div>
   </div>
   <div class="hero-scroll" aria-hidden="true">scroll</div>
@@ -53,7 +43,7 @@ const heroPhoto = brandPhotos.hero_photo || '';
 <!-- ── MARQUEE ── -->
 <div class="mq">
   <div class="mq-t">
-    {[...drops.map(d=>d.data.name),"feel good food","Baby Tray from ฿210",...drops.map(d=>d.data.name),"feel good food","Baby Tray from ฿210"].map(t=>(
+    {[...drops.map(d=>d.data.name),"feel good food","฿210",...drops.map(d=>d.data.name),"feel good food","฿210"].map(t=>(
       <span class="mq-i">{t}<span class="mq-dot-el"></span></span>
     ))}
   </div>
@@ -65,14 +55,16 @@ const heroPhoto = brandPhotos.hero_photo || '';
     <div class="sh">
       <div>
         <span class="tag tag-y sh-eye" style="padding-inline:1.25rem">Updated Every Two Weeks</span>
-        <!-- sh-h picks up Neulis Neue 800 + color --p from Base.astro -->
-        <h2 class="sh-h" style="margin-top:.875rem">Bi-Weekly<br/>Flavors</h2>
+        <h2 class="sh-h" style="margin-top:.75rem">Bi-Weekly<br/>Flavors</h2>
       </div>
       <a href="/bi-weekly" class="btn btn-op">View All</a>
     </div>
-    <div class="drops-grid">
+  </div>
+  <!-- Horizontal swipe on mobile, grid on desktop -->
+  <div class="drops-outer">
+    <div class="drops-scroll">
       {drops.map((d,i)=>(
-        <a href={"/bi-weekly/"+d.data.slug} class="pc au" style={"animation-delay:"+i*.05+"s"}>
+        <a href={"/bi-weekly/"+d.data.slug} class="pc drop-card au" style={"animation-delay:"+i*.05+"s"}>
           <div class="pc-img" style={"aspect-ratio:3/4;background:"+(d.data.bg||'var(--d)')}>
             {d.data.image
               ? <img src={d.data.image} alt={d.data.name}/>
@@ -90,7 +82,13 @@ const heroPhoto = brandPhotos.hero_photo || '';
         </a>
       ))}
     </div>
-    <div class="drops-more"><a href="/bi-weekly" class="btn btn-op">All Bi-Weekly Drops</a></div>
+    <!-- Scroll indicator dots (mobile) -->
+    <div class="scroll-hint" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="wrap drops-more-wrap">
+    <a href="/bi-weekly" class="btn btn-op drops-more-btn">All Bi-Weekly Drops</a>
   </div>
 </section>
 
@@ -100,7 +98,7 @@ const heroPhoto = brandPhotos.hero_photo || '';
     <div class="sh">
       <div>
         <span class="tag tag-y sh-eye" style="padding-inline:1.25rem">Always In Stock</span>
-        <h2 class="sh-h" style="margin-top:.875rem">Our Classics</h2>
+        <h2 class="sh-h" style="margin-top:.75rem">Our Classics</h2>
       </div>
       <a href="/always-available" class="btn btn-op">See All</a>
     </div>
@@ -108,10 +106,7 @@ const heroPhoto = brandPhotos.hero_photo || '';
       {classics.map(c=>(
         <a href={"/always-available/"+c.data.slug} class="pc">
           <div class="pc-img" style={"aspect-ratio:4/3;background:"+(c.data.bg||'var(--d)')}>
-            {c.data.image
-              ? <img src={c.data.image} alt={c.data.name}/>
-              : <div class="pc-ph">{c.data.name}</div>
-            }
+            {c.data.image ? <img src={c.data.image} alt={c.data.name}/> : <div class="pc-ph">{c.data.name}</div>}
           </div>
           <div class="pc-body">
             <div class="pc-meta"><span class="tag tag-cr">always available</span></div>
@@ -124,10 +119,10 @@ const heroPhoto = brandPhotos.hero_photo || '';
 </section>
 
 <!-- ── COLLABS STRIP ── -->
-<section class="sec-sm" style="border-top:1px solid var(--g1);border-bottom:1px solid var(--g1)">
+<section class="sec-sm collab-strip">
   <div class="wrap">
     <div class="collab-row">
-      <p class="collab-label">Partners &amp; collabs</p>
+      <p class="collab-label">Partners</p>
       <div class="collab-marks">
         {["Refill Coffee","KitKat®","GrabFood","LINE MAN","Homeland"].map(b=>(
           <span class="collab-mark">{b}</span>
@@ -139,98 +134,191 @@ const heroPhoto = brandPhotos.hero_photo || '';
 </section>
 
 <!-- ── CAREERS CTA ── -->
-<section class="sec-sm" style="background:var(--p)">
+<section class="sec-sm careers-band">
   <div class="wrap careers-row">
     <div>
       <span class="tag tag-y" style="margin-bottom:.875rem">We're Hiring</span>
-      <h3 style="font-family:var(--font);font-weight:800;font-style:italic;font-size:clamp(1.5rem,3.5vw,2.5rem);color:#fff;line-height:1.1;margin-top:.5rem">Join the Babycakes family</h3>
-      <p style="font-family:var(--font);color:rgba(255,255,255,.65);margin-top:.625rem;font-size:.9rem;line-height:1.75;max-width:360px">Passionate about feel-good food? We'd love to meet you.</p>
+      <h3 class="careers-h">Join the Babycakes family</h3>
+      <p class="careers-sub">Passionate about feel-good food? We'd love to meet you.</p>
     </div>
-    <a href="/careers" class="btn btn-y btn-lg">See Open Roles</a>
+    <a href="/careers" class="btn btn-y btn-lg careers-btn">See Open Roles</a>
   </div>
 </section>
+
+<!-- ── STICKY BOTTOM ORDER BAR (mobile only) ── -->
+<div class="order-bar" id="orderBar">
+  <a href={lineLink} target="_blank" rel="noopener" class="order-bar-btn order-bar-line">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+    <span>Order LINE</span>
+  </a>
+  <a href="https://food.grab.com/th/en/search?keyword=babycakes" target="_blank" rel="noopener" class="order-bar-btn order-bar-grab">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 4.8c1.988 0 3.6 1.612 3.6 3.6S13.988 12 12 12 8.4 10.388 8.4 8.4 10.012 4.8 12 4.8zm0 14.4c-3 0-5.664-1.536-7.2-3.864.036-2.388 4.8-3.696 7.2-3.696s7.164 1.308 7.2 3.696C17.664 17.664 15 19.2 12 19.2z"/></svg>
+    <span>Grab</span>
+  </a>
+  <a href="/bi-weekly" class="order-bar-btn order-bar-drop">
+    This Week's Drop →
+  </a>
+</div>
+
 </Base>
 <style>
-/* ── Hero ── */
-.hero{position:relative;width:100%;height:100svh;min-height:580px;background:#0e0c12;overflow:hidden;display:flex;flex-direction:column}
-.hero-img{position:absolute;inset:0}
-.hero-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hero-img-ph{position:absolute;inset:0;background:linear-gradient(145deg,#1e1638 0%,#3a2060 40%,var(--p) 100%)}
-.hero-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,20,.92) 0%,rgba(10,8,20,.5) 38%,rgba(10,8,20,.15) 65%,rgba(10,8,20,.03) 100%)}
-/* Brand label top-left */
-.hero-brand-label{position:relative;z-index:2;padding:clamp(1.1rem,2.5vw,1.75rem) var(--px);display:flex;flex-direction:column;gap:.2rem}
-.hero-brand-name{font-family:var(--font-logo);font-size:clamp(1rem,2vw,1.3rem);color:rgba(255,255,255,.92);line-height:1;letter-spacing:-.01em}
-/* Hero tag: Neulis Neue (not Nunito which is gone) */
-.hero-brand-tag{font-family:var(--font);font-size:.58rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.3)}
-/* Hero headline: editorial — Neulis Neue 300 italic */
-.hero-bottom{position:relative;z-index:2;margin-top:auto;padding-bottom:clamp(2.5rem,6vw,4.5rem);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:1.5rem;text-align:center}
-.hero-h1{text-align:center;font-family:var(--font);font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;font-style:italic;color:rgba(255,255,255,.88);line-height:1.1;letter-spacing:-.01em;margin-bottom:clamp(1.5rem,3.5vw,2.25rem)}
-.hero-meta{text-align:center;font-family:var(--font);font-size:clamp(.6rem,1.2vw,.72rem);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.32);margin-bottom:clamp(1.25rem,3vw,2rem);line-height:1.6}
-.hero-btns{justify-content:center;display:flex;gap:.75rem;flex-wrap:wrap}
-/* Ghost CTA — medium purple tint on hover */
-.hero-btn-primary{background:transparent;border:1px solid rgba(255,255,255,.38);color:rgba(255,255,255,.85);font-family:var(--font);font-size:.72rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:.8rem 1.6rem;border-radius:var(--r);transition:background .2s,border-color .2s;white-space:nowrap}
-.hero-btn-primary:hover{background:rgba(159,151,194,.2);border-color:rgba(159,151,194,.6);transform:none;box-shadow:none}
-.hero-btn-ghost{background:transparent;border:none;font-family:var(--font);color:rgba(255,255,255,.35);font-size:.7rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;text-decoration:underline;text-underline-offset:4px;padding:.8rem 0;transition:color .15s}
-.hero-btn-ghost:hover{color:rgba(255,255,255,.68);transform:none;box-shadow:none}
-.hero-dots{display:none}
-.hero-dot{width:18px;height:1.5px;background:rgba(255,255,255,.18);border-radius:1px}
-.hero-dot-active{background:rgba(159,151,194,.78);width:26px}
-.hero-scroll{position:absolute;bottom:1.25rem;right:var(--px);font-family:var(--font);font-size:.5rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.12);writing-mode:vertical-rl;z-index:2}
+/* ── HERO ── */
+.hero { position:relative; width:100%; height:100svh; min-height:600px; background:#0e0c12; overflow:hidden; display:flex; flex-direction:column; }
+.hero-img { position:absolute; inset:0; }
+.hero-img img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.hero-img-ph { position:absolute; inset:0; background:linear-gradient(145deg,#1e1638 0%,#3a2060 40%,var(--p) 100%); }
+.hero-ov { position:absolute; inset:0; background:linear-gradient(to top,rgba(10,8,20,.95) 0%,rgba(10,8,20,.55) 40%,rgba(10,8,20,.1) 75%,transparent 100%); }
+.hero-brand-label { position:relative; z-index:2; padding:clamp(1.1rem,3vw,1.75rem) var(--px-mob); display:flex; flex-direction:column; gap:.2rem; }
+.hero-brand-name { font-family:var(--font-logo); font-size:clamp(1rem,2vw,1.3rem); color:rgba(255,255,255,.92); line-height:1; }
+.hero-brand-tag { font-family:var(--font); font-size:.56rem; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.28); }
+/* Content — centered, thumb zone bottom */
+.hero-bottom { position:relative; z-index:2; margin-top:auto; padding-bottom:clamp(3.5rem,10vw,5rem); padding-bottom:max(3.5rem,calc(var(--sab) + 3rem)); display:flex; flex-direction:column; align-items:center; text-align:center; gap:0; padding-inline:var(--px-mob); }
+.hero-h1 { font-family:var(--font); font-size:clamp(2.75rem,9vw,4.5rem); font-weight:800; font-style:italic; color:rgba(255,255,255,.92); line-height:.95; letter-spacing:-.03em; margin-bottom:clamp(1rem,2.5vw,1.5rem); }
+.hero-meta { font-family:var(--font); font-size:clamp(.6rem,1.5vw,.72rem); font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.3); margin-bottom:clamp(1.5rem,4vw,2.25rem); line-height:1.6; }
+.hero-btns { display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center; width:100%; max-width:360px; }
+.hero-btn-primary { flex:1; background:transparent; border:1.5px solid rgba(255,255,255,.42); color:rgba(255,255,255,.9); font-family:var(--font); font-size:.78rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:.9rem 1.4rem; border-radius:var(--r); white-space:nowrap; min-height:50px; }
+.hero-btn-primary:active { background:rgba(255,255,255,.12); }
+.hero-btn-ghost { background:transparent; border:none; font-family:var(--font); color:rgba(255,255,255,.38); font-size:.72rem; font-weight:500; letter-spacing:.07em; text-transform:uppercase; text-decoration:underline; text-underline-offset:4px; padding:.9rem 0; min-height:50px; }
+.hero-scroll { position:absolute; bottom:1.5rem; right:1.5rem; font-family:var(--font); font-size:.48rem; font-weight:600; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.1); writing-mode:vertical-rl; z-index:2; }
 
-/* ── Grids ── */
-.drops-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
-@media(min-width:1024px){.drops-grid{grid-template-columns:repeat(3,1fr)}}
-.drops-more{margin-top:clamp(2rem,4vw,3rem);text-align:center}
-.classics-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
-@media(min-width:768px){.classics-grid{grid-template-columns:repeat(3,1fr)}}
-
-/* ── Collab strip ── */
-.collab-row{display:flex;align-items:center;gap:clamp(1.25rem,3.5vw,3.5rem);flex-wrap:wrap}
-.collab-label{font-family:var(--font);font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g2);white-space:nowrap;flex-shrink:0}
-.collab-marks{display:flex;align-items:center;gap:clamp(1rem,2.5vw,2.5rem);flex-wrap:wrap;flex:1}
-.collab-mark{font-family:var(--font);font-size:clamp(.72rem,1.4vw,.95rem);font-weight:700;color:var(--g2);white-space:nowrap;transition:color .2s}
-.collab-mark:hover{color:var(--p)}
-.collab-link{font-family:var(--font);font-size:.7rem;font-weight:700;color:var(--p);letter-spacing:.04em;margin-left:auto;white-space:nowrap;flex-shrink:0;transition:opacity .15s}
-.collab-link:hover{opacity:.65}
-
-/* ── Careers ── */
-.careers-row{display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
-
-/* ── Card animations ── */
-.pc{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
-.pc.in-view{opacity:1;transform:translateY(0)}
-
-/* ── Mobile ── */
-@media(max-width:768px){
-  .hero-bottom{flex-direction:column;align-items:center;text-align:center;padding-bottom:max(3rem,env(safe-area-inset-bottom,3rem));gap:1.5rem}
-  .hero-copy{display:flex;flex-direction:column;align-items:center;width:100%}
-  .hero-h1{text-align:center;font-size:clamp(2.25rem,10vw,3.5rem);text-align:center;margin-bottom:1rem}
-  .hero-meta{text-align:center;text-align:center;margin-bottom:1.25rem}
-  .hero-btns{justify-content:center;flex-direction:column;align-items:center;width:100%;gap:.75rem}
-  .hero-btn-primary{width:100%;max-width:320px;text-align:center;justify-content:center}
-  .hero-brand-label{align-items:flex-start}
-  .hero-scroll{display:none}
-  .hero-dots{display:none}
+/* ── DROPS — horizontal swipe on mobile ── */
+.drops-outer { position:relative; }
+.drops-scroll {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:var(--gap);
+  padding-inline:var(--px);
 }
-@media(max-width:480px){
-  .hero{min-height:100svh}
-  .hero-h1{text-align:center;font-size:clamp(1.75rem,7vw,2.5rem);margin-bottom:1.25rem}
-  .hero-brand-label{padding:1rem var(--px) .75rem}
-  .hero-brand-name{font-size:1.1rem}
-  .hero-bottom{padding-bottom:max(2rem,env(safe-area-inset-bottom,2rem))}
-  .hero-meta{text-align:center;font-size:.58rem;letter-spacing:.1em;margin-bottom:1rem}
-  .hero-btns{justify-content:center;flex-direction:column;gap:.625rem}
-  .hero-btn-primary{text-align:center;padding:1rem 1.5rem;font-size:.7rem}
-  .drops-grid{gap:.625rem}
-  .classics-grid{gap:.625rem}
-  .pc-body{padding:.875rem .875rem 1rem}
-  .pc-name{font-size:1rem}
-  .pc-desc{display:none}
-  .pc-per{font-size:.6rem}
-  .collab-row{gap:.875rem}
-  .collab-marks{gap:.875rem}
-  .collab-mark{font-size:.72rem}
-  .careers-row{flex-direction:column;align-items:flex-start}
-  .careers-row .btn{width:100%;justify-content:center}
+@media (min-width:1024px) { .drops-scroll { grid-template-columns:repeat(3,1fr); } }
+
+/* Scroll hint dots — mobile only */
+.scroll-hint { display:none; justify-content:center; gap:.4rem; margin-top:1.25rem; }
+.scroll-hint span { width:20px; height:2px; border-radius:1px; background:var(--g1); }
+.scroll-hint span:first-child { background:var(--p); width:32px; }
+
+.drops-more-wrap { margin-top:clamp(1.5rem,3vw,2.5rem); text-align:center; }
+.drops-more-btn { min-width:220px; }
+
+/* ── CLASSICS ── */
+.classics-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--gap); }
+
+/* ── COLLABS ── */
+.collab-strip { border-top:1px solid var(--g1); border-bottom:1px solid var(--g1); }
+.collab-row { display:flex; align-items:center; gap:clamp(1rem,3vw,3.5rem); flex-wrap:wrap; }
+.collab-label { font-family:var(--font); font-size:.58rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--g2); white-space:nowrap; flex-shrink:0; }
+.collab-marks { display:flex; align-items:center; gap:clamp(.875rem,2vw,2.5rem); flex:1; overflow:hidden; }
+.collab-mark { font-family:var(--font); font-size:clamp(.72rem,1.4vw,.9rem); font-weight:700; color:var(--g2); white-space:nowrap; transition:color .2s; }
+.collab-mark:hover { color:var(--p); }
+.collab-link { font-family:var(--font); font-size:.72rem; font-weight:700; color:var(--p); margin-left:auto; white-space:nowrap; flex-shrink:0; }
+
+/* ── CAREERS ── */
+.careers-band { background:var(--p); }
+.careers-row { display:flex; align-items:center; justify-content:space-between; gap:2rem; flex-wrap:wrap; }
+.careers-h { font-family:var(--font); font-weight:800; font-style:italic; font-size:clamp(1.5rem,3.5vw,2.5rem); color:#fff; line-height:1.1; margin-top:.5rem; }
+.careers-sub { font-family:var(--font); color:rgba(255,255,255,.6); margin-top:.5rem; font-size:.9rem; line-height:1.7; max-width:340px; }
+
+/* ── STICKY ORDER BAR — mobile only ── */
+.order-bar {
+  display: none; /* hidden on desktop */
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 800;
+  background: var(--dk);
+  border-top: 1px solid rgba(159,151,194,.15);
+  padding: .75rem var(--px-mob);
+  padding-bottom: max(.75rem, var(--sab));
+  gap: .625rem;
+  box-shadow: 0 -8px 32px rgba(0,0,0,.25);
+  transform: translateY(100%);
+  transition: transform .35s var(--ease);
+}
+.order-bar.visible { transform: translateY(0); }
+.order-bar-btn {
+  display: flex; align-items: center; justify-content: center; gap: .5rem;
+  border-radius: var(--rm); font-family: var(--font); font-weight: 700;
+  font-size: .82rem; padding: .8rem .75rem; min-height: 48px;
+  transition: opacity .15s;
+}
+.order-bar-btn:active { opacity: .8; transform: scale(.97); }
+.order-bar-line { background: #06C755; color: #fff; flex: 1; }
+.order-bar-grab { background: #00B14F; color: #fff; flex: 1; }
+.order-bar-drop { background: var(--y); color: var(--d); flex: 2; white-space: nowrap; }
+
+/* ── CARD ANIMATION ── */
+.pc { opacity:0; transform:translateY(16px); }
+.pc.in-view { opacity:1; transform:translateY(0); transition:opacity .45s var(--ease), transform .45s var(--ease); }
+
+/* ══════════════════════════════════════════════
+   MOBILE OVERRIDES — index only
+══════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Hero — bigger, more dramatic on mobile */
+  .hero { min-height: 100svh; }
+  .hero-h1 { font-size: clamp(2.75rem, 11vw, 3.75rem); }
+  .hero-meta { font-size: .6rem; letter-spacing: .12em; }
+  .hero-btns { flex-direction: column; max-width: 100%; }
+  .hero-btn-primary { width: 100%; text-align: center; }
+  .hero-scroll { display: none; }
+
+  /* Drops — horizontal swipe carousel */
+  .drops-outer { overflow: hidden; }
+  .drops-scroll {
+    display: flex;
+    grid-template-columns: unset;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: .75rem;
+    padding-inline: var(--px-mob);
+    padding-bottom: .5rem; /* show scrollbar gap */
+    scrollbar-width: none;
+  }
+  .drops-scroll::-webkit-scrollbar { display: none; }
+  .drop-card {
+    flex: 0 0 72vw; /* show 1.3 cards — signals more to swipe */
+    max-width: 280px;
+    scroll-snap-align: start;
+  }
+  .scroll-hint { display: flex; }
+
+  /* Classics — 2 col on mobile */
+  .classics-grid { grid-template-columns: repeat(2, 1fr); gap: .625rem; }
+  .classics-grid .pc-desc { display: none; }
+
+  /* Collab strip — scrollable */
+  .collab-row { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 1.25rem; padding-bottom: .25rem; }
+  .collab-row::-webkit-scrollbar { display: none; }
+  .collab-marks { flex-wrap: nowrap; gap: 1.25rem; }
+  .collab-link { display: none; } /* shown at end of scroll */
+
+  /* Careers — stack */
+  .careers-row { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
+  .careers-btn { width: 100%; justify-content: center; }
+
+  /* Show sticky order bar */
+  .order-bar { display: flex; }
+
+  /* Add bottom padding to body so bar doesn't cover content */
+  main { padding-bottom: calc(80px + var(--sab)); }
+}
+
+@media (max-width: 480px) {
+  .hero-h1 { font-size: clamp(2.5rem, 10vw, 3.25rem); }
+  .drop-card { flex: 0 0 80vw; }
+  .pc-body { padding: .875rem; }
+  .pc-name { font-size: 1rem; }
 }
 </style>
+
+<script>
+/* ── Sticky order bar: show after scrolling past hero ── */
+(function () {
+  const bar  = document.getElementById('orderBar');
+  const hero = document.querySelector('.hero') as HTMLElement;
+  if (!bar || !hero || window.innerWidth > 768) return;
+
+  const check = () => bar.classList.toggle('visible', hero.getBoundingClientRect().bottom < 0);
+  window.addEventListener('scroll', check, { passive: true });
+  check();
+})();
+</script>

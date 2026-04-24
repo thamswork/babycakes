@@ -1,0 +1,157 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const all = await getCollection('locations', ({data})=>data.active!==false);
+all.sort((a,b)=>{ if(a.data.hq&&!b.data.hq)return -1; if(!a.data.hq&&b.data.hq)return 1; return a.data.name.localeCompare(b.data.name); });
+const hq       = all.filter(l=>l.data.hq);
+const branches = all.filter(l=>!l.data.hq);
+---
+<Base title="Locations | Babycakes" description="Find Babycakes across Bangkok — 12+ branches plus Grab delivery.">
+<section class="pg-hero">
+  <div class="dots"></div>
+  <div class="wrap" style="position:relative;z-index:2">
+    <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">{all.length} Locations Across Bangkok</div>
+    <h1 class="pg-h1 au au1">Find<br/>Babycakes</h1>
+    <p class="pg-sub au au2">Walk in at any branch or order via Grab and LINE.</p>
+    <div class="pg-btns au au3">
+      <a href="https://lin.ee/babycakes" target="_blank" rel="noopener" class="btn btn-y btn-lg">Order via LINE</a>
+      <a href="https://food.grab.com/th/en/search?keyword=babycakes" target="_blank" rel="noopener" class="btn btn-ow btn-lg">Order on Grab</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="branches">
+  <div class="wrap">
+    {hq.map(h=>(
+      <div class="hq-card">
+        <div class="hq-photo">
+          {h.data.image
+            ? <img src={h.data.image} alt={h.data.name} loading="eager"/>
+            : <div class="hq-ph"><span>Upload HQ photo in CMS</span></div>
+          }
+        </div>
+        <div class="hq-info">
+          <div style="display:flex;gap:.625rem;flex-wrap:wrap;margin-bottom:1.25rem">
+            <span class="tag tag-d">Headquarters</span>
+            <span class="tag tag-y">Urgent Orders Available</span>
+          </div>
+          <h2 class="hq-name">{h.data.name}</h2>
+          <p class="hq-addr">{h.data.addr}</p>
+          <div class="hq-meta">
+            <div><span class="meta-lbl">Hours</span><span>{h.data.hours}</span></div>
+            <div><span class="meta-lbl">Transit</span><span>{h.data.transit}</span></div>
+          </div>
+          <div class="hq-btns">
+            <a href={h.data.grab} target="_blank" rel="noopener" class="btn btn-y">Order on Grab</a>
+            <a href={h.data.maps} target="_blank" rel="noopener" class="btn btn-od">Open in Maps</a>
+            <a href="https://lin.ee/babycakes" target="_blank" rel="noopener" class="btn btn-d">Order via LINE</a>
+          </div>
+        </div>
+      </div>
+    ))}
+
+    <div class="sh" style="margin-top:5rem">
+      <div>
+        <span class="tag tag-y sh-eye" style="padding-inline:1.25rem">All Branches</span>
+        <h2 class="sh-h" style="margin-top:.875rem">{branches.length} Other Locations</h2>
+      </div>
+    </div>
+
+    <div class="branch-grid">
+      {branches.map((b,i)=>(
+        <div class="branch-card au" style={"animation-delay:"+i*.04+"s"}>
+          <div class="branch-photo">
+            {b.data.image
+              ? <img src={b.data.image} alt={b.data.name} loading="lazy"/>
+              : <div class="branch-ph"><span class="lf">{b.data.zone}</span></div>
+            }
+          </div>
+          <div class="branch-body">
+            <span class="branch-zone">{b.data.zone}</span>
+            <h3 class="branch-name">{b.data.name}</h3>
+            <p class="branch-addr">{b.data.addr}</p>
+            <div class="branch-meta">
+              <span>{b.data.hours}</span><span class="meta-sep">·</span><span>{b.data.transit}</span>
+            </div>
+            <div class="branch-btns">
+              <a href={b.data.grab} target="_blank" rel="noopener" class="btn btn-p btn-sm">Grab</a>
+              <a href={b.data.maps} target="_blank" rel="noopener" class="btn btn-tx btn-sm">Maps</a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="sec-sm delivery-band">
+  <div class="wrap delivery-in">
+    <div>
+      <span class="tag tag-d sh-eye" style="margin-bottom:1rem">Delivery Available</span>
+      <h2 class="delivery-h">Can't make it to a branch?</h2>
+      <p class="delivery-sub">Order via Grab from any branch near you, or message us on LINE.</p>
+    </div>
+    <div class="delivery-btns">
+      <a href="https://food.grab.com/th/en/search?keyword=babycakes" target="_blank" rel="noopener" class="btn btn-d">Order on Grab</a>
+      <a href="https://lin.ee/babycakes" target="_blank" rel="noopener" class="btn btn-od">Message on LINE</a>
+    </div>
+  </div>
+</section>
+</Base>
+<style>
+.pg-hero  { position:relative; background:var(--p); padding:clamp(8rem,14vw,11rem) var(--px) clamp(4rem,7vw,5.5rem); overflow:hidden; }
+.pg-h1    { font-family:var(--font); font-weight:800; font-style:italic; font-size:clamp(3rem,10vw,8rem); color:var(--y); line-height:.9; letter-spacing:-.03em; margin-bottom:1.25rem; }
+.pg-sub   { font-family:var(--font); color:rgba(255,255,255,.7); font-size:clamp(.95rem,1.6vw,1.05rem); line-height:1.9; max-width:420px; }
+.pg-btns  { display:flex; gap:1rem; flex-wrap:wrap; margin-top:2rem; }
+
+/* HQ */
+.hq-card  { display:grid; grid-template-columns:1fr 1fr; border-radius:var(--rl); overflow:hidden; background:var(--dk); }
+.hq-photo { position:relative; min-height:400px; }
+.hq-photo img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.hq-ph    { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:linear-gradient(145deg,var(--dk),#3a2060); }
+.hq-ph span { font-size:.62rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.18); text-align:center; padding:2rem; }
+.hq-info  { padding:clamp(2.5rem,5vw,4rem); display:flex; flex-direction:column; justify-content:center; }
+.hq-name  { font-family:var(--font); font-weight:800; font-style:italic; font-size:clamp(2rem,4vw,3rem); color:var(--y); line-height:1; margin-bottom:1rem; }
+.hq-addr  { font-family:var(--font); color:rgba(255,255,255,.5); font-size:.9rem; line-height:1.75; margin-bottom:1.5rem; }
+.hq-meta  { display:flex; gap:2rem; flex-wrap:wrap; margin-bottom:2rem; }
+.hq-meta div { display:flex; flex-direction:column; gap:.2rem; }
+.meta-lbl { font-family:var(--font); font-size:.58rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.3); }
+.hq-meta span:last-child { font-family:var(--font); font-size:.85rem; color:rgba(255,255,255,.6); }
+.hq-btns  { display:flex; gap:.75rem; flex-wrap:wrap; }
+
+/* Branches */
+.branch-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--gap); }
+.branch-card { border-radius:var(--rm); overflow:hidden; background:var(--cr); border:1px solid var(--g1); display:flex; flex-direction:column; animation:fadeUp .55s var(--ease) both; transition:box-shadow .25s; }
+.branch-card:hover { box-shadow:0 8px 28px rgba(76,67,120,.1); }
+.branch-photo { position:relative; aspect-ratio:16/9; background:var(--d); overflow:hidden; }
+.branch-photo img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.branch-ph    { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+.branch-ph .lf { font-size:1.1rem; color:rgba(255,255,255,.15); }
+.branch-body  { padding:1.25rem 1.5rem 1.5rem; flex:1; display:flex; flex-direction:column; gap:.35rem; }
+.branch-zone  { font-family:var(--font); font-size:.58rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--p); }
+.branch-name  { font-family:var(--font); font-weight:800; font-size:1.2rem; color:var(--p); line-height:1.1; }
+.branch-addr  { font-family:var(--font); font-size:.78rem; color:var(--g3); line-height:1.6; flex:1; }
+.branch-meta  { display:flex; align-items:center; gap:.5rem; font-family:var(--font); font-size:.75rem; color:var(--g3); font-weight:500; margin-top:.35rem; flex-wrap:wrap; }
+.meta-sep     { color:var(--g2); }
+.branch-btns  { display:flex; gap:.5rem; margin-top:.875rem; }
+
+/* Delivery band */
+.delivery-band { background:var(--y); }
+.delivery-in   { display:grid; grid-template-columns:1fr auto; gap:3rem; align-items:center; }
+.delivery-h    { font-family:var(--font); font-weight:800; font-size:clamp(2rem,4vw,3.25rem); color:var(--d); line-height:1.05; margin-top:.5rem; }
+.delivery-sub  { font-family:var(--font); color:var(--d); opacity:.65; margin-top:1rem; font-size:.9rem; line-height:1.8; max-width:360px; }
+.delivery-btns { display:flex; flex-direction:column; gap:.75rem; min-width:200px; }
+
+@media (max-width:1024px) { .branch-grid { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:768px)  { .hq-card { grid-template-columns:1fr; } .hq-photo { min-height:260px; } }
+@media (max-width:600px)  {
+  .pg-h1 { font-size:clamp(2.75rem,13vw,5rem); }
+  .hq-info { padding:1.75rem var(--px); }
+  .hq-btns { flex-direction:column; }
+  .hq-btns .btn { width:100%; justify-content:center; }
+  .branch-grid { grid-template-columns:1fr; gap:.75rem; }
+  .delivery-in { grid-template-columns:1fr; gap:1.25rem; }
+  .delivery-btns { flex-direction:row; }
+}
+@media (min-width:480px) and (max-width:768px) { .branch-grid { grid-template-columns:repeat(2,1fr); } }
+</style>

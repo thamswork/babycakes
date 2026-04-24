@@ -1,0 +1,434 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const roles = await getCollection('careers');
+  const paths: any[] = [];
+  roles.forEach(r => {
+    const fileId   = r.id;
+    const dataSlug = (r.data as any).slug;
+    paths.push({ params: { slug: fileId }, props: { role: r.data } });
+    if (dataSlug && dataSlug !== fileId) {
+      paths.push({ params: { slug: dataSlug }, props: { role: r.data } });
+    }
+  });
+  return paths;
+}
+
+const d = Astro.props.role as any;
+
+const deptColors: Record<string, string> = {
+  Kitchen: '#FBF5AB', Marketing: '#c8d4f8', Creative: '#f8d4f0',
+  Ops: '#d4f8e0', Service: '#f8ead4', Logistics: '#d4eaf8', Other: '#e8e8e8',
+};
+const deptBg    = deptColors[d.dept] ?? '#e8e8e8';
+const heroPhoto = (d.hero_photo ?? '').trim();
+
+function bullets(text?: string): string[] {
+  if (!text) return [];
+  return text
+    .split(/\.\s+|[;\n]/)
+    .map((s: string) => s.trim().replace(/\.$/, ''))
+    .filter(Boolean);
+}
+---
+<Base title={d.title + " | Babycakes Careers"} description={d.desc}>
+
+<!-- ── HERO ── -->
+<section class="role-hero">
+  <!-- Photo layer: always rendered, hidden via CSS if no photo -->
+  {heroPhoto && (
+    <div class="role-hero-img">
+      <img src={heroPhoto} alt={d.title} loading="eager" fetchpriority="high"/>
+    </div>
+  )}
+  <!-- Overlay: gradient when photo, solid purple when no photo -->
+  <div class={"role-hero-ov" + (heroPhoto ? " has-photo" : "")}></div>
+  <!-- Content -->
+  <div class="wrap role-hero-in">
+    <a href="/careers" class="back-link">← All open roles</a>
+    <div class="rdept" style={"background:"+deptBg+";color:var(--d)"}>{d.dept}</div>
+    <h1 class="role-h1">{d.title}</h1>
+    <div class="rmeta">
+      <span class="rmeta-pill">{d.type}</span>
+      <span class="rmeta-pill">{d.loc}</span>
+      {d.start_date && <span class="rmeta-pill rmeta-start">Starts {d.start_date}</span>}
+    </div>
+    <!-- salary intentionally NOT shown -->
+  </div>
+</section>
+
+<!-- ── MOBILE STICKY APPLY STRIP ── -->
+<div class="apply-strip" id="applyStrip">
+  <div class="apply-strip-in">
+    <span class="apply-strip-role">{d.title}</span>
+    <a href={"mailto:hello@babycakes.th?subject=Application: "+encodeURIComponent(d.title)}
+       class="btn btn-y btn-sm">Apply now</a>
+  </div>
+</div>
+
+<!-- ── BODY ── -->
+<div class="wrap role-layout">
+
+  <!-- MAIN CONTENT -->
+  <div class="role-main">
+
+    <!-- Mobile summary cards — NO salary -->
+    <div class="role-summary-cards">
+      <div class="rsc"><span class="rsc-l">Department</span><strong>{d.dept}</strong></div>
+      <div class="rsc"><span class="rsc-l">Type</span><strong>{d.type}</strong></div>
+      <div class="rsc"><span class="rsc-l">Location</span><strong>{d.loc}</strong></div>
+      {d.start_date && <div class="rsc"><span class="rsc-l">Start</span><strong>{d.start_date}</strong></div>}
+    </div>
+
+    <!-- Overview -->
+    <div class="rsec">
+      <p class="roverview">{d.desc}</p>
+    </div>
+
+    <!-- Responsibilities -->
+    {bullets(d.responsibilities).length > 0 && (
+      <div class="rsec">
+        <h2 class="rsec-h">What you'll do</h2>
+        <ul class="rlist">
+          {bullets(d.responsibilities).map((b: string) => <li>{b}</li>)}
+        </ul>
+      </div>
+    )}
+
+    <!-- Requirements -->
+    {bullets(d.requirements).length > 0 && (
+      <div class="rsec">
+        <h2 class="rsec-h">What we're looking for</h2>
+        <ul class="rlist">
+          {bullets(d.requirements).map((b: string) => <li>{b}</li>)}
+        </ul>
+      </div>
+    )}
+
+    <!-- Benefits -->
+    {d.benefits && (
+      <div class="rsec">
+        <h2 class="rsec-h">Benefits</h2>
+        <p class="roverview">{d.benefits}</p>
+      </div>
+    )}
+
+    <!-- Apply CTA -->
+    <div class="rapply-box">
+      <div>
+        <h3 class="rapply-h">Ready to apply?</h3>
+        <p class="rapply-sub">Send your CV and a short note. Tell us why Babycakes.</p>
+      </div>
+      <a href={"mailto:hello@babycakes.th?subject=Application: "+encodeURIComponent(d.title)}
+         class="btn btn-p btn-lg rapply-btn">Apply for this role</a>
+    </div>
+  </div>
+
+  <!-- DESKTOP SIDEBAR — NO salary -->
+  <aside class="role-side">
+    <div class="scard">
+      <h4 class="scardh">Role details</h4>
+      <div class="sr"><span>Department</span><strong>{d.dept}</strong></div>
+      <div class="sr"><span>Type</span><strong>{d.type}</strong></div>
+      <div class="sr"><span>Location</span><strong>{d.loc}</strong></div>
+      {d.start_date && <div class="sr"><span>Start date</span><strong>{d.start_date}</strong></div>}
+      <!-- salary row intentionally omitted -->
+    </div>
+    <div class="scard scard-apply">
+      <h4 class="scardh scardh-light">Apply now</h4>
+      <p class="scard-apply-sub">Send your CV and a short intro.</p>
+      <a href={"mailto:hello@babycakes.th?subject=Application: "+encodeURIComponent(d.title)}
+         class="btn btn-y" style="width:100%;justify-content:center">hello@babycakes.th</a>
+    </div>
+    <a href="/careers" class="sback">← Back to all roles</a>
+  </aside>
+
+</div>
+</Base>
+
+<style>
+/* ── HERO ── */
+.role-hero {
+  position: relative;
+  min-height: clamp(320px, 42vw, 540px);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  text-align: left;
+}
+
+/* Photo layer */
+.role-hero-img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.role-hero-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+}
+
+/* Overlay — solid purple when no photo, gradient when photo */
+.role-hero-ov {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--p); /* default: solid purple */
+}
+.role-hero-ov.has-photo {
+  background: linear-gradient(
+    to top,
+    rgba(30, 22, 56, .92) 0%,
+    rgba(30, 22, 56, .55) 50%,
+    rgba(30, 22, 56, .15) 100%
+  );
+}
+
+/* Content sits above overlay */
+.role-hero-in {
+  position: relative;
+  z-index: 2;
+  padding-top: clamp(6rem, 14vw, 10rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  text-align: left;
+  width: 100%;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-family: var(--font);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .7);
+  margin-bottom: 1.75rem;
+  transition: color .15s;
+  min-height: 44px;
+}
+.back-link:hover { color: #fff; }
+
+.rdept {
+  display: inline-flex;
+  align-items: center;
+  padding: .3rem .875rem;
+  border-radius: var(--r);
+  font-family: var(--font);
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.role-h1 {
+  font-family: var(--font);
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(2.25rem, 7vw, 5.5rem);
+  color: #fff;
+  line-height: .95;
+  letter-spacing: -.03em;
+  margin-bottom: 1.25rem;
+}
+
+.rmeta { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+.rmeta-pill {
+  font-family: var(--font);
+  font-size: .72rem;
+  font-weight: 600;
+  padding: .3rem .75rem;
+  background: rgba(255, 255, 255, .15);
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, .85);
+  backdrop-filter: blur(4px);
+}
+.rmeta-start { background: var(--y); border-color: var(--y); color: var(--d); }
+
+/* ── BODY LAYOUT ── */
+.role-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 4rem;
+  align-items: start;
+  padding-block: clamp(3rem, 6vw, 6rem);
+}
+.role-main { display: flex; flex-direction: column; gap: 2.5rem; }
+.role-summary-cards { display: none; } /* shown only on mobile */
+
+/* ── CONTENT SECTIONS ── */
+.rsec { display: flex; flex-direction: column; gap: 1rem; }
+.rsec-h {
+  font-family: var(--font);
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--g3);
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--g1);
+}
+.roverview { font-family: var(--font); font-size: 1rem; color: var(--tx); line-height: 1.9; }
+.rlist { display: flex; flex-direction: column; gap: .75rem; list-style: none; padding: 0; }
+.rlist li {
+  font-family: var(--font);
+  font-size: .95rem;
+  color: var(--tx);
+  line-height: 1.8;
+  padding-left: 1.5rem;
+  position: relative;
+}
+.rlist li::before { content: "–"; position: absolute; left: 0; color: var(--p); font-weight: 700; }
+
+/* ── APPLY BOX ── */
+.rapply-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 2.5rem;
+  background: var(--cr);
+  border-radius: var(--rl);
+  border: 1px solid var(--g1);
+}
+.rapply-h   { font-family: var(--font); font-weight: 800; font-style: italic; font-size: 1.5rem; color: var(--p); margin-bottom: .5rem; }
+.rapply-sub { font-family: var(--font); color: var(--g3); font-size: .875rem; line-height: 1.75; }
+
+/* ── DESKTOP SIDEBAR ── */
+.role-side { display: flex; flex-direction: column; gap: 1.25rem; position: sticky; top: calc(var(--nav-h) + 2rem); }
+.scard { border-radius: var(--rl); padding: 2rem; background: var(--cr); border: 1px solid var(--g1); }
+.scard-apply { background: var(--d); border-color: transparent; }
+.scardh {
+  font-family: var(--font);
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--g3);
+  margin-bottom: 1.25rem;
+}
+.scardh-light { color: rgba(255, 255, 255, .45); }
+.scard-apply-sub { font-family: var(--font); font-size: .82rem; color: rgba(255,255,255,.45); line-height: 1.75; margin-bottom: 1.25rem; }
+.sr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: .625rem 0;
+  border-bottom: 1px solid var(--g1);
+  font-size: .82rem;
+}
+.sr:last-child { border-bottom: none; }
+.sr span   { font-family: var(--font); color: var(--g3); }
+.sr strong { font-family: var(--font); color: var(--p); font-weight: 700; text-align: right; }
+.sback {
+  font-family: var(--font);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--p);
+  text-align: center;
+  transition: opacity .15s;
+}
+.sback:hover { opacity: .7; }
+
+/* ── STICKY APPLY STRIP (mobile) ── */
+.apply-strip { display: none; }
+
+/* ── MOBILE ── */
+@media (max-width: 960px) {
+  .role-side { position: static !important; }
+  .role-layout { grid-template-columns: 1fr; padding-bottom: 5rem; }
+}
+
+@media (max-width: 768px) {
+  /* Show summary cards */
+  .role-summary-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border: 1px solid var(--g1);
+    border-radius: var(--rl);
+    overflow: hidden;
+  }
+  .rsc {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    padding: 1rem 1.125rem;
+    border-right: 1px solid var(--g1);
+    border-bottom: 1px solid var(--g1);
+  }
+  .rsc:nth-child(even)      { border-right: none; }
+  .rsc:nth-last-child(-n+2) { border-bottom: none; }
+  .rsc-l   { font-family: var(--font); font-size: .55rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--g3); }
+  .rsc strong { font-family: var(--font); font-size: .88rem; font-weight: 700; color: var(--p); line-height: 1.3; }
+
+  .role-side   { display: none; }
+  .role-layout { grid-template-columns: 1fr; gap: 2rem; padding-block: 2rem; padding-bottom: 5rem; }
+  .role-hero   { min-height: clamp(280px, 55vw, 420px); }
+  .role-h1     { font-size: clamp(2rem, 9vw, 3.25rem); }
+  .role-main   { gap: 2rem; }
+  .roverview   { font-size: .95rem; }
+  .rlist li    { font-size: .9rem; }
+  .rapply-box  { flex-direction: column; align-items: flex-start; padding: 1.5rem; gap: 1.25rem; }
+  .rapply-btn  { width: 100%; justify-content: center; }
+
+  /* Sticky strip */
+  .apply-strip {
+    display: block;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 800;
+    background: var(--w);
+    border-top: 1px solid var(--g1);
+    padding: .875rem var(--px);
+    padding-bottom: max(.875rem, env(safe-area-inset-bottom, .875rem));
+    box-shadow: 0 -4px 24px rgba(0,0,0,.08);
+    transform: translateY(100%);
+    transition: transform .3s cubic-bezier(.22,1,.36,1);
+  }
+  .apply-strip.visible { transform: translateY(0); }
+  .apply-strip-in {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .apply-strip-role {
+    font-family: var(--font);
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--d);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+  }
+}
+
+@media (max-width: 400px) {
+  .role-summary-cards { grid-template-columns: 1fr; }
+  .rsc { border-right: none; }
+}
+</style>
+
+<script>
+(function () {
+  const strip = document.getElementById('applyStrip');
+  const hero  = document.querySelector('.role-hero');
+  if (!strip || !hero) return;
+  const check = () => strip.classList.toggle('visible', hero.getBoundingClientRect().bottom < 0);
+  window.addEventListener('scroll', check, { passive: true });
+  check();
+})();
+</script>
