@@ -1,21 +1,33 @@
 ---
 import Base from '../layouts/Base.astro';
-const roles = [
-  { title:"Pastry Chef",          type:"Full-time", loc:"Bangkok, TH", dept:"Kitchen",   desc:"Lead bi-weekly flavor development. Craft, test, and refine new recipes that hit our feel-good standard." },
-  { title:"Social Media Manager", type:"Full-time", loc:"Bangkok, TH", dept:"Marketing", desc:"Own the brand voice across Instagram, TikTok, and LINE. Create content that stops people and makes them order." },
-  { title:"Brand Designer",       type:"Full-time", loc:"Bangkok, TH", dept:"Creative",  desc:"Bring the Babycakes visual world to life — from weekly posts to packaging. Every touchpoint matters." },
-  { title:"Operations Manager",   type:"Full-time", loc:"Bangkok, TH", dept:"Ops",       desc:"Keep the machine running. Inventory, delivery coordination — ensure every cake arrives perfect and on time." },
-  { title:"Customer Experience",  type:"Part-time", loc:"Bangkok, TH", dept:"Service",   desc:"Handle orders, feedback, and relationships across LINE, phone, and in-branch with warmth and efficiency." },
-  { title:"Rider / Delivery",     type:"Part-time", loc:"Bangkok, TH", dept:"Logistics", desc:"Deliver feel-good food across Bangkok. Reliable, punctual, and always professional." },
-];
+import { getCollection } from 'astro:content';
+
+const allRoles = await getCollection('careers', ({ data }) => data.open);
+
+// Sort: Full-time first, then by dept
+allRoles.sort((a, b) => {
+  if (a.data.type === b.data.type) return a.data.dept.localeCompare(b.data.dept);
+  return a.data.type === 'Full-time' ? -1 : 1;
+});
+
 const perks = [
   { t:"Monthly Tasting Sessions", d:"You taste the product — it is literally part of the job." },
-  { t:"Birthday Cake Policy",     d:"Every team member gets a custom Babycakes cake on their birthday." },
+  { t:"Birthday Cake Policy",     d:"Every team member gets a custom Babycakes on their birthday." },
   { t:"Wellness Allowance",       d:"Monthly allowance for gym, therapy, or massage — your choice." },
   { t:"Flexible Hours",           d:"We care about output, not clock-watching." },
   { t:"Learning Fridays",         d:"Monthly guest sessions with chefs, designers, and brand builders." },
   { t:"Team Bake Days",           d:"Collaborative baking sessions — your idea might be next." },
 ];
+
+const deptColors: Record<string,string> = {
+  Kitchen:    '#FBF5AB',
+  Marketing:  '#c8d4f8',
+  Creative:   '#f8d4f0',
+  Ops:        '#d4f8e0',
+  Service:    '#f8ead4',
+  Logistics:  '#d4eaf8',
+  Other:      '#e8e8e8',
+};
 ---
 <Base title="Careers | Babycakes" description="Join the Babycakes family. Passionate people, feel-good culture, and a lot of cake.">
 
@@ -29,8 +41,8 @@ const perks = [
   </div>
 </section>
 
-<!-- PERKS — off-white, clean grid, no emojis -->
-<section class="sec" style="background:var(--off)">
+<!-- PERKS -->
+<section class="sec sec-cr">
   <div class="wrap">
     <div class="sh">
       <div>
@@ -39,8 +51,8 @@ const perks = [
       </div>
     </div>
     <div class="g3">
-      {perks.map((p, i) => (
-        <div class="perk-card au" style={"animation-delay:" + (i * 0.07) + "s"}>
+      {perks.map((p,i)=>(
+        <div class="perk-card au" style={"animation-delay:"+i*.07+"s"}>
           <h3 class="perk-t">{p.t}</h3>
           <p class="perk-d">{p.d}</p>
         </div>
@@ -49,60 +61,262 @@ const perks = [
   </div>
 </section>
 
-<!-- ROLES -->
+<!-- ROLES LIST -->
 <section class="sec" id="roles">
   <div class="wrap">
     <div class="sh">
       <div>
         <span class="tag tag-p sh-eye">Open Positions</span>
-        <h2 class="lf sh-h">{roles.length} Open Roles.</h2>
+        <h2 class="lf sh-h">{allRoles.length} Open Roles.</h2>
       </div>
     </div>
-    <div class="roles-wrap">
-      {roles.map((r, i) => (
-        <div class="role-row au" style={"animation-delay:" + (i * 0.06) + "s"}>
-          <div class="role-dept"><span class="tag tag-y">{r.dept}</span></div>
-          <div class="role-body">
-            <h3 class="role-t">{r.title}</h3>
-            <p class="role-d">{r.desc}</p>
+    <div class="roles-list">
+      {allRoles.map((r,i)=>(
+        <button
+          class="role-row au"
+          style={"animation-delay:"+i*.05+"s"}
+          data-role={JSON.stringify(r.data)}
+          onclick="openRole(this)"
+          aria-haspopup="dialog"
+        >
+          <div class="role-dept-col">
+            <span class="role-dept-tag" style={"background:"+( deptColors[r.data.dept] ?? '#e8e8e8')+";color:var(--d)"}>
+              {r.data.dept}
+            </span>
           </div>
-          <div class="role-meta">
-            <span class="role-type">{r.type}</span>
-            <span class="role-loc">{r.loc}</span>
+          <div class="role-body-col">
+            <h3 class="role-title">{r.data.title}</h3>
+            <p class="role-desc">{r.data.desc}</p>
           </div>
-          <a href={"mailto:hello@babycakes.th?subject=Application: " + r.title} class="btn btn-d btn-sm role-apply">Apply</a>
-        </div>
+          <div class="role-meta-col">
+            <span class="role-type">{r.data.type}</span>
+            <span class="role-loc">{r.data.loc}</span>
+            {r.data.salary_min && r.data.salary_max && (
+              <span class="role-salary">
+                ฿{r.data.salary_min.toLocaleString()} – ฿{r.data.salary_max.toLocaleString()}
+              </span>
+            )}
+          </div>
+          <div class="role-arrow-col">
+            <span class="role-arrow">View role →</span>
+          </div>
+        </button>
       ))}
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<section style="background:var(--dk);padding:clamp(6rem,10vw,9rem) var(--px)">
-  <div class="wrap" style="max-width:600px;text-align:center;margin-inline:auto">
+<!-- BOTTOM CTA -->
+<section style="background:var(--xdk);padding:clamp(5rem,10vw,9rem) var(--px)">
+  <div class="wrap" style="max-width:560px;text-align:center;margin-inline:auto">
     <span class="tag tag-y" style="margin-bottom:1.5rem;display:inline-flex">Don't see your role?</span>
-    <h2 class="lf" style="font-size:clamp(2.75rem,7vw,5rem);color:var(--y);line-height:0.92;margin-bottom:1.5rem">Say hello.</h2>
-    <p style="color:rgba(251,245,171,0.42);font-size:1rem;line-height:1.85;margin-bottom:3rem">We are always open to meeting great people. Tell us who you are and how you would add to the Babycakes story.</p>
+    <h2 class="lf" style="font-size:clamp(2.75rem,7vw,5rem);color:var(--y);line-height:.92;margin-bottom:1.5rem">Say hello.</h2>
+    <p style="color:rgba(251,245,171,.4);font-size:1rem;line-height:1.85;margin-bottom:3rem">We are always open to meeting great people. Tell us who you are and how you would add to the Babycakes story.</p>
     <a href="mailto:hello@babycakes.th" class="btn btn-y btn-lg">hello@babycakes.th</a>
   </div>
 </section>
+
+<!-- POPUP MODAL -->
+<div class="modal-bg" id="modalBg" onclick="closeRole()" aria-hidden="true"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <button class="modal-close" onclick="closeRole()" aria-label="Close">&#x2715;</button>
+
+  <div class="modal-header">
+    <div class="modal-dept-tag" id="modalDept"></div>
+    <h2 class="lf modal-title" id="modalTitle"></h2>
+    <div class="modal-meta-row">
+      <span id="modalType" class="modal-meta-pill"></span>
+      <span id="modalLoc" class="modal-meta-pill"></span>
+      <span id="modalStart" class="modal-meta-pill modal-start"></span>
+    </div>
+    <div class="modal-salary" id="modalSalary"></div>
+  </div>
+
+  <div class="modal-body">
+    <div class="modal-section" id="modalDescWrap">
+      <p class="modal-section-text" id="modalDesc"></p>
+    </div>
+    <div class="modal-section" id="modalRespWrap">
+      <h4 class="modal-section-h">What you'll do</h4>
+      <ul class="modal-list" id="modalResp"></ul>
+    </div>
+    <div class="modal-section" id="modalReqWrap">
+      <h4 class="modal-section-h">What we're looking for</h4>
+      <ul class="modal-list" id="modalReq"></ul>
+    </div>
+    <div class="modal-section" id="modalBenWrap">
+      <h4 class="modal-section-h">Benefits</h4>
+      <p class="modal-section-text" id="modalBen"></p>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <a class="btn btn-d btn-lg modal-apply" id="modalApply" href="mailto:hello@babycakes.th">Apply for this role</a>
+    <button class="btn btn-tx btn-sm" onclick="closeRole()">Close</button>
+  </div>
+</div>
+
 </Base>
+
 <style>
-.pg-hero { position:relative; background:var(--d); padding:10rem var(--px) 6rem; overflow:hidden; }
-.pg-h1 { font-size:clamp(3.5rem,10vw,8.5rem); color:var(--y); line-height:0.9; letter-spacing:-0.025em; margin-bottom:1.5rem; }
-.pg-sub { color:rgba(251,245,171,0.45); font-size:clamp(0.95rem,1.6vw,1.05rem); line-height:1.9; max-width:480px; }
-.perk-card { background:var(--w); border:1px solid var(--g1); border-radius:var(--rm); padding:2.25rem 2rem; animation:fadeUp 0.65s var(--ease) both; }
-.perk-t { font-size:1rem; font-weight:600; color:var(--d); margin-bottom:0.75rem; }
-.perk-d { font-size:0.875rem; color:var(--g3); line-height:1.8; }
-.roles-wrap { border:1px solid var(--g1); border-radius:var(--rl); overflow:hidden; }
-.role-row { display:grid; grid-template-columns:110px 1fr 160px 100px; align-items:center; gap:2.5rem; padding:2rem 2.5rem; border-bottom:1px solid var(--g1); background:var(--w); transition:background 0.15s; animation:fadeUp 0.55s var(--ease) both; }
+.pg-hero { position:relative; background:var(--d); padding:clamp(8rem,14vw,11rem) var(--px) clamp(4rem,7vw,5.5rem); overflow:hidden; }
+.pg-h1   { font-size:clamp(3rem,10vw,8rem); color:var(--y); line-height:.9; letter-spacing:-.025em; margin-bottom:1.25rem; }
+.pg-sub  { color:rgba(251,245,171,.45); font-size:clamp(.95rem,1.6vw,1.05rem); line-height:1.9; max-width:480px; }
+
+.perk-card { background:var(--w); border:1px solid var(--g1); border-radius:var(--rm); padding:clamp(1.5rem,3vw,2.25rem); animation:fadeUp .65s var(--ease) both; }
+.perk-t    { font-size:1rem; font-weight:700; color:var(--d); margin-bottom:.75rem; }
+.perk-d    { font-size:.875rem; color:var(--g3); line-height:1.8; }
+
+/* ROLES LIST */
+.roles-list { display:flex; flex-direction:column; border:1px solid var(--g1); border-radius:var(--rl); overflow:hidden; }
+.role-row {
+  display:grid; grid-template-columns:120px 1fr 180px 120px;
+  align-items:center; gap:2rem;
+  padding:1.75rem 2rem;
+  border:none; border-bottom:1px solid var(--g1);
+  background:var(--w); text-align:left; cursor:pointer;
+  transition:background .15s; animation:fadeUp .5s var(--ease) both;
+  width:100%; font-family:'Nunito',sans-serif;
+}
 .role-row:last-child { border-bottom:none; }
-.role-row:hover { background:var(--off); }
-.role-t { font-size:1rem; font-weight:600; color:var(--d); margin-bottom:0.4rem; }
-.role-d { font-size:0.85rem; color:var(--g3); line-height:1.7; }
-.role-meta { display:flex; flex-direction:column; gap:0.3rem; }
-.role-type { font-size:0.78rem; font-weight:600; color:var(--d); }
-.role-loc  { font-size:0.75rem; color:var(--g3); font-weight:400; }
-.role-apply { flex-shrink:0; }
-@media(max-width:900px) { .role-row{grid-template-columns:1fr;gap:1rem;padding:1.75rem} .role-dept{order:-1} .role-apply{width:fit-content} }
+.role-row:hover { background:var(--cr); }
+.role-dept-tag { display:inline-flex; align-items:center; padding:.3rem .75rem; border-radius:var(--r); font-size:.6rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; line-height:2; white-space:nowrap; }
+.role-title { font-size:1rem; font-weight:700; color:var(--d); margin-bottom:.35rem; }
+.role-desc  { font-size:.82rem; color:var(--g3); line-height:1.65; }
+.role-type  { display:block; font-size:.78rem; font-weight:700; color:var(--d); }
+.role-loc   { display:block; font-size:.75rem; color:var(--g3); margin-top:.2rem; }
+.role-salary{ display:block; font-size:.72rem; font-weight:700; color:var(--p); margin-top:.35rem; }
+.role-arrow { font-size:.78rem; font-weight:700; color:var(--p); white-space:nowrap; }
+@media(max-width:900px) {
+  .role-row { grid-template-columns:1fr; gap:1rem; padding:1.5rem; text-align:left; }
+  .role-arrow-col { display:none; }
+}
+
+/* ── MODAL ── */
+.modal-bg {
+  display:none; position:fixed; inset:0; z-index:1000;
+  background:rgba(10,8,20,.65); backdrop-filter:blur(4px);
+}
+.modal-bg.open { display:block; }
+
+.modal {
+  display:none; position:fixed; z-index:1001;
+  top:50%; left:50%; transform:translate(-50%,-50%);
+  width:min(680px, calc(100vw - 2rem));
+  max-height:88vh; overflow-y:auto;
+  background:var(--w); border-radius:var(--rl);
+  box-shadow:0 24px 80px rgba(0,0,0,.3);
+  flex-direction:column;
+}
+.modal.open { display:flex; }
+.modal-close {
+  position:absolute; top:1.25rem; right:1.25rem;
+  background:var(--cr); border:none; border-radius:50%;
+  width:36px; height:36px; cursor:pointer;
+  font-size:1rem; color:var(--g3); display:flex; align-items:center; justify-content:center;
+  transition:background .15s;
+}
+.modal-close:hover { background:var(--g1); }
+
+.modal-header { padding:2.5rem 2.5rem 1.5rem; border-bottom:1px solid var(--g1); }
+.modal-dept-tag { font-size:.6rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--p); margin-bottom:.75rem; }
+.modal-title { font-size:clamp(1.75rem,4vw,2.5rem); color:var(--d); line-height:1.05; margin-bottom:1rem; }
+.modal-meta-row { display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:.875rem; }
+.modal-meta-pill { font-size:.72rem; font-weight:600; padding:.3rem .75rem; background:var(--cr); border-radius:999px; color:var(--d); }
+.modal-start { background:var(--y); color:var(--d); }
+.modal-salary { font-size:1rem; font-weight:700; color:var(--p); }
+
+.modal-body { padding:2rem 2.5rem; display:flex; flex-direction:column; gap:1.75rem; }
+.modal-section { display:flex; flex-direction:column; gap:.75rem; }
+.modal-section-h { font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--g3); }
+.modal-section-text { font-size:.95rem; color:var(--tx); line-height:1.85; }
+.modal-list { display:flex; flex-direction:column; gap:.5rem; padding-left:0; list-style:none; }
+.modal-list li { font-size:.9rem; color:var(--tx); line-height:1.75; padding-left:1.25rem; position:relative; }
+.modal-list li::before { content:"–"; position:absolute; left:0; color:var(--p); font-weight:700; }
+
+.modal-footer { padding:1.5rem 2.5rem 2rem; border-top:1px solid var(--g1); display:flex; gap:.875rem; align-items:center; }
+.modal-apply { text-decoration:none; }
+
+@media(max-width:600px) {
+  .modal-header,.modal-body,.modal-footer { padding-inline:1.5rem; }
+  .modal-header { padding-top:2rem; }
+}
 </style>
+
+<script>
+function openRole(btn) {
+  const data = JSON.parse(btn.getAttribute('data-role'));
+  
+  // Populate modal
+  document.getElementById('modalDept').textContent   = data.dept;
+  document.getElementById('modalTitle').textContent  = data.title;
+  document.getElementById('modalType').textContent   = data.type;
+  document.getElementById('modalLoc').textContent    = data.loc;
+  
+  // Start date
+  const startEl = document.getElementById('modalStart');
+  if (data.start_date) { startEl.textContent = 'Start: ' + data.start_date; startEl.style.display = ''; }
+  else { startEl.style.display = 'none'; }
+
+  // Salary
+  const salEl = document.getElementById('modalSalary');
+  if (data.salary_min && data.salary_max) {
+    salEl.textContent = '฿' + data.salary_min.toLocaleString() + ' – ฿' + data.salary_max.toLocaleString()
+      + (data.salary_note ? ' ' + data.salary_note : '');
+    salEl.style.display = '';
+  } else { salEl.style.display = 'none'; }
+
+  // Description
+  document.getElementById('modalDesc').textContent = data.desc || '';
+
+  // Responsibilities — split by period/newline into bullet points
+  const respWrap = document.getElementById('modalRespWrap');
+  const respList = document.getElementById('modalResp');
+  if (data.responsibilities) {
+    respList.innerHTML = '';
+    data.responsibilities.split(/\.\s+|\\n/).filter(s => s.trim()).forEach(s => {
+      const li = document.createElement('li');
+      li.textContent = s.trim().replace(/\.$/, '');
+      respList.appendChild(li);
+    });
+    respWrap.style.display = '';
+  } else { respWrap.style.display = 'none'; }
+
+  // Requirements
+  const reqWrap = document.getElementById('modalReqWrap');
+  const reqList = document.getElementById('modalReq');
+  if (data.requirements) {
+    reqList.innerHTML = '';
+    data.requirements.split(/\.\s+|\\n/).filter(s => s.trim()).forEach(s => {
+      const li = document.createElement('li');
+      li.textContent = s.trim().replace(/\.$/, '');
+      reqList.appendChild(li);
+    });
+    reqWrap.style.display = '';
+  } else { reqWrap.style.display = 'none'; }
+
+  // Benefits
+  const benWrap = document.getElementById('modalBenWrap');
+  const benEl   = document.getElementById('modalBen');
+  if (data.benefits) { benEl.textContent = data.benefits; benWrap.style.display = ''; }
+  else { benWrap.style.display = 'none'; }
+
+  // Apply link
+  document.getElementById('modalApply').href =
+    'mailto:hello@babycakes.th?subject=Application: ' + encodeURIComponent(data.title);
+
+  // Open
+  document.getElementById('modal').classList.add('open');
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeRole() {
+  document.getElementById('modal').classList.remove('open');
+  document.getElementById('modalBg').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close on Escape
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeRole(); });
+</script>

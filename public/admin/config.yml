@@ -122,14 +122,24 @@ collections:
   - name: careers
     label: "Careers"
     label_singular: "Role"
+    description: "Job listings shown on the Careers page. All fields appear in the popup modal."
     folder: "src/content/careers"
     create: true
     slug: "{{fields.slug}}"
+    extension: json
+    format: json
     fields:
-      - { label: "Job Title",   name: title, widget: string }
-      - { label: "Slug",        name: slug,  widget: string }
-      - { label: "Department",  name: dept,  widget: select, options: ["Kitchen", "Marketing", "Creative", "Ops", "Service", "Logistics", "Other"] }
-      - { label: "Type",        name: type,  widget: select, options: ["Full-time", "Part-time", "Contract", "Internship"] }
-      - { label: "Location",    name: loc,   widget: string, default: "Bangkok, TH" }
-      - { label: "Description", name: desc,  widget: text }
-      - { label: "Open?",       name: open,  widget: boolean, default: true }
+      - { label: "Job Title",          name: title,        widget: string }
+      - { label: "Slug",               name: slug,         widget: string, hint: "URL-safe e.g. pastry-chef" }
+      - { label: "Department",         name: dept,         widget: select, options: ["Kitchen", "Marketing", "Creative", "Ops", "Service", "Logistics", "Other"] }
+      - { label: "Employment Type",    name: type,         widget: select, options: ["Full-time", "Part-time", "Contract", "Internship"] }
+      - { label: "Location",           name: loc,          widget: string, default: "Bangkok, TH" }
+      - { label: "Salary Min (THB)",   name: salary_min,   widget: number, required: false, hint: "e.g. 25000" }
+      - { label: "Salary Max (THB)",   name: salary_max,   widget: number, required: false, hint: "e.g. 40000" }
+      - { label: "Salary Note",        name: salary_note,  widget: string, required: false, hint: "e.g. THB/month depending on experience" }
+      - { label: "Ideal Start Date",   name: start_date,   widget: string, required: false, hint: "e.g. June 2026 or Immediate" }
+      - { label: "Short Description",  name: desc,         widget: text,   hint: "One line shown on the job listing card" }
+      - { label: "Responsibilities",   name: responsibilities, widget: text, required: false, hint: "What they will do day-to-day (shown in popup)" }
+      - { label: "Requirements",       name: requirements, widget: text,   required: false, hint: "Skills and experience needed (shown in popup)" }
+      - { label: "Benefits",           name: benefits,     widget: string, required: false, hint: "Perks for this role" }
+      - { label: "Open?",              name: open,         widget: boolean, default: true }

@@ -1,0 +1,16 @@
+{
+  "title": "Customer Experience",
+  "slug": "customer-experience",
+  "dept": "Service",
+  "type": "Part-time",
+  "loc": "Bangkok, TH",
+  "salary_min": 12000,
+  "salary_max": 18000,
+  "salary_note": "THB/month (part-time)",
+  "start_date": "Immediate",
+  "desc": "Handle orders, feedback, and relationships across LINE, phone, and in-branch with warmth and efficiency.",
+  "responsibilities": "Respond to customer inquiries on LINE and phone. Process orders and coordinate with kitchen and delivery. Handle feedback and resolve issues with care. Assist at pop-ups and events.",
+  "requirements": "Warm, professional communication style. Comfortable with LINE and basic order systems. Thai fluency required, English is a plus. Previous service experience preferred.",
+  "benefits": "Birthday cake, flexible hours, team events",
+  "open": true
+}

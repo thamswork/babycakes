@@ -1,0 +1,16 @@
+{
+  "title": "Rider / Delivery",
+  "slug": "rider-delivery",
+  "dept": "Logistics",
+  "type": "Part-time",
+  "loc": "Bangkok, TH",
+  "salary_min": 10000,
+  "salary_max": 15000,
+  "salary_note": "THB/month + delivery bonus",
+  "start_date": "Immediate",
+  "desc": "Deliver feel-good food across Bangkok. Reliable, punctual, and always professional.",
+  "responsibilities": "Handle cake deliveries across Bangkok on time and in perfect condition. Coordinate with kitchen on pickup schedules. Maintain professional presentation at all times.",
+  "requirements": "Own motorcycle with valid license. Bangkok route knowledge. Reliable and punctual. Able to handle fragile food items with care.",
+  "benefits": "Delivery bonus, birthday cake, flexible hours",
+  "open": true
+}

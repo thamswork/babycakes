@@ -1,5 +1,5 @@
 import { defineCollection, z } from 'astro:content';
-import { glob, file } from 'astro/loaders';
+import { glob } from 'astro/loaders';
 
 const weeklyUpdates = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/weekly-updates' }),
@@ -66,13 +66,20 @@ const collabs = defineCollection({
 const careers = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/careers' }),
   schema: z.object({
-    title: z.string(),
-    slug:  z.string(),
-    dept:  z.string(),
-    type:  z.string(),
-    loc:   z.string().default('Bangkok, TH'),
-    desc:  z.string(),
-    open:  z.boolean().default(true),
+    title:           z.string(),
+    slug:            z.string(),
+    dept:            z.string(),
+    type:            z.string(),
+    loc:             z.string().default('Bangkok, TH'),
+    salary_min:      z.number().optional(),
+    salary_max:      z.number().optional(),
+    salary_note:     z.string().optional(),
+    start_date:      z.string().optional(),
+    desc:            z.string(),
+    responsibilities:z.string().optional(),
+    requirements:    z.string().optional(),
+    benefits:        z.string().optional(),
+    open:            z.boolean().default(true),
   }),
 });
 
