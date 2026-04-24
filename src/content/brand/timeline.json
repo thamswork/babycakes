@@ -1,0 +1,10 @@
+{
+  "items": [
+    { "year": "2021", "event": "Founded from home",     "desc": "Started with three flavors and word-of-mouth orders from a home kitchen in Bangna, Bangkok.", "photo": "" },
+    { "year": "2022", "event": "First pop-up & HQ",     "desc": "Launched at Refill Coffee. Sold out in 4 hours. Permanent HQ Bangna followed shortly after.", "photo": "" },
+    { "year": "2023", "event": "Bi-weekly model",       "desc": "Introduced the rotating flavor drop — urgency, community, loyal repeat customers.", "photo": "" },
+    { "year": "2024", "event": "12+ locations",         "desc": "Expanded into One Bangkok, Emsphere, Siam Paragon, Central Chidlom, and more.", "photo": "" },
+    { "year": "2025", "event": "฿1M+ peak month",      "desc": "Valentine's and Christmas peaks exceed ฿1M monthly. GrabFood and LINE MAN integrated.", "photo": "" },
+    { "year": "2026", "event": "Lifestyle brand",       "desc": "New brand system. Building toward product diversification and regional expansion.", "photo": "" }
+  ]
+}

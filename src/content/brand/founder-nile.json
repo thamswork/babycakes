@@ -1,0 +1,17 @@
+{
+  "id": "nile",
+  "order": 1,
+  "nickname": "Nile",
+  "full_name": "Pasiri Tangkaravakun",
+  "role": "Co-founder & Brand Architect",
+  "photo": "",
+  "bg_color": "#2a1640",
+  "bio_1": "The creative engine behind the Babycakes aesthetic. Nile pioneered the brand's Handwritten Messaging concept — transforming the tray cake from a food item into a communication tool that Gen Z could share and make their own.",
+  "bio_2": "The Soft Chocolate Baby Tray is built on a recipe from Nile's mother, made in 1999. She guards it personally to ensure quality never changes as the brand scales.",
+  "stat_1_value": "1999",
+  "stat_1_label": "Original recipe",
+  "stat_2_value": "Chula",
+  "stat_2_label": "Chulalongkorn Univ.",
+  "stat_3_value": "Brand",
+  "stat_3_label": "Creative direction"
+}

@@ -66,21 +66,27 @@ const collabs = defineCollection({
 const careers = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/careers' }),
   schema: z.object({
-    title:           z.string(),
-    slug:            z.string(),
-    dept:            z.string(),
-    type:            z.string(),
-    loc:             z.string().default('Bangkok, TH'),
-    salary_min:      z.number().optional(),
-    salary_max:      z.number().optional(),
-    salary_note:     z.string().optional(),
-    start_date:      z.string().optional(),
-    desc:            z.string(),
-    responsibilities:z.string().optional(),
-    requirements:    z.string().optional(),
-    benefits:        z.string().optional(),
-    open:            z.boolean().default(true),
+    title:            z.string(),
+    slug:             z.string(),
+    dept:             z.string(),
+    type:             z.string(),
+    loc:              z.string().default('Bangkok, TH'),
+    salary_min:       z.number().optional(),
+    salary_max:       z.number().optional(),
+    salary_note:      z.string().optional(),
+    start_date:       z.string().optional(),
+    desc:             z.string(),
+    responsibilities: z.string().optional(),
+    requirements:     z.string().optional(),
+    benefits:         z.string().optional(),
+    open:             z.boolean().default(true),
   }),
+});
+
+// Brand — all files (founders, story, hero, timeline)
+const brand = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/brand' }),
+  schema: z.any(), // flexible — different shapes per file
 });
 
 export const collections = {
@@ -89,4 +95,5 @@ export const collections = {
   'locations':        locations,
   'collabs':          collabs,
   'careers':          careers,
+  'brand':            brand,
 };
