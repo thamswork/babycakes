@@ -4,12 +4,10 @@ import { getCollection } from 'astro:content';
 import orderLinks from '../content/settings/order-links.json';
 import brandPhotos from '../content/settings/brand-photos.json';
 
-// Read bi-weekly drops from CMS — sort by date desc, skip drafts
 const allDrops = await getCollection('weekly-updates', ({ data }) => !data.draft);
 allDrops.sort((a,b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0));
 const drops = allDrops.slice(0, 6);
 
-// Read always available — only available items
 const allClassics = await getCollection('always-available', ({ data }) => data.available);
 const classics = allClassics.slice(0, 3);
 
@@ -18,20 +16,23 @@ const heroPhoto = brandPhotos.hero_photo || '';
 ---
 <Base title="Babycakes — Feel Good Food">
 
+<!-- ── HERO ── -->
 <section class="hero">
-  <div class="hero-img" style={heroPhoto ? '' : ''}>
+  <div class="hero-img">
     {heroPhoto
-      ? <img src={heroPhoto} alt="Babycakes feel good food" loading="eager" fetchpriority="high" />
+      ? <img src={heroPhoto} alt="Babycakes feel good food" loading="eager" fetchpriority="high"/>
       : <div class="hero-img-ph"></div>
     }
   </div>
   <div class="hero-ov"></div>
   <div class="hero-brand-label">
+    <!-- babycakes wordmark: Shrikhand (logo) -->
     <span class="hero-brand-name lf">babycakes</span>
     <span class="hero-brand-tag">we feel good</span>
   </div>
   <div class="wrap hero-bottom">
     <div class="hero-copy">
+      <!-- Hero headline: Neulis Neue light italic — cinematic, editorial feel -->
       <h1 class="hero-h1 au">we feel good.</h1>
       <p class="hero-meta au au1">Baby Tray from ฿210 · 12+ Branches · Bangkok 2021</p>
       <div class="hero-btns au au2">
@@ -49,29 +50,32 @@ const heroPhoto = brandPhotos.hero_photo || '';
   <div class="hero-scroll" aria-hidden="true">scroll</div>
 </section>
 
+<!-- ── MARQUEE ── -->
 <div class="mq">
   <div class="mq-t">
-    {[...drops.map(d=>d.data.name), "feel good food", "Baby Tray from ฿210", ...drops.map(d=>d.data.name), "feel good food", "Baby Tray from ฿210"].map(t=>(
+    {[...drops.map(d=>d.data.name),"feel good food","Baby Tray from ฿210",...drops.map(d=>d.data.name),"feel good food","Baby Tray from ฿210"].map(t=>(
       <span class="mq-i">{t}<span class="mq-dot-el"></span></span>
     ))}
   </div>
 </div>
 
+<!-- ── BI-WEEKLY DROPS ── -->
 <section class="sec">
   <div class="wrap">
     <div class="sh">
       <div>
-        <span class="tag tag-p sh-eye">Updated Every Two Weeks</span>
-        <h2 class="lf sh-h">Bi-Weekly<br/>Flavors.</h2>
+        <span class="tag tag-y sh-eye" style="padding-inline:1.25rem">Updated Every Two Weeks</span>
+        <!-- sh-h picks up Neulis Neue 800 + color --p from Base.astro -->
+        <h2 class="sh-h" style="margin-top:.875rem">Bi-Weekly<br/>Flavors.</h2>
       </div>
       <a href="/bi-weekly" class="btn btn-op">View All</a>
     </div>
     <div class="drops-grid">
       {drops.map((d,i)=>(
         <a href={"/bi-weekly/"+d.data.slug} class="pc au" style={"animation-delay:"+i*.05+"s"}>
-          <div class="pc-img" style={"aspect-ratio:3/4;background:"+d.data.bg}>
+          <div class="pc-img" style={"aspect-ratio:3/4;background:"+(d.data.bg||'var(--d)')}>
             {d.data.image
-              ? <img src={d.data.image} alt={d.data.name} />
+              ? <img src={d.data.image} alt={d.data.name}/>
               : <div class="pc-ph">{d.data.name}</div>
             }
           </div>
@@ -80,7 +84,7 @@ const heroPhoto = brandPhotos.hero_photo || '';
               <span class="tag tag-y">bi-weekly</span>
               <span class="pc-per">{d.data.period}</span>
             </div>
-            <div class="lf pc-name">{d.data.name}</div>
+            <div class="pc-name">{d.data.name}</div>
             {d.data.desc && <p class="pc-desc">{d.data.desc}</p>}
           </div>
         </a>
@@ -90,27 +94,28 @@ const heroPhoto = brandPhotos.hero_photo || '';
   </div>
 </section>
 
+<!-- ── CLASSICS ── -->
 <section class="sec sec-cr">
   <div class="wrap">
     <div class="sh">
       <div>
-        <span class="tag tag-p sh-eye">Always In Stock</span>
-        <h2 class="lf sh-h">Our Classics.</h2>
+        <span class="tag tag-y sh-eye" style="padding-inline:1.25rem">Always In Stock</span>
+        <h2 class="sh-h" style="margin-top:.875rem">Our Classics.</h2>
       </div>
       <a href="/always-available" class="btn btn-op">See All</a>
     </div>
     <div class="classics-grid">
       {classics.map(c=>(
         <a href={"/always-available/"+c.data.slug} class="pc">
-          <div class="pc-img" style={"aspect-ratio:4/3;background:"+c.data.bg}>
+          <div class="pc-img" style={"aspect-ratio:4/3;background:"+(c.data.bg||'var(--d)')}>
             {c.data.image
-              ? <img src={c.data.image} alt={c.data.name} />
+              ? <img src={c.data.image} alt={c.data.name}/>
               : <div class="pc-ph">{c.data.name}</div>
             }
           </div>
           <div class="pc-body">
             <div class="pc-meta"><span class="tag tag-cr">always available</span></div>
-            <div class="lf pc-name">{c.data.name}</div>
+            <div class="pc-name">{c.data.name}</div>
           </div>
         </a>
       ))}
@@ -118,6 +123,7 @@ const heroPhoto = brandPhotos.hero_photo || '';
   </div>
 </section>
 
+<!-- ── COLLABS STRIP ── -->
 <section class="sec-sm" style="border-top:1px solid var(--g1);border-bottom:1px solid var(--g1)">
   <div class="wrap">
     <div class="collab-row">
@@ -132,138 +138,99 @@ const heroPhoto = brandPhotos.hero_photo || '';
   </div>
 </section>
 
+<!-- ── CAREERS CTA ── -->
 <section class="sec-sm" style="background:var(--p)">
   <div class="wrap careers-row">
     <div>
       <span class="tag tag-y" style="margin-bottom:.875rem">We're Hiring</span>
-      <h3 class="lf" style="font-size:clamp(1.5rem,3.5vw,2.5rem);color:#fff;line-height:1.1;margin-top:.5rem">Join the Babycakes family.</h3>
-      <p style="color:rgba(255,255,255,.55);margin-top:.625rem;font-size:.9rem;line-height:1.75;max-width:360px">Passionate about feel-good food? We'd love to meet you.</p>
+      <h3 style="font-family:var(--font);font-weight:800;font-style:italic;font-size:clamp(1.5rem,3.5vw,2.5rem);color:#fff;line-height:1.1;margin-top:.5rem">Join the Babycakes family.</h3>
+      <p style="font-family:var(--font);color:rgba(255,255,255,.65);margin-top:.625rem;font-size:.9rem;line-height:1.75;max-width:360px">Passionate about feel-good food? We'd love to meet you.</p>
     </div>
     <a href="/careers" class="btn btn-y btn-lg">See Open Roles</a>
   </div>
 </section>
 </Base>
 <style>
+/* ── Hero ── */
 .hero{position:relative;width:100%;height:100svh;min-height:580px;background:#0e0c12;overflow:hidden;display:flex;flex-direction:column}
 .hero-img{position:absolute;inset:0}
 .hero-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hero-img-ph{position:absolute;inset:0;background:linear-gradient(145deg,#1e1638 0%,#3a2060 40%,#4C4378 100%)}
+.hero-img-ph{position:absolute;inset:0;background:linear-gradient(145deg,#1e1638 0%,#3a2060 40%,var(--p) 100%)}
 .hero-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,20,.92) 0%,rgba(10,8,20,.5) 38%,rgba(10,8,20,.15) 65%,rgba(10,8,20,.03) 100%)}
-
-/* Brand label top-left — always visible, nav logo hidden until scroll */
+/* Brand label top-left */
 .hero-brand-label{position:relative;z-index:2;padding:clamp(1.1rem,2.5vw,1.75rem) var(--px);display:flex;flex-direction:column;gap:.2rem}
-.hero-brand-name{font-family:'Shrikhand',serif;font-size:clamp(1rem,2vw,1.3rem);color:rgba(255,255,255,.92);line-height:1;letter-spacing:-.01em}
-.hero-brand-tag{font-size:.58rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.3);font-family:'Nunito',sans-serif}
-
-/* Bottom section */
+.hero-brand-name{font-family:var(--font-logo);font-size:clamp(1rem,2vw,1.3rem);color:rgba(255,255,255,.92);line-height:1;letter-spacing:-.01em}
+/* Hero tag: Neulis Neue (not Nunito which is gone) */
+.hero-brand-tag{font-family:var(--font);font-size:.58rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+/* Hero headline: editorial — Neulis Neue 300 italic */
 .hero-bottom{position:relative;z-index:2;margin-top:auto;padding-bottom:clamp(2.5rem,6vw,4.5rem);display:flex;align-items:flex-end;justify-content:space-between;gap:2rem}
-
-/* Single-line headline — compact, same Nunito font, bottom-left */
-.hero-h1{
-  font-family:'Nunito',sans-serif;
-  font-size:clamp(2rem,5vw,3.5rem);
-  font-weight:300;
-  font-style:italic;
-  color:rgba(255,255,255,.88);
-  line-height:1.1;
-  letter-spacing:-.01em;
-  margin-bottom:clamp(1.5rem,3.5vw,2.25rem);
-}
-
-.hero-meta{font-size:clamp(.6rem,1.2vw,.72rem);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.32);margin-bottom:clamp(1.25rem,3vw,2rem);line-height:1.6}
+.hero-h1{font-family:var(--font);font-size:clamp(2rem,5vw,3.5rem);font-weight:300;font-style:italic;color:rgba(255,255,255,.88);line-height:1.1;letter-spacing:-.01em;margin-bottom:clamp(1.5rem,3.5vw,2.25rem)}
+.hero-meta{font-family:var(--font);font-size:clamp(.6rem,1.2vw,.72rem);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.32);margin-bottom:clamp(1.25rem,3vw,2rem);line-height:1.6}
 .hero-btns{display:flex;gap:.75rem;flex-wrap:wrap}
-.hero-btn-primary{background:transparent;border:1px solid rgba(255,255,255,.38);color:rgba(255,255,255,.85);font-size:.72rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:.8rem 1.6rem;border-radius:var(--r);transition:background .2s,border-color .2s;white-space:nowrap;font-family:'Nunito',sans-serif}
-.hero-btn-primary:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.65);transform:none;box-shadow:none}
-.hero-btn-ghost{background:transparent;border:none;color:rgba(255,255,255,.35);font-size:.7rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;text-decoration:underline;text-underline-offset:4px;padding:.8rem 0;transition:color .15s;font-family:'Nunito',sans-serif}
+/* Ghost CTA — medium purple tint on hover */
+.hero-btn-primary{background:transparent;border:1px solid rgba(255,255,255,.38);color:rgba(255,255,255,.85);font-family:var(--font);font-size:.72rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:.8rem 1.6rem;border-radius:var(--r);transition:background .2s,border-color .2s;white-space:nowrap}
+.hero-btn-primary:hover{background:rgba(159,151,194,.2);border-color:rgba(159,151,194,.6);transform:none;box-shadow:none}
+.hero-btn-ghost{background:transparent;border:none;font-family:var(--font);color:rgba(255,255,255,.35);font-size:.7rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;text-decoration:underline;text-underline-offset:4px;padding:.8rem 0;transition:color .15s}
 .hero-btn-ghost:hover{color:rgba(255,255,255,.68);transform:none;box-shadow:none}
 .hero-dots{display:flex;flex-direction:column;gap:.5rem;align-items:center;padding-bottom:.25rem;flex-shrink:0}
 .hero-dot{width:18px;height:1.5px;background:rgba(255,255,255,.18);border-radius:1px}
-.hero-dot-active{background:rgba(255,255,255,.78);width:26px}
-.hero-scroll{position:absolute;bottom:1.25rem;right:var(--px);font-size:.5rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.12);writing-mode:vertical-rl;z-index:2}
-@media(max-width:480px){.hero-dots{display:none}.hero-btns{flex-direction:column}.hero-btn-primary{text-align:center}}
+.hero-dot-active{background:rgba(159,151,194,.78);width:26px}
+.hero-scroll{position:absolute;bottom:1.25rem;right:var(--px);font-family:var(--font);font-size:.5rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.12);writing-mode:vertical-rl;z-index:2}
+
+/* ── Grids ── */
 .drops-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
 @media(min-width:1024px){.drops-grid{grid-template-columns:repeat(3,1fr)}}
 .drops-more{margin-top:clamp(2rem,4vw,3rem);text-align:center}
 .classics-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
 @media(min-width:768px){.classics-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* ── Collab strip ── */
 .collab-row{display:flex;align-items:center;gap:clamp(1.25rem,3.5vw,3.5rem);flex-wrap:wrap}
-.collab-label{font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g2);white-space:nowrap;flex-shrink:0}
+.collab-label{font-family:var(--font);font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g2);white-space:nowrap;flex-shrink:0}
 .collab-marks{display:flex;align-items:center;gap:clamp(1rem,2.5vw,2.5rem);flex-wrap:wrap;flex:1}
-.collab-mark{font-size:clamp(.72rem,1.4vw,.95rem);font-weight:700;color:var(--g2);white-space:nowrap;transition:color .2s}
-.collab-mark:hover{color:var(--d)}
-.collab-link{font-size:.7rem;font-weight:700;color:var(--d);letter-spacing:.04em;margin-left:auto;white-space:nowrap;flex-shrink:0}
-.collab-link:hover{opacity:.6}
+.collab-mark{font-family:var(--font);font-size:clamp(.72rem,1.4vw,.95rem);font-weight:700;color:var(--g2);white-space:nowrap;transition:color .2s}
+.collab-mark:hover{color:var(--p)}
+.collab-link{font-family:var(--font);font-size:.7rem;font-weight:700;color:var(--p);letter-spacing:.04em;margin-left:auto;white-space:nowrap;flex-shrink:0;transition:opacity .15s}
+.collab-link:hover{opacity:.65}
+
+/* ── Careers ── */
 .careers-row{display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
-@media(max-width:560px){.careers-row{flex-direction:column;align-items:flex-start}.careers-row .btn{width:100%}}
 
-/* ── HOMEPAGE MOBILE ── */
-@media(max-width:480px) {
-  /* Hero — tighter, no overflow */
-  .hero { min-height: 100svh; }
-  .hero-h1 { font-size: clamp(1.75rem, 7vw, 2.5rem); margin-bottom: 1.25rem; }
-  .hero-brand-label { padding: 1rem var(--px) .75rem; }
-  .hero-brand-name { font-size: 1.1rem; }
-  .hero-bottom { padding-bottom: max(2rem, env(safe-area-inset-bottom, 2rem)); }
-  .hero-meta { font-size: .58rem; letter-spacing: .1em; margin-bottom: 1rem; }
-  .hero-btns { flex-direction: column; gap: .625rem; }
-  .hero-btn-primary { text-align: center; padding: 1rem 1.5rem; font-size: .7rem; }
-  .hero-btn-ghost { padding: .5rem 0; }
-  .hero-scroll { display: none; }
+/* ── Card animations ── */
+.pc{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
+.pc.in-view{opacity:1;transform:translateY(0)}
 
-  /* Cards — 2-col always, tighter */
-  .drops-grid { gap: .625rem; }
-  .classics-grid { gap: .625rem; }
-  .pc-body { padding: .875rem .875rem 1rem; }
-  .pc-name { font-size: 1rem; }
-  .pc-desc { display: none; } /* hide desc in 2-col — too cramped */
-  .pc-per { font-size: .6rem; }
-
-  /* Collabs strip */
-  .collab-row { gap: .875rem; }
-  .collab-marks { gap: .875rem; }
-  .collab-mark { font-size: .72rem; }
-
-  /* Careers band */
-  .careers-row { flex-direction: column; align-items: flex-start; }
-  .careers-row .btn { width: 100%; justify-content: center; }
+/* ── Mobile ── */
+@media(max-width:768px){
+  .hero-bottom{flex-direction:column;align-items:center;text-align:center;padding-bottom:max(3rem,env(safe-area-inset-bottom,3rem));gap:1.5rem}
+  .hero-copy{display:flex;flex-direction:column;align-items:center}
+  .hero-h1{font-size:clamp(2.25rem,10vw,3.5rem);text-align:center;margin-bottom:1rem}
+  .hero-meta{text-align:center;margin-bottom:1.25rem}
+  .hero-btns{flex-direction:column;align-items:center;width:100%;gap:.75rem}
+  .hero-btn-primary{width:100%;max-width:320px;text-align:center;justify-content:center}
+  .hero-brand-label{align-items:flex-start}
+  .hero-scroll{display:none}
+  .hero-dots{display:none}
 }
-
-
-/* ── HERO MOBILE — center aligned ── */
-@media(max-width: 768px) {
-  .hero-bottom {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding-bottom: max(3rem, env(safe-area-inset-bottom, 3rem));
-    gap: 1.5rem;
-  }
-  .hero-copy { display: flex; flex-direction: column; align-items: center; }
-  .hero-h1 {
-    font-size: clamp(2.25rem, 10vw, 3.5rem);
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-  .hero-meta { text-align: center; font-size: .58rem; letter-spacing: .1em; margin-bottom: 1.25rem; }
-  .hero-btns { flex-direction: column; align-items: center; width: 100%; gap: .75rem; }
-  .hero-btn-primary { width: 100%; max-width: 320px; text-align: center; justify-content: center; }
-  .hero-brand-label { align-items: flex-start; } /* keep top-left */
-  .hero-scroll { display: none; }
-  .hero-dots { display: none; }
+@media(max-width:480px){
+  .hero{min-height:100svh}
+  .hero-h1{font-size:clamp(1.75rem,7vw,2.5rem);margin-bottom:1.25rem}
+  .hero-brand-label{padding:1rem var(--px) .75rem}
+  .hero-brand-name{font-size:1.1rem}
+  .hero-bottom{padding-bottom:max(2rem,env(safe-area-inset-bottom,2rem))}
+  .hero-meta{font-size:.58rem;letter-spacing:.1em;margin-bottom:1rem}
+  .hero-btns{flex-direction:column;gap:.625rem}
+  .hero-btn-primary{text-align:center;padding:1rem 1.5rem;font-size:.7rem}
+  .drops-grid{gap:.625rem}
+  .classics-grid{gap:.625rem}
+  .pc-body{padding:.875rem .875rem 1rem}
+  .pc-name{font-size:1rem}
+  .pc-desc{display:none}
+  .pc-per{font-size:.6rem}
+  .collab-row{gap:.875rem}
+  .collab-marks{gap:.875rem}
+  .collab-mark{font-size:.72rem}
+  .careers-row{flex-direction:column;align-items:flex-start}
+  .careers-row .btn{width:100%;justify-content:center}
 }
-
-/* ── CARD ANIMATIONS — stagger on scroll ── */
-.pc { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
-.pc.in-view { opacity: 1; transform: translateY(0); }
-
-/* ── MARQUEE interactive pause ── */
-.mq:hover .mq-t { animation-play-state: paused; }
-
-/* ── CTA band pulse ── */
-@keyframes pulse-y {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(251,245,171,0); }
-  50% { box-shadow: 0 0 0 8px rgba(251,245,171,.15); }
-}
-.careers-cta-btn { animation: pulse-y 3s ease infinite; }
-
 </style>
