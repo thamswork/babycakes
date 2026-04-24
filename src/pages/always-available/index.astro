@@ -53,4 +53,15 @@ const cats = [
 .pg-sub{color:rgba(251,245,171,.45);font-size:clamp(.95rem,1.6vw,1.05rem);line-height:1.9;max-width:420px}
 .aa-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
 @media(min-width:900px){.aa-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* ── ALWAYS AVAILABLE MOBILE ── */
+@media(max-width:600px) {
+  .pg-h1 { font-size: clamp(2.75rem, 13vw, 5rem); }
+  .aa-grid { gap: .625rem; }
+  .pc-body { padding: .875rem .875rem 1rem; }
+  .pc-name { font-size: 1rem; }
+  .pc-desc { font-size: .75rem; }
+  .sh-h { font-size: clamp(1.5rem, 7vw, 2.25rem) !important; }
+}
+
 </style>

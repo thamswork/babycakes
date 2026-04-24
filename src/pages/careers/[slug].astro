@@ -140,4 +140,17 @@ function bullets(text?: string): string[] {
 .sback{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--p);text-align:center;transition:opacity .15s}
 .sback:hover{opacity:.7}
 @media(max-width:600px){.rapply-box{flex-direction:column;align-items:flex-start}.rapply-box .btn{width:100%;text-align:center}}
+
+/* ── CAREER LANDING MOBILE ── */
+@media(max-width:600px) {
+  .role-hero { padding-top: clamp(5.5rem, 14vw, 8rem); padding-bottom: 2rem; }
+  .role-h1 { font-size: clamp(2rem, 9vw, 3.5rem); margin-bottom: 1rem; }
+  .rmeta { font-size: .78rem; gap: .5rem; }
+  .rsalary { font-size: 1.2rem; }
+  .role-layout { padding-block: 2.5rem; gap: 2rem; }
+  .rapply-box { flex-direction: column; align-items: flex-start; padding: 1.5rem; }
+  .rapply-box .btn { width: 100%; justify-content: center; }
+  .scard { padding: 1.5rem; }
+}
+
 </style>

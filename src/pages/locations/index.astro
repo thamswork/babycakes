@@ -152,4 +152,35 @@ const branches = all.filter(l => !l.data.hq);
 @media(max-width:640px){
   div[style*="grid-template-columns:1fr auto"]{grid-template-columns:1fr!important}
 }
+
+/* ── LOCATIONS MOBILE ── */
+@media(max-width:600px) {
+  .pg-h1 { font-size: clamp(2.75rem, 13vw, 5rem); }
+  .pg-sub { font-size: .9rem; }
+
+  /* HQ card — stack on mobile */
+  .hq-card { grid-template-columns: 1fr; }
+  .hq-photo { min-height: 220px; }
+  .hq-info { padding: 1.75rem var(--px); }
+  .hq-name { font-size: 1.75rem; margin-bottom: .75rem; }
+  .hq-addr { font-size: .82rem; margin-bottom: 1.25rem; }
+  .hq-meta { gap: 1.25rem; margin-bottom: 1.5rem; }
+  .hq-btns { flex-direction: column; gap: .625rem; }
+  .hq-btns .btn { width: 100%; justify-content: center; }
+
+  /* Branch grid — 1-col on small, 2-col on 480+ */
+  .branch-grid { grid-template-columns: 1fr; gap: .75rem; }
+  .branch-body { padding: 1rem 1.125rem 1.25rem; }
+  .branch-name { font-size: 1.05rem; }
+  .branch-addr { font-size: .75rem; }
+  .branch-meta { font-size: .7rem; }
+  .branch-btns .btn { font-size: .72rem; padding: .5rem 1rem; }
+
+  /* Yellow delivery strip */
+  div[style*="grid-template-columns:1fr auto"] { grid-template-columns: 1fr !important; gap: 1.25rem; }
+}
+@media(min-width:480px) and (max-width:768px) {
+  .branch-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 </style>

@@ -274,6 +274,49 @@ const lastIdx = ms.length - 1;
 .cult-card{background:var(--w);border:1px solid var(--g1);border-radius:var(--rm);padding:clamp(1.5rem,3vw,2.25rem);animation:fadeUp .65s var(--ease) both}
 .cult-t{font-size:1rem;font-weight:700;color:var(--d);margin-bottom:.75rem}
 .cult-d{font-size:.875rem;color:var(--g3);line-height:1.8}
+
+/* ── BRAND MOBILE ── */
+@media(max-width:600px) {
+  /* Hero */
+  .bh-h1 { font-size: clamp(2.5rem, 12vw, 5rem); }
+  .bh-sub { font-size: .88rem; }
+  .bh-stats { width: 100%; }
+  .bh-s { padding: .75rem 1.25rem; border-right: none !important; border-bottom: 1px solid rgba(251,245,171,.1); }
+  .bh-s:last-child { border-bottom: none; }
+  .bh-s strong { font-size: 1.25rem; }
+
+  /* Subnav */
+  .b-nav-in { gap: 1.5rem; padding-block: .75rem; }
+  .b-nav a { font-size: .62rem; }
+
+  /* Story */
+  .story-g { grid-template-columns: 1fr; gap: 2.5rem; }
+  .story-nums { gap: 1.25rem; }
+  .story-nums strong { font-size: 1.35rem; }
+  .story-links { flex-direction: column; }
+  .story-links .btn { width: 100%; justify-content: center; }
+
+  /* Founders */
+  .founder-sec, .founder-sec-r { grid-template-columns: 1fr; direction: ltr; min-height: auto; }
+  .founder-photo { height: clamp(280px, 70vw, 420px); order: 0 !important; }
+  .founder-txt { padding: 2rem var(--px); order: 1; }
+  .founder-nm { font-size: clamp(2rem, 10vw, 3rem); }
+  .founder-bio { font-size: .88rem; }
+  .founder-stats { gap: 1.5rem; }
+  .founder-stats strong { font-size: 1.25rem; }
+
+  /* Timeline */
+  .tl-row { grid-template-columns: 44px 20px 1fr; gap: .75rem; }
+  .tl-y { font-size: .88rem; }
+  .tl-dot { width: 8px; height: 8px; }
+  .tl-e { font-size: .9rem; }
+  .tl-d { font-size: .82rem; }
+
+  /* Culture grid */
+  .g3 { grid-template-columns: 1fr; }
+  .cult-card { padding: 1.25rem; }
+}
+
 </style>
 <script>
 document.querySelectorAll('.fslider').forEach(function(slider) {

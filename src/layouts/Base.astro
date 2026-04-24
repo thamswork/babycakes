@@ -377,6 +377,60 @@ img { display:block; width:100%; height:100%; object-fit:cover; }
   .ft-bot{flex-direction:column;gap:.3rem;text-align:center;padding:.75rem var(--px)}
 }
 @media(max-width:360px)  { .ft-top{grid-template-columns:1fr} }
+
+/* ══════════════════════════════════════════════════════
+   MOBILE OVERRIDES — Babycakes
+   Primary breakpoints: 480px (phone), 768px (tablet)
+   Safe area: env(safe-area-inset-*)
+   ══════════════════════════════════════════════════════ */
+
+/* Safe area padding for iPhone notch / home bar */
+body { padding-bottom: env(safe-area-inset-bottom, 0); }
+.ft-bot { padding-bottom: max(1rem, env(safe-area-inset-bottom, 1rem)); }
+
+/* ── GLOBAL TOUCH TARGETS ── */
+a, button { -webkit-tap-highlight-color: transparent; }
+.btn { min-height: 44px; min-width: 44px; }
+.btn-sm { min-height: 40px; }
+
+/* ── SECTION HEADINGS — tighter on mobile ── */
+@media(max-width:480px) {
+  .sh-h { font-size: clamp(1.75rem, 8vw, 2.75rem) !important; }
+  .sh { margin-bottom: 2rem; flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .sh .btn { width: 100%; justify-content: center; }
+  .sec { padding-block: clamp(3.5rem, 9vw, 5.5rem); }
+  .sec-sm { padding-block: clamp(2.5rem, 6vw, 3.5rem); }
+}
+
+/* ── NAV — always show logo (remove opacity trick on mobile) ── */
+@media(max-width:1080px) {
+  .nav { background: rgba(30,22,56,.97); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+  .nav-logo { opacity: 1 !important; pointer-events: auto !important; }
+  .nav-ham { display: flex; }
+}
+
+/* ── MOBILE OVERLAY — full height safe ── */
+.mob { padding-bottom: env(safe-area-inset-bottom, 0); }
+
+/* ── FOOTER — 2-col on mobile, compact ── */
+@media(max-width:520px) {
+  .ft-top { grid-template-columns: 1fr 1fr; gap: 1.5rem 1.75rem; padding: 2rem var(--px) 1.5rem; }
+  .ft-brand { grid-column: 1 / -1; }
+  .ft-brand p { max-width: 100%; font-size: .78rem; margin-bottom: 1rem; }
+  .ft-soc { gap: .25rem .875rem; }
+  .ft-col h5 { margin-bottom: .75rem; }
+  .ft-col a { margin-bottom: .45rem; font-size: .76rem; }
+  .ft-bot { flex-direction: column; gap: .25rem; text-align: center; padding: .75rem var(--px); font-size: .62rem; }
+}
+
+/* ── MARQUEE — smaller text on mobile ── */
+@media(max-width:480px) {
+  .mq-i { font-size: .58rem; padding-inline: 1.5rem; }
+}
+
+/* ── TAGS — no overflow ── */
+.tag { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
 </style>
 
 <script>

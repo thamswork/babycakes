@@ -86,4 +86,17 @@ const bgMap: Record<string,string> = {
 .collab-name-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(1.25rem,3vw,2rem);color:rgba(255,255,255,.6);text-align:center;padding:1.5rem;line-height:1.1}
 .collab-type-badge{position:absolute;top:1rem;left:1rem;font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .7rem;border-radius:var(--r);background:rgba(0,0,0,.4);color:rgba(255,255,255,.75);backdrop-filter:blur(4px)}
 .collab-cta{display:flex;align-items:center;justify-content:space-between;gap:2.5rem;flex-wrap:wrap;margin-top:5rem;padding-top:4rem;border-top:1.5px solid var(--g1)}
+
+/* ── COLLABS MOBILE ── */
+@media(max-width:600px) {
+  .pg-h1 { font-size: clamp(2.75rem, 13vw, 5rem); }
+  .g3 { grid-template-columns: repeat(2, 1fr); gap: .625rem; }
+  .pc-body { padding: .875rem .875rem 1rem; }
+  .pc-name { font-size: .95rem; }
+  .pc-desc { font-size: .75rem; -webkit-line-clamp: 2; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+  .collab-cta { flex-direction: column; align-items: flex-start; padding-top: 2.5rem; margin-top: 2.5rem; }
+  .collab-cta > div:last-child { flex-direction: column; width: 100%; }
+  .collab-cta .btn { width: 100%; justify-content: center; }
+}
+
 </style>

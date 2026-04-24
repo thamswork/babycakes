@@ -112,4 +112,45 @@ const deptColors: Record<string,string> = {
 .role-salary{display:block;font-size:.72rem;font-weight:700;color:var(--p);margin-top:.35rem}
 .role-arrow{font-size:.78rem;font-weight:700;color:var(--p);white-space:nowrap}
 @media(max-width:900px){.role-row{grid-template-columns:1fr;gap:1rem;padding:1.5rem}.role-arrow-col{display:none}}
+
+/* ── CAREERS MOBILE ── */
+@media(max-width:600px) {
+  .pg-h1 { font-size: clamp(2.75rem, 13vw, 5rem); }
+  .roles-list { border-radius: var(--rm); }
+  .role-row {
+    grid-template-columns: 1fr;
+    gap: .625rem;
+    padding: 1.25rem var(--px);
+    position: relative;
+  }
+  .role-dept-col { order: 1; }
+  .role-dept-tag { font-size: .55rem; padding: .2rem .6rem; }
+  .role-body-col { order: 2; }
+  .role-title { font-size: .95rem; margin-bottom: .2rem; }
+  .role-desc { font-size: .78rem; line-height: 1.55; }
+  .role-meta-col { order: 3; display: flex; flex-wrap: wrap; gap: .35rem .875rem; align-items: center; }
+  .role-type { display: inline; font-size: .72rem; }
+  .role-loc { display: inline; font-size: .72rem; }
+  .role-salary { display: inline; font-size: .72rem; margin-top: 0; }
+  .role-arrow-col {
+    display: flex !important;
+    order: 4;
+    padding-top: .625rem;
+    border-top: 1px solid var(--g1);
+    margin-top: .25rem;
+  }
+  .role-arrow {
+    font-size: .72rem;
+    color: var(--p);
+    font-weight: 700;
+  }
+}
+/* Perks grid — 1-col on mobile */
+@media(max-width:600px) {
+  .g3 { grid-template-columns: 1fr; }
+  .perk-card { padding: 1.25rem; }
+  .perk-t { font-size: .95rem; margin-bottom: .5rem; }
+  .perk-d { font-size: .82rem; }
+}
+
 </style>

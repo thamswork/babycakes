@@ -163,4 +163,20 @@ const photos = [c.logo, c.photo_2, c.photo_3, c.photo_4].filter(Boolean);
 .sback{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--p);text-align:center;transition:opacity .15s}
 .sback:hover{opacity:.7}
 @media(max-width:600px){.collab-apply{flex-direction:column;align-items:flex-start}.collab-apply .btn{width:100%;text-align:center}}
+
+/* ── COLLAB LANDING MOBILE ── */
+@media(max-width:600px) {
+  .collab-hero { padding-top: clamp(5.5rem, 14vw, 8rem); padding-bottom: 2.5rem; }
+  .ch-h1 { font-size: clamp(2.25rem, 10vw, 4rem); }
+  .ch-sub { font-size: .88rem; }
+  .collab-layout { gap: 2rem; padding-block: 2.5rem; }
+  .collab-apply { flex-direction: column; align-items: flex-start; padding: 1.5rem; }
+  .collab-apply .btn { width: 100%; justify-content: center; }
+  /* Collage — stack on mobile */
+  .photos-3 { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .photos-3 .item-1 { grid-row: auto; }
+  .photos-3 .collage-item, .photos-4 .collage-item { aspect-ratio: 4/3; }
+  .cside-card { padding: 1.5rem; }
+}
+
 </style>

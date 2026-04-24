@@ -195,4 +195,37 @@ const heroPhoto = brandPhotos.hero_photo || '';
 .collab-link:hover{opacity:.6}
 .careers-row{display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
 @media(max-width:560px){.careers-row{flex-direction:column;align-items:flex-start}.careers-row .btn{width:100%}}
+
+/* ── HOMEPAGE MOBILE ── */
+@media(max-width:480px) {
+  /* Hero — tighter, no overflow */
+  .hero { min-height: 100svh; }
+  .hero-h1 { font-size: clamp(1.75rem, 7vw, 2.5rem); margin-bottom: 1.25rem; }
+  .hero-brand-label { padding: 1rem var(--px) .75rem; }
+  .hero-brand-name { font-size: 1.1rem; }
+  .hero-bottom { padding-bottom: max(2rem, env(safe-area-inset-bottom, 2rem)); }
+  .hero-meta { font-size: .58rem; letter-spacing: .1em; margin-bottom: 1rem; }
+  .hero-btns { flex-direction: column; gap: .625rem; }
+  .hero-btn-primary { text-align: center; padding: 1rem 1.5rem; font-size: .7rem; }
+  .hero-btn-ghost { padding: .5rem 0; }
+  .hero-scroll { display: none; }
+
+  /* Cards — 2-col always, tighter */
+  .drops-grid { gap: .625rem; }
+  .classics-grid { gap: .625rem; }
+  .pc-body { padding: .875rem .875rem 1rem; }
+  .pc-name { font-size: 1rem; }
+  .pc-desc { display: none; } /* hide desc in 2-col — too cramped */
+  .pc-per { font-size: .6rem; }
+
+  /* Collabs strip */
+  .collab-row { gap: .875rem; }
+  .collab-marks { gap: .875rem; }
+  .collab-mark { font-size: .72rem; }
+
+  /* Careers band */
+  .careers-row { flex-direction: column; align-items: flex-start; }
+  .careers-row .btn { width: 100%; justify-content: center; }
+}
+
 </style>
