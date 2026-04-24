@@ -1,45 +1,29 @@
-# ══════════════════════════════════════════════════════════════════════
-# BABYCAKES — Decap CMS
-# Auth: GitHub via Cloudflare Worker OAuth proxy
-# ══════════════════════════════════════════════════════════════════════
-
 backend:
   name: github
   repo: thamswork/babycakes
   branch: main
-  # Cloudflare Pages OAuth Worker — replaces Netlify Identity
-  # After deploying the worker (see instructions below), paste its URL here:
   base_url: https://babycakes-cms-oauth.tyme-sak.workers.dev
   auth_endpoint: /api/auth
 
 publish_mode: editorial_workflow
-
 media_folder: "public/photos"
 public_folder: "/photos"
-
 site_url: https://babycakes.pages.dev
-display_url: https://babycakes.pages.dev
-
-slug:
-  encoding: ascii
-  clean_accents: true
-  sanitize_replacement: "-"
 
 collections:
 
   - name: settings
     label: "Site Settings"
     files:
-
       - label: "Order Links"
         name: order_links
         file: "src/content/settings/order-links.json"
         fields:
-          - { label: "Main Order LINE link",       name: line_main,   widget: string, hint: "e.g. https://line.me/ti/p/~@babycakes" }
-          - { label: "Collab / Partnership LINE",  name: line_collab, widget: string, hint: "Separate LINE OA for collabs" }
-          - { label: "GrabFood link",              name: grab,        widget: string }
-          - { label: "LINE MAN link",              name: lineman,     widget: string }
-          - { label: "Linktree",                   name: linktree,    widget: string, required: false }
+          - { label: "Main Order LINE link",      name: line_main,   widget: string }
+          - { label: "Collab / Partnership LINE", name: line_collab, widget: string }
+          - { label: "GrabFood link",             name: grab,        widget: string }
+          - { label: "LINE MAN link",             name: lineman,     widget: string }
+          - { label: "Linktree",                  name: linktree,    widget: string, required: false }
 
       - label: "Social Links"
         name: social
@@ -54,15 +38,15 @@ collections:
         name: brand_photos
         file: "src/content/settings/brand-photos.json"
         fields:
-          - { label: "Hero / Homepage photo",  name: hero_photo,  widget: image, required: false, hint: "Main hero — wide, food-focused" }
-          - { label: "Founder Nile — portrait", name: nile_photo, widget: image, required: false }
-          - { label: "Founder Tess — portrait", name: tess_photo, widget: image, required: false }
-          - { label: "First pop-up photo 2022", name: popup_photo,widget: image, required: false }
-          - { label: "Timeline 2021",           name: tl_2021,    widget: image, required: false }
-          - { label: "Timeline 2022",           name: tl_2022,    widget: image, required: false }
-          - { label: "Timeline 2023",           name: tl_2023,    widget: image, required: false }
-          - { label: "Timeline 2024",           name: tl_2024,    widget: image, required: false }
-          - { label: "Timeline 2025",           name: tl_2025,    widget: image, required: false }
+          - { label: "Hero / Homepage photo",    name: hero_photo,  widget: image, required: false }
+          - { label: "Founder Nile portrait",    name: nile_photo,  widget: image, required: false }
+          - { label: "Founder Tess portrait",    name: tess_photo,  widget: image, required: false }
+          - { label: "First pop-up photo 2022",  name: popup_photo, widget: image, required: false }
+          - { label: "Timeline 2021",            name: tl_2021,     widget: image, required: false }
+          - { label: "Timeline 2022",            name: tl_2022,     widget: image, required: false }
+          - { label: "Timeline 2023",            name: tl_2023,     widget: image, required: false }
+          - { label: "Timeline 2024",            name: tl_2024,     widget: image, required: false }
+          - { label: "Timeline 2025",            name: tl_2025,     widget: image, required: false }
 
   - name: weekly_updates
     label: "Bi-Weekly Flavors"
@@ -70,14 +54,13 @@ collections:
     folder: "src/content/weekly-updates"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{fields.slug}}"
-    preview_path: "/bi-weekly/{{fields.slug}}"
     fields:
       - { label: "Flavor Name",       name: name,     widget: string }
       - { label: "URL Slug",          name: slug,     widget: string, hint: "e.g. strawberry-kiss" }
       - { label: "Publish Date",      name: date,     widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
       - { label: "Campaign Period",   name: period,   widget: string, hint: "e.g. 17 Feb – 13 March" }
-      - { label: "Tag",               name: tag,      widget: select, options: ["bi-weekly","limited","new-drop","collab"], default: "bi-weekly" }
-      - { label: "Photo",             name: image,    widget: image, required: false, media_folder: "/public/photos", public_folder: "/photos" }
+      - { label: "Tag",               name: tag,      widget: select, options: ["bi-weekly", "limited", "new-drop", "collab"] }
+      - { label: "Photo",             name: image,    widget: image, required: false }
       - { label: "Card BG Color",     name: bg,       widget: string, default: "#4C4378" }
       - { label: "Short Description", name: desc,     widget: text }
       - { label: "Price (THB)",       name: price,    widget: number, required: false, value_type: float }
@@ -94,9 +77,9 @@ collections:
     fields:
       - { label: "Product Name", name: name,      widget: string }
       - { label: "Slug",         name: slug,      widget: string }
-      - { label: "Subcategory",  name: category,  widget: select, options: [{label:"Tray Cakes",value:"tray-cakes"},{label:"Special Cakes",value:"special-cakes"},{label:"Cookies & Bites",value:"cookies-bites"}] }
+      - { label: "Subcategory",  name: category,  widget: select, options: ["Tray Cakes", "Special Cakes", "Cookies & Bites"] }
       - { label: "Price",        name: price,     widget: string, hint: "e.g. from ฿160" }
-      - { label: "Photo",        name: image,     widget: image, required: false, media_folder: "/public/photos", public_folder: "/photos" }
+      - { label: "Photo",        name: image,     widget: image, required: false }
       - { label: "Card BG",      name: bg,        widget: string, default: "#1e0c06" }
       - { label: "Description",  name: desc,      widget: text }
       - { label: "Available?",   name: available, widget: boolean, default: true }
@@ -108,17 +91,17 @@ collections:
     create: true
     slug: "{{fields.slug}}"
     fields:
-      - { label: "Branch Name",   name: name,    widget: string }
-      - { label: "Slug",          name: slug,    widget: string }
-      - { label: "Zone / Area",   name: zone,    widget: string }
-      - { label: "Address",       name: addr,    widget: text }
-      - { label: "Hours",         name: hours,   widget: string }
-      - { label: "Transit",       name: transit, widget: string }
-      - { label: "Grab Link",     name: grab,    widget: string }
-      - { label: "Google Maps",   name: maps,    widget: string }
-      - { label: "Branch Photo",  name: image,   widget: image, required: false }
-      - { label: "HQ?",           name: hq,      widget: boolean, default: false }
-      - { label: "Active?",       name: active,  widget: boolean, default: true }
+      - { label: "Branch Name",  name: name,    widget: string }
+      - { label: "Slug",         name: slug,    widget: string }
+      - { label: "Zone / Area",  name: zone,    widget: string }
+      - { label: "Address",      name: addr,    widget: text }
+      - { label: "Hours",        name: hours,   widget: string }
+      - { label: "Transit",      name: transit, widget: string }
+      - { label: "Grab Link",    name: grab,    widget: string }
+      - { label: "Google Maps",  name: maps,    widget: string }
+      - { label: "Branch Photo", name: image,   widget: image, required: false }
+      - { label: "HQ?",          name: hq,      widget: boolean, default: false }
+      - { label: "Active?",      name: active,  widget: boolean, default: true }
 
   - name: collabs
     label: "Collaborations"
@@ -129,9 +112,9 @@ collections:
     fields:
       - { label: "Partner Name", name: name,   widget: string }
       - { label: "Slug",         name: slug,   widget: string }
-      - { label: "Type",         name: type,   widget: select, options: ["Product collab","Pop-up partner","Delivery partner","Sourcing partner","Brand collab","Other"] }
+      - { label: "Type",         name: type,   widget: select, options: ["Product collab", "Pop-up partner", "Delivery partner", "Sourcing partner", "Brand collab", "Other"] }
       - { label: "Description",  name: desc,   widget: text }
-      - { label: "Logo",         name: logo,   widget: image, required: false, media_folder: "/public/photos/logos", public_folder: "/photos/logos" }
+      - { label: "Logo",         name: logo,   widget: image, required: false }
       - { label: "Collab LINE",  name: line,   widget: string, required: false }
       - { label: "Website",      name: url,    widget: string, required: false }
       - { label: "Active?",      name: active, widget: boolean, default: true }
@@ -145,8 +128,8 @@ collections:
     fields:
       - { label: "Job Title",   name: title, widget: string }
       - { label: "Slug",        name: slug,  widget: string }
-      - { label: "Department",  name: dept,  widget: select, options: [Kitchen,Marketing,Creative,Ops,Service,Logistics,Other] }
-      - { label: "Type",        name: type,  widget: select, options: [Full-time,Part-time,Contract,Internship] }
+      - { label: "Department",  name: dept,  widget: select, options: ["Kitchen", "Marketing", "Creative", "Ops", "Service", "Logistics", "Other"] }
+      - { label: "Type",        name: type,  widget: select, options: ["Full-time", "Part-time", "Contract", "Internship"] }
       - { label: "Location",    name: loc,   widget: string, default: "Bangkok, TH" }
       - { label: "Description", name: desc,  widget: text }
       - { label: "Open?",       name: open,  widget: boolean, default: true }
