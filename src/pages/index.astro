@@ -28,15 +28,11 @@ const heroPhoto = brandPhotos.hero_photo || '';
   <div class="hero-ov"></div>
   <div class="hero-brand-label">
     <span class="hero-brand-name lf">babycakes</span>
-    <span class="hero-brand-tag">feel good food</span>
+    <span class="hero-brand-tag">we feel good</span>
   </div>
   <div class="wrap hero-bottom">
     <div class="hero-copy">
-      <h1 class="hero-h1 au">
-        <span class="hero-h1-light">feel</span><br/>
-        <span class="hero-h1-light">good</span><br/>
-        <span class="lf hero-h1-bold">food.</span>
-      </h1>
+      <h1 class="hero-h1 au">feel good food.</h1>
       <p class="hero-meta au au1">Baby Tray from ฿210 · 12+ Branches · Bangkok 2021</p>
       <div class="hero-btns au au2">
         <a href="/bi-weekly" class="btn hero-btn-primary">See This Week's Drop</a>
@@ -148,29 +144,43 @@ const heroPhoto = brandPhotos.hero_photo || '';
 </section>
 </Base>
 <style>
-.hero{position:relative;width:100%;height:100svh;min-height:600px;background:#0e0c12;overflow:hidden;display:flex;flex-direction:column}
+.hero{position:relative;width:100%;height:100svh;min-height:580px;background:#0e0c12;overflow:hidden;display:flex;flex-direction:column}
 .hero-img{position:absolute;inset:0}
 .hero-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .hero-img-ph{position:absolute;inset:0;background:linear-gradient(145deg,#1e1638 0%,#3a2060 40%,#4C4378 100%)}
-.hero-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,20,.93) 0%,rgba(10,8,20,.55) 35%,rgba(10,8,20,.18) 62%,rgba(10,8,20,.04) 100%)}
-.hero-brand-label{position:relative;z-index:2;padding:clamp(1.25rem,3vw,2rem) var(--px);display:flex;flex-direction:column;gap:.15rem}
-.hero-brand-name{font-size:clamp(1rem,2.2vw,1.35rem);color:rgba(255,255,255,.9);line-height:1}
-.hero-brand-tag{font-size:.58rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.32)}
-.hero-bottom{position:relative;z-index:2;margin-top:auto;padding-bottom:clamp(2rem,6vw,4rem);display:flex;align-items:flex-end;justify-content:space-between;gap:2rem}
-.hero-h1{font-size:clamp(3.5rem,16vw,12rem);line-height:.88;letter-spacing:-.03em;margin-bottom:clamp(1.25rem,3vw,2rem)}
-.hero-h1-light{display:block;font-family:'Nunito',sans-serif;font-weight:300;color:rgba(255,255,255,.82);font-style:italic}
-.hero-h1-bold{display:block;color:var(--y);line-height:1}
-.hero-meta{font-size:clamp(.62rem,1.4vw,.75rem);font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.36);margin-bottom:clamp(1.25rem,3vw,2rem);line-height:1.6}
+.hero-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,20,.92) 0%,rgba(10,8,20,.5) 38%,rgba(10,8,20,.15) 65%,rgba(10,8,20,.03) 100%)}
+
+/* Brand label top-left — always visible, nav logo hidden until scroll */
+.hero-brand-label{position:relative;z-index:2;padding:clamp(1.1rem,2.5vw,1.75rem) var(--px);display:flex;flex-direction:column;gap:.2rem}
+.hero-brand-name{font-family:'Shrikhand',serif;font-size:clamp(1rem,2vw,1.3rem);color:rgba(255,255,255,.92);line-height:1;letter-spacing:-.01em}
+.hero-brand-tag{font-size:.58rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.3);font-family:'Nunito',sans-serif}
+
+/* Bottom section */
+.hero-bottom{position:relative;z-index:2;margin-top:auto;padding-bottom:clamp(2.5rem,6vw,4.5rem);display:flex;align-items:flex-end;justify-content:space-between;gap:2rem}
+
+/* Single-line headline — compact, same Nunito font, bottom-left */
+.hero-h1{
+  font-family:'Nunito',sans-serif;
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:300;
+  font-style:italic;
+  color:rgba(255,255,255,.88);
+  line-height:1.1;
+  letter-spacing:-.01em;
+  margin-bottom:clamp(1.5rem,3.5vw,2.25rem);
+}
+
+.hero-meta{font-size:clamp(.6rem,1.2vw,.72rem);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.32);margin-bottom:clamp(1.25rem,3vw,2rem);line-height:1.6}
 .hero-btns{display:flex;gap:.75rem;flex-wrap:wrap}
-.hero-btn-primary{background:transparent;border:1px solid rgba(255,255,255,.4);color:rgba(255,255,255,.88);font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.875rem 1.75rem;border-radius:var(--r);transition:background .2s,border-color .2s;white-space:nowrap}
-.hero-btn-primary:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.7);transform:none;box-shadow:none}
-.hero-btn-ghost{background:transparent;border:none;color:rgba(255,255,255,.38);font-size:.72rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;text-decoration:underline;text-underline-offset:4px;padding:.875rem 0;transition:color .15s}
-.hero-btn-ghost:hover{color:rgba(255,255,255,.72);transform:none;box-shadow:none}
+.hero-btn-primary{background:transparent;border:1px solid rgba(255,255,255,.38);color:rgba(255,255,255,.85);font-size:.72rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:.8rem 1.6rem;border-radius:var(--r);transition:background .2s,border-color .2s;white-space:nowrap;font-family:'Nunito',sans-serif}
+.hero-btn-primary:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.65);transform:none;box-shadow:none}
+.hero-btn-ghost{background:transparent;border:none;color:rgba(255,255,255,.35);font-size:.7rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;text-decoration:underline;text-underline-offset:4px;padding:.8rem 0;transition:color .15s;font-family:'Nunito',sans-serif}
+.hero-btn-ghost:hover{color:rgba(255,255,255,.68);transform:none;box-shadow:none}
 .hero-dots{display:flex;flex-direction:column;gap:.5rem;align-items:center;padding-bottom:.25rem;flex-shrink:0}
-.hero-dot{width:20px;height:2px;background:rgba(255,255,255,.2);border-radius:1px}
-.hero-dot-active{background:rgba(255,255,255,.82);width:28px}
-.hero-scroll{position:absolute;bottom:1.25rem;right:var(--px);font-size:.52rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.14);writing-mode:vertical-rl;z-index:2}
-@media(max-width:480px){.hero-dots{display:none}.hero-h1{font-size:clamp(3.25rem,18vw,5rem)}.hero-btns{flex-direction:column}.hero-btn-primary{text-align:center}}
+.hero-dot{width:18px;height:1.5px;background:rgba(255,255,255,.18);border-radius:1px}
+.hero-dot-active{background:rgba(255,255,255,.78);width:26px}
+.hero-scroll{position:absolute;bottom:1.25rem;right:var(--px);font-size:.5rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.12);writing-mode:vertical-rl;z-index:2}
+@media(max-width:480px){.hero-dots{display:none}.hero-btns{flex-direction:column}.hero-btn-primary{text-align:center}}
 .drops-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
 @media(min-width:1024px){.drops-grid{grid-template-columns:repeat(3,1fr)}}
 .drops-more{margin-top:clamp(2rem,4vw,3rem);text-align:center}
