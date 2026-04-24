@@ -1,56 +1,58 @@
 ---
 import Base from '../../layouts/Base.astro';
 const values = [
-  { t:"Warmth",         d:"Every cake carries the warmth of the person who made it. We do not rush. We do not cut corners.",      n:"01" },
-  { t:"Intention",      d:"Nothing accidental, nothing rushed. Every recipe is deliberate — tested, refined, and made with purpose.", n:"02" },
-  { t:"Heritage",       d:"Rooted in family tradition. Inspired by timeless recipes passed down through generations.",               n:"03" },
-  { t:"Accessibility",  d:"Feel-good food for everyone. A great cake should not require a special occasion.",                        n:"04" },
+  { t:"Warmth",         d:"Every cake carries the warmth of the person who made it. We do not rush. We do not cut corners.", n:"01" },
+  { t:"Intention",      d:"Nothing accidental, nothing rushed. Every recipe is deliberate — tested, refined, made with purpose.", n:"02" },
+  { t:"Heritage",       d:"Rooted in family tradition. Inspired by timeless recipes passed down through generations.", n:"03" },
+  { t:"Accessibility",  d:"Feel-good food for everyone. A great cake should not require a special occasion.", n:"04" },
 ];
 const ms = [
-  { y:"2021", e:"Founded",          d:"Started with three flavors and walk-in orders from a home kitchen in Bangna, Bangkok." },
-  { y:"2022", e:"First pop-up",     d:"Launched at Refill Coffee. Sold out in 4 hours. Permanent HQ Bangna opened shortly after." },
-  { y:"2023", e:"Bi-weekly model",  d:"Introduced the bi-weekly rotation — creating urgency, community, and loyal repeat customers." },
-  { y:"2024", e:"Cake Cube drops",  d:"New product format and rapid branch expansion across Bangkok's major malls." },
-  { y:"2025", e:"88K community",    d:"GrabFood and LINE ordering launched. Babycakes reaches every corner of Bangkok." },
-  { y:"2026", e:"New brand system", d:"Full visual identity update. Building toward national expansion and a permanent flagship." },
+  { y:"2021", e:"Founded", d:"Started with three flavors and walk-in orders from a home kitchen in Bangna, Bangkok." },
+  { y:"2022", e:"First pop-up", d:"Launched at Refill Coffee. Sold out in 4 hours. HQ Bangna opened shortly after." },
+  { y:"2023", e:"Bi-weekly model", d:"Introduced the bi-weekly rotation — creating urgency, community, and loyal repeat customers." },
+  { y:"2024", e:"Cake Cube + expansion", d:"New product format and rapid branch expansion across Bangkok's major malls." },
+  { y:"2025", e:"88K community", d:"GrabFood and LINE ordering launched. Babycakes reaches every corner of Bangkok." },
+  { y:"2026", e:"New brand system", d:"Full visual identity update. Building toward national expansion and flagship." },
 ];
 const culture = [
   { t:"Monthly Tasting Table",  d:"Before each bi-weekly drop, the whole team tastes and votes on new recipes together." },
-  { t:"Bake Together Days",     d:"Monthly sessions where anyone can bring a recipe idea. The best ones make it onto the next drop." },
-  { t:"Learning Fridays",       d:"Last Friday each month — a guest chef or brand builder shares their craft with the team." },
-  { t:"Birthday Cake Policy",   d:"Every team member gets a custom Babycakes on their birthday. Obviously." },
-  { t:"Wellness Allowance",     d:"Monthly budget for gym, therapy, or massage — each person decides what they need." },
-  { t:"Flexible Hours",         d:"We care about output, not clock-watching. Great work does not need to happen 9 to 5." },
+  { t:"Bake Together Days",     d:"Anyone can bring a recipe idea. The best ones make it onto the next drop." },
+  { t:"Learning Fridays",       d:"Last Friday each month — a guest chef or brand builder shares their craft." },
+  { t:"Birthday Cake Policy",   d:"Every team member gets a custom Babycakes cake on their birthday. Obviously." },
+  { t:"Wellness Allowance",     d:"Monthly budget for gym, therapy, or massage — each person decides." },
+  { t:"Flexible Hours",         d:"We care about output, not clock-watching." },
 ];
 ---
 <Base title="Brand | Babycakes" description="The Babycakes story — who we are, what we believe, and how we work.">
 
+<!-- HERO — dark, stat pills -->
 <section class="brand-hero">
   <div class="dots"></div>
   <div class="wrap" style="position:relative;z-index:2">
-    <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.75rem">Our Brand</div>
+    <div class="tag tag-ow au" style="width:fit-content;margin-bottom:clamp(1.25rem,3vw,1.75rem)">Our Brand</div>
     <h1 class="lf bh-h1 au au1">The Babycakes<br/>Story.</h1>
-    <p class="bh-sub au au2">Born from baby + cakes — a name rooted in love and care.<br/>Every cake tells a story. Here is ours.</p>
+    <p class="bh-sub au au2">Born from baby + cakes — a name rooted in love and care. Every cake tells a story. Here is ours.</p>
     <div class="bh-stats au au3">
       <div class="bh-stat"><strong class="lf">2021</strong><span>Founded</span></div>
-      <div class="bh-stat"><strong class="lf">10</strong><span>Bangkok Branches</span></div>
+      <div class="bh-stat"><strong class="lf">10</strong><span>Branches</span></div>
       <div class="bh-stat"><strong class="lf">88K+</strong><span>Community</span></div>
       <div class="bh-stat"><strong class="lf">3.4M</strong><span>TikTok Likes</span></div>
     </div>
   </div>
 </section>
 
-<nav class="b-nav">
+<!-- SUBNAV -->
+<nav class="b-nav" id="bNav">
   <div class="wrap b-nav-in">
     <a href="#about">What is Babycakes</a>
-    <a href="#values">What We Believe</a>
-    <a href="#team">Team</a>
+    <a href="#values">Values</a>
+    <a href="#founder">Founder</a>
     <a href="#culture">Culture</a>
     <a href="#timeline">Journey</a>
   </div>
 </nav>
 
-<!-- ABOUT -->
+<!-- ABOUT — white, editorial two-col -->
 <section class="sec" id="about">
   <div class="wrap">
     <div class="about-grid">
@@ -65,10 +67,16 @@ const culture = [
         </div>
       </div>
       <div class="about-right">
-        <div class="about-quote">
-          <span class="aq-mark">&ldquo;</span>
-          <p class="aq-text">Born from a love of home baking and a vision to make feel-good food accessible to everyone.</p>
-          <span class="aq-credit">Founder, Babycakes Bangkok</span>
+        <!-- First store / early days photo slot -->
+        <div class="about-photo-wrap">
+          <div class="about-photo">
+            <!-- Replace with <img src="first-store.jpg" alt="First Babycakes pop-up at Refill Coffee, 2022" /> -->
+            <div class="about-ph-inner">First store / early days photo</div>
+          </div>
+          <div class="about-photo-caption">
+            <span class="caption-label">2022</span>
+            First pop-up at Refill Coffee, Bangna — sold out in 4 hours.
+          </div>
         </div>
         <div class="about-nums">
           <div><strong class="lf">160&thinsp;&#3647;</strong><span>Starting Price</span></div>
@@ -80,18 +88,18 @@ const culture = [
   </div>
 </section>
 
-<!-- VALUES -->
+<!-- VALUES — off-white grid -->
 <section class="sec" id="values" style="background:var(--off)">
   <div class="wrap">
     <div class="sh">
       <div>
         <span class="tag tag-o sh-eye">What We Believe</span>
-        <h2 class="lf sh-h">The principles behind<br/>every cake.</h2>
+        <h2 class="lf sh-h">The principles<br/>behind every cake.</h2>
       </div>
     </div>
     <div class="g4">
-      {values.map((v, i) => (
-        <div class="val-card au" style={"animation-delay:" + (i * 0.08) + "s"}>
+      {values.map((v,i)=>(
+        <div class="val-card au" style={"animation-delay:"+(i*0.08)+"s"}>
           <span class="val-n">{v.n}</span>
           <h3 class="val-t">{v.t}</h3>
           <p class="val-d">{v.d}</p>
@@ -101,38 +109,51 @@ const culture = [
   </div>
 </section>
 
-<!-- TEAM -->
-<section class="sec" id="team" style="background:var(--dk)">
-  <div class="wrap">
-    <div class="sh">
-      <div>
-        <span class="tag tag-y sh-eye">Our Team</span>
-        <h2 class="lf sh-h" style="color:var(--y)">The people who<br/>make it happen.</h2>
-      </div>
-      <a href="/careers" class="btn btn-y btn-lg">Join the Team</a>
+<!-- FOUNDER — full bleed editorial, photo-dominant -->
+<section class="founder-section" id="founder">
+  <div class="founder-photo-col">
+    <!-- Replace with: <img src="founder.jpg" alt="[Founder name], Founder & Creative Director, Babycakes" /> -->
+    <div class="founder-ph">
+      <span>Founder portrait photo</span>
     </div>
-    <div class="founder-card">
-      <div class="founder-initial">B</div>
-      <div>
-        <span class="tag tag-ow" style="margin-bottom:1.5rem">Founder</span>
-        <h3 class="lf founder-name">The Founder</h3>
-        <span class="founder-role">Founder &amp; Creative Director</span>
-        <p class="founder-bio">The creative force behind Babycakes — leading brand vision, recipe direction, and everything that makes Babycakes feel like Babycakes. Started from a home kitchen in Bangna in 2021. Now Bangkok's most-loved tray cake brand with 10 branches and a community of 88K+.</p>
-        <div class="founder-stats">
-          <div><strong class="lf">2021</strong><span>Founded</span></div>
-          <div><strong class="lf">10</strong><span>Branches</span></div>
-          <div><strong class="lf">88K+</strong><span>Community</span></div>
-        </div>
+    <div class="founder-photo-label">Founder &amp; Creative Director</div>
+  </div>
+  <div class="founder-text-col">
+    <span class="tag tag-y sh-eye" style="margin-bottom:1.25rem">Our Team</span>
+    <h2 class="lf founder-name">The Founder.</h2>
+    <p class="founder-bio">The creative force behind Babycakes — leading brand vision, recipe direction, and everything that makes Babycakes feel like Babycakes.</p>
+    <p class="founder-bio">Started from a home kitchen in Bangna in 2021 with three flavors and a dream. Now Bangkok's most-loved tray cake brand with 10 branches, 88K followers, and a team that believes in feel-good food as deeply as the person who started it.</p>
+    <div class="founder-stats">
+      <div><strong class="lf">2021</strong><span>Founded</span></div>
+      <div><strong class="lf">10</strong><span>Branches</span></div>
+      <div><strong class="lf">88K+</strong><span>Community</span></div>
+    </div>
+    <!-- History photos strip -->
+    <div class="history-strip">
+      <div class="history-photo">
+        <!-- <img src="hq-bangna.jpg" alt="HQ Bangna opening" /> -->
+        <div class="history-ph">HQ opening photo</div>
+        <span>HQ Bangna · 2022</span>
+      </div>
+      <div class="history-photo">
+        <!-- <img src="first-cake.jpg" alt="First Babycakes tray cake" /> -->
+        <div class="history-ph">First product photo</div>
+        <span>First flavor · 2021</span>
+      </div>
+      <div class="history-photo">
+        <!-- <img src="team.jpg" alt="Babycakes team" /> -->
+        <div class="history-ph">Team photo</div>
+        <span>The team · Today</span>
       </div>
     </div>
-    <div class="team-note">
-      <p>Our full team — kitchen, marketing, operations, and delivery — is the engine behind every bi-weekly drop and every perfectly timed order. We are growing. Come work with us.</p>
-      <a href="/careers" class="btn btn-y btn-sm" style="margin-top:1.75rem;display:inline-flex">See Open Roles</a>
+    <div class="founder-note">
+      <p>Our full team — kitchen, marketing, operations, and delivery — is the engine behind every bi-weekly drop and every perfectly timed order.</p>
+      <a href="/careers" class="btn btn-y btn-lg" style="margin-top:1.5rem;display:inline-flex">Join the Team</a>
     </div>
   </div>
 </section>
 
-<!-- CULTURE -->
+<!-- CULTURE — yellow bg -->
 <section class="sec" id="culture" style="background:var(--y)">
   <div class="wrap">
     <div class="sh">
@@ -143,8 +164,8 @@ const culture = [
       <a href="/careers" class="btn btn-d btn-lg">Join the Team</a>
     </div>
     <div class="g3">
-      {culture.map((c, i) => (
-        <div class="cult-card au" style={"animation-delay:" + (i * 0.07) + "s"}>
+      {culture.map((c,i)=>(
+        <div class="cult-card au" style={"animation-delay:"+(i*0.07)+"s"}>
           <h3 class="cult-t">{c.t}</h3>
           <p class="cult-d">{c.d}</p>
         </div>
@@ -153,7 +174,7 @@ const culture = [
   </div>
 </section>
 
-<!-- TIMELINE -->
+<!-- TIMELINE — clean list -->
 <section class="sec" id="timeline">
   <div class="wrap">
     <div class="sh">
@@ -163,30 +184,25 @@ const culture = [
       </div>
     </div>
     <div class="tl">
-      {ms.map((m, i) => (
-        <div class={"tl-row au" + (i === ms.length - 1 ? " tl-last" : "")} style={"animation-delay:" + (i * 0.07) + "s"}>
+      {ms.map((m,i)=>(
+        <div class={"tl-row au"+(i===ms.length-1?" tl-last":"")} style={"animation-delay:"+(i*0.07)+"s"}>
           <span class="lf tl-y">{m.y}</span>
-          <div class="tl-connector">
-            <div class="tl-dot"></div>
-            <div class="tl-line"></div>
-          </div>
-          <div class="tl-body">
-            <h3 class="tl-e">{m.e}</h3>
-            <p class="tl-d">{m.d}</p>
-          </div>
+          <div class="tl-conn"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="tl-body"><h3 class="tl-e">{m.e}</h3><p class="tl-d">{m.d}</p></div>
         </div>
       ))}
     </div>
   </div>
 </section>
 
+<!-- FINAL CTA -->
 <section class="sec-sm" style="background:var(--d)">
   <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap">
     <div>
-      <h3 class="lf" style="font-size:clamp(1.75rem,3vw,2.5rem);color:var(--y);line-height:1.1">Want to be part of this?</h3>
-      <p style="color:rgba(251,245,171,0.4);margin-top:0.6rem;font-size:0.9rem;line-height:1.75;max-width:340px">Growing fast. Always open to the right people and partnerships.</p>
+      <h3 class="lf" style="font-size:clamp(1.5rem,3.5vw,2.5rem);color:var(--y);line-height:1.1">Want to be part of this?</h3>
+      <p style="color:rgba(251,245,171,0.4);margin-top:0.5rem;font-size:0.88rem;line-height:1.75;max-width:320px">Growing fast. Always open to the right people and partnerships.</p>
     </div>
-    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+    <div style="display:flex;gap:0.875rem;flex-wrap:wrap">
       <a href="/careers" class="btn btn-y btn-lg">See Open Roles</a>
       <a href="mailto:hello@babycakes.th" class="btn btn-ow btn-lg">Say Hello</a>
     </div>
@@ -195,70 +211,90 @@ const culture = [
 
 </Base>
 <style>
-.brand-hero { position:relative; background:var(--d); padding:10rem var(--px) 5.5rem; overflow:hidden; }
-.bh-h1 { font-size:clamp(3.25rem,9vw,7.5rem); color:var(--y); line-height:0.9; letter-spacing:-0.025em; margin-bottom:1.5rem; }
-.bh-sub { color:rgba(251,245,171,0.45); font-size:clamp(0.95rem,1.6vw,1.05rem); line-height:1.9; max-width:480px; margin-bottom:3rem; }
+/* HERO */
+.brand-hero { position:relative; background:var(--d); padding:clamp(7rem,14vw,11rem) var(--px) clamp(4rem,8vw,6rem); overflow:hidden; }
+.bh-h1 { font-size:clamp(3rem,9vw,7.5rem); color:var(--y); line-height:0.9; letter-spacing:-0.025em; margin-bottom:clamp(1rem,2.5vw,1.5rem); }
+.bh-sub { color:rgba(251,245,171,0.45); font-size:clamp(0.95rem,1.6vw,1.05rem); line-height:1.9; max-width:460px; margin-bottom:clamp(2rem,4vw,3rem); }
 .bh-stats { display:flex; flex-wrap:wrap; border:1px solid rgba(251,245,171,0.1); border-radius:var(--rm); overflow:hidden; width:fit-content; }
-.bh-stat { padding:1.35rem 2.5rem; border-right:1px solid rgba(251,245,171,0.1); display:flex; flex-direction:column; gap:0.3rem; }
+.bh-stat { padding:clamp(1rem,2vw,1.35rem) clamp(1.25rem,3vw,2.5rem); border-right:1px solid rgba(251,245,171,0.1); display:flex; flex-direction:column; gap:0.3rem; }
 .bh-stat:last-child { border-right:none; }
-.bh-stat strong { font-size:1.75rem; color:var(--y); line-height:1; }
-.bh-stat span { font-size:0.62rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:rgba(251,245,171,0.28); }
-@media(max-width:540px) { .bh-stats{width:100%} .bh-stat{border-right:none;border-bottom:1px solid rgba(251,245,171,0.1)} .bh-stat:last-child{border-bottom:none} }
+.bh-stat strong { font-size:clamp(1.35rem,3vw,1.75rem); color:var(--y); line-height:1; }
+.bh-stat span { font-size:0.6rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:rgba(251,245,171,0.28); }
+@media(max-width:480px) { .bh-stats{width:100%} .bh-stat{border-right:none;border-bottom:1px solid rgba(251,245,171,0.1)} .bh-stat:last-child{border-bottom:none} }
 
-.b-nav { background:var(--w); border-bottom:1px solid var(--g1); position:sticky; top:67px; z-index:400; }
-.b-nav-in { display:flex; gap:2.5rem; padding-block:1rem; max-width:var(--mx); margin-inline:auto; padding-inline:var(--px); overflow-x:auto; scrollbar-width:none; white-space:nowrap; }
+/* SUBNAV */
+.b-nav { background:var(--w); border-bottom:1px solid var(--g1); position:sticky; top:clamp(55px,8vw,67px); z-index:400; }
+.b-nav-in { display:flex; gap:clamp(1.25rem,3vw,2.5rem); padding-block:0.9rem; max-width:var(--mx); margin-inline:auto; padding-inline:var(--px); overflow-x:auto; scrollbar-width:none; white-space:nowrap; -webkit-overflow-scrolling:touch; }
 .b-nav-in::-webkit-scrollbar { display:none; }
-.b-nav a { font-size:0.7rem; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:var(--g3); transition:color 0.15s; padding-block:0.25rem; border-bottom:2px solid transparent; transition:color 0.15s, border-color 0.15s; }
+.b-nav a { font-size:0.68rem; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:var(--g3); transition:color 0.15s,border-color 0.15s; padding-block:0.2rem; border-bottom:2px solid transparent; flex-shrink:0; }
 .b-nav a:hover { color:var(--d); border-bottom-color:var(--d); }
 
-.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(4rem,8vw,9rem); align-items:start; }
-.about-h2 { font-size:clamp(2.5rem,5vw,4rem); color:var(--d); line-height:1.02; margin-top:1rem; margin-bottom:1.75rem; }
-.about-p { font-size:1rem; line-height:1.9; color:var(--d); opacity:0.7; }
-.about-p + .about-p { margin-top:1.25rem; }
-.about-links { display:flex; gap:1rem; flex-wrap:wrap; margin-top:2.5rem; }
-.about-right { display:flex; flex-direction:column; gap:2rem; }
-.about-quote { background:var(--off); border-left:3px solid var(--d); padding:2.25rem 2.25rem 2.25rem 2.5rem; border-radius:0 var(--rm) var(--rm) 0; }
-.aq-mark { font-family:'Shrikhand',serif; font-size:3.5rem; color:var(--y); line-height:0.75; display:block; margin-bottom:1rem; }
-.aq-text { font-size:1.05rem; line-height:1.85; color:var(--d); font-style:italic; margin-bottom:1rem; }
-.aq-credit { font-size:0.72rem; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:var(--g3); }
-.about-nums { display:flex; gap:2.5rem; padding:1.75rem 0; border-top:1px solid var(--g1); flex-wrap:wrap; }
-.about-nums div { display:flex; flex-direction:column; gap:0.3rem; }
-.about-nums strong { font-family:'Shrikhand',serif; font-size:1.875rem; color:var(--d); line-height:1; }
-.about-nums span { font-size:0.65rem; font-weight:500; letter-spacing:0.09em; text-transform:uppercase; color:var(--pm); }
+/* ABOUT */
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(3rem,7vw,8rem); align-items:start; }
+.about-h2 { font-size:clamp(2rem,4.5vw,3.5rem); color:var(--d); line-height:1.02; margin-top:1rem; margin-bottom:1.5rem; }
+.about-p { font-size:1rem; line-height:1.9; color:var(--d); opacity:0.72; }
+.about-p+.about-p { margin-top:1.1rem; }
+.about-links { display:flex; gap:0.875rem; flex-wrap:wrap; margin-top:2.25rem; }
+.about-photo-wrap { display:flex; flex-direction:column; gap:1rem; }
+.about-photo { position:relative; aspect-ratio:4/3; border-radius:var(--rm); overflow:hidden; background:var(--d); }
+.about-ph-inner { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:0.68rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.2); text-align:center; padding:1.5rem; }
+.about-photo-caption { display:flex; align-items:flex-start; gap:0.75rem; }
+.caption-label { font-family:'Shrikhand',serif; font-size:1.35rem; color:var(--d); line-height:1; flex-shrink:0; }
+.about-photo-caption { font-size:0.82rem; color:var(--g3); line-height:1.65; }
+.about-nums { display:flex; gap:2rem; padding:1.5rem 0; border-top:1px solid var(--g1); flex-wrap:wrap; margin-top:0.5rem; }
+.about-nums div { display:flex; flex-direction:column; gap:0.25rem; }
+.about-nums strong { font-family:'Shrikhand',serif; font-size:1.75rem; color:var(--d); line-height:1; }
+.about-nums span { font-size:0.62rem; font-weight:600; letter-spacing:0.09em; text-transform:uppercase; color:var(--pm); }
 @media(max-width:768px) { .about-grid{grid-template-columns:1fr} }
+@media(max-width:600px) { .about-links{flex-direction:column} .about-links .btn{width:100%;text-align:center} }
 
-.val-card { background:var(--w); border:1px solid var(--g1); border-radius:var(--rm); padding:2.25rem 2rem; animation:fadeUp 0.65s var(--ease) both; }
-.val-n { font-size:0.62rem; font-weight:600; letter-spacing:0.1em; color:var(--pm); display:block; margin-bottom:1.25rem; }
+/* VALUES */
+.val-card { background:var(--w); border:1px solid var(--g1); border-radius:var(--rm); padding:clamp(1.5rem,3vw,2.25rem) clamp(1.25rem,2.5vw,2rem); animation:fadeUp 0.65s var(--ease) both; }
+.val-n { font-size:0.6rem; font-weight:600; letter-spacing:0.1em; color:var(--pm); display:block; margin-bottom:1.1rem; }
 .val-t { font-size:1rem; font-weight:600; color:var(--d); margin-bottom:0.75rem; }
 .val-d { font-size:0.875rem; color:var(--g3); line-height:1.8; }
 
-.founder-card { display:grid; grid-template-columns:160px 1fr; gap:3.5rem; align-items:start; background:rgba(255,255,255,0.04); border:1px solid rgba(251,245,171,0.08); border-radius:var(--rl); padding:3rem 3.5rem; margin-bottom:1.75rem; }
-.founder-initial { width:120px; height:120px; border-radius:var(--rm); background:var(--y); display:flex; align-items:center; justify-content:center; font-family:'Shrikhand',serif; font-size:3.5rem; color:var(--d); flex-shrink:0; }
-.founder-name { font-family:'Shrikhand',serif; font-size:2rem; color:var(--y); margin-bottom:0.35rem; line-height:1; }
-.founder-role { display:block; font-size:0.68rem; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; color:var(--pm); margin-bottom:1.25rem; }
-.founder-bio { font-size:0.9rem; color:rgba(251,245,171,0.5); line-height:1.9; max-width:520px; }
-.founder-stats { display:flex; gap:3rem; margin-top:2rem; padding-top:2rem; border-top:1px solid rgba(251,245,171,0.08); flex-wrap:wrap; }
+/* FOUNDER — full bleed split */
+.founder-section { display:grid; grid-template-columns:1fr 1fr; min-height:clamp(560px,80vw,820px); }
+.founder-photo-col { position:relative; overflow:hidden; background:var(--dk); }
+.founder-ph { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:linear-gradient(145deg,var(--dk) 0%,#382460 100%); }
+.founder-ph span { font-size:0.68rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:rgba(251,245,171,0.18); text-align:center; padding:2rem; }
+.founder-photo-label { position:absolute; bottom:1.75rem; left:1.75rem; font-size:0.62rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:rgba(251,245,171,0.4); z-index:2; }
+.founder-text-col { display:flex; flex-direction:column; justify-content:center; padding:clamp(3rem,6vw,6rem) clamp(2rem,5vw,5.5rem); background:var(--off); overflow-y:auto; }
+.founder-name { font-family:'Shrikhand',serif; font-size:clamp(2.5rem,5vw,4rem); color:var(--d); line-height:1; margin-bottom:1.5rem; }
+.founder-bio { font-size:0.95rem; color:var(--d); opacity:0.7; line-height:1.9; }
+.founder-bio+.founder-bio { margin-top:1rem; }
+.founder-stats { display:flex; gap:2.5rem; margin:1.75rem 0; padding:1.5rem 0; border-top:1.5px solid var(--g1); border-bottom:1.5px solid var(--g1); flex-wrap:wrap; }
 .founder-stats div { display:flex; flex-direction:column; gap:0.3rem; }
-.founder-stats strong { font-family:'Shrikhand',serif; font-size:1.5rem; color:var(--y); line-height:1; }
-.founder-stats span { font-size:0.62rem; font-weight:500; letter-spacing:0.09em; text-transform:uppercase; color:rgba(251,245,171,0.28); }
-.team-note { background:rgba(255,255,255,0.04); border:1px solid rgba(251,245,171,0.07); border-radius:var(--rm); padding:2.5rem 3rem; }
-.team-note p { font-size:0.95rem; color:rgba(251,245,171,0.45); line-height:1.9; max-width:580px; }
-@media(max-width:600px) { .founder-card{grid-template-columns:1fr;padding:2rem} .founder-initial{width:90px;height:90px;font-size:2.5rem} }
+.founder-stats strong { font-family:'Shrikhand',serif; font-size:1.5rem; color:var(--d); line-height:1; }
+.founder-stats span { font-size:0.62rem; font-weight:600; letter-spacing:0.09em; text-transform:uppercase; color:var(--pm); }
+/* History photos strip */
+.history-strip { display:flex; gap:0.875rem; margin-bottom:1.75rem; }
+.history-photo { flex:1; display:flex; flex-direction:column; gap:0.5rem; }
+.history-ph { aspect-ratio:1; border-radius:var(--r); background:var(--g1); display:flex; align-items:center; justify-content:center; overflow:hidden; font-size:0.6rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--g3); text-align:center; padding:0.5rem; }
+.history-photo span { font-size:0.68rem; color:var(--g3); font-weight:500; line-height:1.4; }
+.founder-note p { font-size:0.9rem; color:var(--d); opacity:0.62; line-height:1.85; }
+@media(max-width:768px) {
+  .founder-section { grid-template-columns:1fr; min-height:auto; }
+  .founder-photo-col { height:clamp(300px,55vw,480px); }
+  .founder-text-col { padding:clamp(2.5rem,7vw,4rem) var(--px); }
+}
 
-.cult-card { background:rgba(76,67,120,0.07); border:1px solid rgba(76,67,120,0.1); border-radius:var(--rm); padding:2.25rem 2rem; animation:fadeUp 0.65s var(--ease) both; }
+/* CULTURE */
+.cult-card { background:rgba(76,67,120,0.08); border:1px solid rgba(76,67,120,0.1); border-radius:var(--rm); padding:clamp(1.5rem,3vw,2.25rem) clamp(1.25rem,2.5vw,2rem); animation:fadeUp 0.65s var(--ease) both; }
 .cult-t { font-size:1rem; font-weight:600; color:var(--d); margin-bottom:0.75rem; }
 .cult-d { font-size:0.875rem; color:var(--d); opacity:0.62; line-height:1.8; }
 
+/* TIMELINE */
 .tl { display:flex; flex-direction:column; }
-.tl-row { display:grid; grid-template-columns:80px 32px 1fr; gap:2rem; }
-.tl-y { font-size:1.2rem; color:var(--pm); line-height:1; padding-top:0.35rem; text-align:right; }
-.tl-connector { display:flex; flex-direction:column; align-items:center; padding-top:0.4rem; }
-.tl-dot { width:12px; height:12px; border-radius:50%; background:var(--y); border:2.5px solid var(--d); flex-shrink:0; box-shadow:0 0 0 4px rgba(159,151,194,0.15); }
-.tl-line { flex:1; width:2px; background:var(--g1); margin-top:8px; min-height:3rem; }
+.tl-row { display:grid; grid-template-columns:clamp(52px,8vw,80px) 28px 1fr; gap:clamp(1rem,2.5vw,2rem); }
+.tl-y { font-size:clamp(1rem,2vw,1.2rem); color:var(--pm); line-height:1; padding-top:0.35rem; text-align:right; }
+.tl-conn { display:flex; flex-direction:column; align-items:center; padding-top:0.4rem; }
+.tl-dot { width:11px; height:11px; border-radius:50%; background:var(--y); border:2.5px solid var(--d); flex-shrink:0; box-shadow:0 0 0 4px rgba(159,151,194,0.14); }
+.tl-line { flex:1; width:2px; background:var(--g1); margin-top:7px; min-height:2.5rem; }
 .tl-last .tl-line { display:none; }
-.tl-body { padding-bottom:3rem; }
+.tl-body { padding-bottom:clamp(2rem,4vw,3rem); }
 .tl-last .tl-body { padding-bottom:0; }
-.tl-e { font-size:1rem; font-weight:600; color:var(--d); margin-bottom:0.4rem; }
+.tl-e { font-size:1rem; font-weight:600; color:var(--d); margin-bottom:0.35rem; }
 .tl-d { font-size:0.875rem; color:var(--g3); line-height:1.8; }
-@media(max-width:500px) { .tl-row{grid-template-columns:56px 24px 1fr;gap:1rem} .tl-y{font-size:0.95rem} }
 </style>
