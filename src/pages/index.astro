@@ -131,17 +131,6 @@ const heroPhoto = brandPhotos.hero_photo || '';
   </div>
 </section>
 
-<!-- ── STICKY ORDER BAR (mobile only) ── -->
-<div class="order-bar" id="orderBar">
-  <a href={lineLink} target="_blank" rel="noopener" class="obar-btn obar-line">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
-    Order LINE
-  </a>
-  <a href="/bi-weekly" class="obar-btn obar-drop">
-    This Week's Drop →
-  </a>
-</div>
-
 </Base>
 <style>
 /* ── HERO ── */
@@ -274,31 +263,6 @@ const heroPhoto = brandPhotos.hero_photo || '';
   max-width: 320px;
 }
 
-/* ── STICKY ORDER BAR ── */
-.order-bar {
-  display: none; /* desktop hidden */
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 800;
-  background: rgba(30,22,56,.97);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border-top: 1px solid rgba(159,151,194,.15);
-  padding: .625rem .875rem;
-  padding-bottom: max(.625rem, env(safe-area-inset-bottom));
-  gap: .5rem;
-  transform: translateY(100%);
-  transition: transform .3s var(--ease);
-}
-.order-bar.visible { transform: translateY(0); }
-.obar-btn {
-  display: flex; align-items: center; justify-content: center; gap: .4rem;
-  border-radius: var(--rm); font-family: var(--font);
-  font-weight: 700; font-size: .82rem;
-  padding: .75rem .875rem; min-height: 46px;
-  transition: opacity .15s;
-}
-.obar-btn:active { opacity: .78; transform: scale(.97); }
-.obar-line { background: #06C755; color: #fff; flex: 1; }
-.obar-drop { background: var(--y); color: var(--d); flex: 2; white-space: nowrap; }
-
 /* ── CARD ANIMATION ── */
 .pc { opacity: 0; transform: translateY(14px); }
 .pc.in-view { opacity: 1; transform: translateY(0); transition: opacity .4s var(--ease), transform .4s var(--ease); }
@@ -324,8 +288,6 @@ const heroPhoto = brandPhotos.hero_photo || '';
   /* Order bar visible */
   .order-bar { display: flex; }
 
-  /* Body bottom padding so bar doesn't cover content */
-  main { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
 }
 
 @media (max-width: 480px) {
@@ -336,13 +298,3 @@ const heroPhoto = brandPhotos.hero_photo || '';
 }
 </style>
 
-<script>
-(function () {
-  const bar  = document.getElementById('orderBar');
-  const hero = document.querySelector('.hero');
-  if (!bar || !hero || window.innerWidth > 768) return;
-  const check = () => bar.classList.toggle('visible', hero.getBoundingClientRect().bottom < 0);
-  window.addEventListener('scroll', check, { passive: true });
-  check();
-})();
-</script>
