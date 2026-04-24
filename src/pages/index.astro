@@ -21,7 +21,7 @@ const heroPhoto = brandPhotos.hero_photo || '';
 <section class="hero">
   <div class="hero-img" style={heroPhoto ? '' : ''}>
     {heroPhoto
-      ? <img src={heroPhoto} alt="Babycakes feel good food" />
+      ? <img src={heroPhoto} alt="Babycakes feel good food" loading="eager" fetchpriority="high" />
       : <div class="hero-img-ph"></div>
     }
   </div>

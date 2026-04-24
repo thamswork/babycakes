@@ -97,7 +97,7 @@ const lastIdx = ms.length - 1;
     <section class={"founder-sec" + (fi % 2 === 1 ? " founder-sec-r" : "")}>
       <div class="founder-photo" style={"background:" + (f.bg_color ?? '#2a1640')}>
         {f.photo
-          ? <img src={f.photo} alt={f.full_name + ", " + f.role} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />
+          ? <img src={f.photo} alt={f.full_name + ", " + f.role} style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" loading="eager" fetchpriority="high" />
           : <div class="founder-ph"><span>Photo of {f.nickname}</span></div>
         }
         <div class="founder-watermark lf">{f.nickname}</div>

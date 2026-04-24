@@ -1,0 +1,164 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const roles = await getCollection('careers');
+  return roles.map(r => ({
+    // Use both the data.slug and the file id as fallback
+    params: { slug: r.data.slug || r.id.replace('.json','') },
+    props:  { role: r.data },
+  }));
+}
+
+const { role: d } = Astro.props;
+
+const deptColors: Record<string,string> = {
+  Kitchen:   '#FBF5AB',
+  Marketing: '#c8d4f8',
+  Creative:  '#f8d4f0',
+  Ops:       '#d4f8e0',
+  Service:   '#f8ead4',
+  Logistics: '#d4eaf8',
+  Other:     '#e8e8e8',
+};
+const deptBg = deptColors[d.dept] ?? '#e8e8e8';
+
+function toBullets(text?: string): string[] {
+  if (!text) return [];
+  return text.split(/\.\s+|[;\n]/)
+    .map((s: string) => s.trim().replace(/\.$/, ''))
+    .filter(Boolean);
+}
+---
+<Base title={d.title + " | Babycakes Careers"} description={d.desc}>
+
+<section class="role-hero">
+  <div class="wrap">
+    <a href="/careers" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      All open roles
+    </a>
+    <div class="role-dept-pill" style={"background:"+deptBg+";color:var(--d)"}>{d.dept}</div>
+    <h1 class="lf role-h1">{d.title}</h1>
+    <div class="role-meta-strip">
+      <span class="rms-item">{d.type}</span>
+      <span class="rms-sep">·</span>
+      <span class="rms-item">{d.loc}</span>
+      {d.start_date && <><span class="rms-sep">·</span><span class="rms-item">Starts {d.start_date}</span></>}
+    </div>
+    {(d.salary_min && d.salary_max) && (
+      <div class="role-salary">
+        ฿{Number(d.salary_min).toLocaleString()} – ฿{Number(d.salary_max).toLocaleString()}
+        {d.salary_note && <span class="role-salary-note"> · {d.salary_note}</span>}
+      </div>
+    )}
+  </div>
+</section>
+
+<div class="wrap role-body">
+  <div class="role-main">
+
+    <section class="role-section">
+      <p class="role-overview">{d.desc}</p>
+    </section>
+
+    {toBullets(d.responsibilities).length > 0 && (
+      <section class="role-section">
+        <h2 class="role-section-h">What you'll do</h2>
+        <ul class="role-list">
+          {toBullets(d.responsibilities).map((b: string) => <li>{b}</li>)}
+        </ul>
+      </section>
+    )}
+
+    {toBullets(d.requirements).length > 0 && (
+      <section class="role-section">
+        <h2 class="role-section-h">What we're looking for</h2>
+        <ul class="role-list">
+          {toBullets(d.requirements).map((b: string) => <li>{b}</li>)}
+        </ul>
+      </section>
+    )}
+
+    {d.benefits && (
+      <section class="role-section">
+        <h2 class="role-section-h">Benefits</h2>
+        <p class="role-overview">{d.benefits}</p>
+      </section>
+    )}
+
+    <div class="role-apply-box">
+      <div>
+        <h3 class="lf" style="font-size:1.75rem;color:var(--d);margin-bottom:.5rem">Ready to apply?</h3>
+        <p style="color:var(--g3);font-size:.9rem;line-height:1.75">Send your CV and a short note. Tell us why Babycakes.</p>
+      </div>
+      <a href={"mailto:hello@babycakes.th?subject=Application: "+encodeURIComponent(d.title)} class="btn btn-d btn-lg">
+        Apply for this role
+      </a>
+    </div>
+  </div>
+
+  <aside class="role-sidebar">
+    <div class="sidebar-card">
+      <h4 class="sidebar-h">Role details</h4>
+      <div class="sidebar-row"><span>Department</span><strong>{d.dept}</strong></div>
+      <div class="sidebar-row"><span>Type</span><strong>{d.type}</strong></div>
+      <div class="sidebar-row"><span>Location</span><strong>{d.loc}</strong></div>
+      {d.start_date && <div class="sidebar-row"><span>Start date</span><strong>{d.start_date}</strong></div>}
+      {(d.salary_min && d.salary_max) && (
+        <div class="sidebar-row">
+          <span>Salary</span>
+          <strong style="color:var(--p)">฿{Number(d.salary_min).toLocaleString()} – ฿{Number(d.salary_max).toLocaleString()}</strong>
+        </div>
+      )}
+    </div>
+
+    <div class="sidebar-card" style="background:var(--d);border-color:transparent">
+      <h4 class="sidebar-h" style="color:rgba(251,245,171,.4)">Apply now</h4>
+      <p style="font-size:.82rem;color:rgba(251,245,171,.42);line-height:1.75;margin-bottom:1.25rem">Email us with your CV and a short intro.</p>
+      <a href={"mailto:hello@babycakes.th?subject=Application: "+encodeURIComponent(d.title)} class="btn btn-y" style="width:100%;justify-content:center">
+        hello@babycakes.th
+      </a>
+    </div>
+
+    <a href="/careers" class="sidebar-back">← Back to all roles</a>
+  </aside>
+</div>
+
+</Base>
+<style>
+.role-hero{background:var(--cr);border-bottom:1px solid var(--g1);padding:clamp(7rem,12vw,10rem) var(--px) clamp(3rem,5vw,4rem)}
+.back-link{display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--p);margin-bottom:2rem;transition:opacity .15s}
+.back-link:hover{opacity:.7}
+.role-dept-pill{display:inline-flex;align-items:center;padding:.3rem .875rem;border-radius:var(--r);font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.25rem}
+.role-h1{font-size:clamp(2.5rem,7vw,5.5rem);color:var(--d);line-height:.95;letter-spacing:-.025em;margin-bottom:1.5rem}
+.role-meta-strip{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem}
+.rms-item{font-size:.85rem;color:var(--g3);font-weight:500}
+.rms-sep{color:var(--g2)}
+.role-salary{font-size:1.5rem;font-weight:700;color:var(--p);margin-top:.5rem}
+.role-salary-note{font-size:.78rem;font-weight:500;color:var(--g3)}
+
+.role-body{display:grid;grid-template-columns:1fr 320px;gap:4rem;align-items:start;padding-block:clamp(3.5rem,7vw,6rem)}
+@media(max-width:960px){.role-body{grid-template-columns:1fr}.role-sidebar{order:-1}}
+
+.role-main{display:flex;flex-direction:column;gap:3rem}
+.role-section{display:flex;flex-direction:column;gap:1rem}
+.role-section-h{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);padding-bottom:.75rem;border-bottom:1px solid var(--g1)}
+.role-overview{font-size:1rem;color:var(--tx);line-height:1.9}
+.role-list{display:flex;flex-direction:column;gap:.75rem;list-style:none;padding:0}
+.role-list li{font-size:.95rem;color:var(--tx);line-height:1.8;padding-left:1.5rem;position:relative}
+.role-list li::before{content:"–";position:absolute;left:0;color:var(--p);font-weight:700}
+.role-apply-box{display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;padding:2.5rem;background:var(--cr);border-radius:var(--rl);border:1px solid var(--g1)}
+
+.role-sidebar{display:flex;flex-direction:column;gap:1.25rem;position:sticky;top:calc(var(--nav-h) + 2rem)}
+.sidebar-card{border-radius:var(--rl);padding:2rem;background:var(--cr);border:1px solid var(--g1)}
+.sidebar-h{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);margin-bottom:1.25rem}
+.sidebar-row{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.625rem 0;border-bottom:1px solid var(--g1);font-size:.82rem}
+.sidebar-row:last-child{border-bottom:none}
+.sidebar-row span{color:var(--g3)}
+.sidebar-row strong{color:var(--d);font-weight:700;text-align:right}
+.sidebar-back{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--p);transition:opacity .15s;text-align:center}
+.sidebar-back:hover{opacity:.7}
+@media(max-width:600px){.role-apply-box{flex-direction:column;align-items:flex-start}.role-apply-box .btn{width:100%;text-align:center}}
+</style>
