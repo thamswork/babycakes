@@ -2,11 +2,11 @@
   "name": "Dusit Central Park",
   "slug": "dusit",
   "zone": "Silom",
-  "addr": "Dusit Central Park, Rama IV Rd, Bang Rak, Bangkok 10500",
+  "addr": "Dusit Central Park, Rama IV Rd, Bangkok 10500",
   "hours": "10:00 – 22:00",
   "transit": "BTS Sala Daeng / MRT Si Lom",
   "grab": "https://food.grab.com/th/en/search?keyword=babycakes+dusit",
-  "maps": "https://maps.google.com/?q=Babycakes+Dusit+Central+Park",
+  "maps": "https://maps.google.com/?q=Babycakes+Dusit",
   "image": "",
   "hq": false,
   "active": true

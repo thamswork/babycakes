@@ -2,11 +2,11 @@
   "name": "Samyan Mitrtown",
   "slug": "samyan",
   "zone": "Samyan",
-  "addr": "Samyan Mitrtown, Rama IV Rd, Pathum Wan, Bangkok 10330",
+  "addr": "Samyan Mitrtown, Rama IV Rd, Bangkok 10330",
   "hours": "10:00 – 22:00",
   "transit": "MRT Sam Yan",
   "grab": "https://food.grab.com/th/en/search?keyword=babycakes+samyan",
-  "maps": "https://maps.google.com/?q=Babycakes+Samyan+Mitrtown",
+  "maps": "https://maps.google.com/?q=Babycakes+Samyan",
   "image": "",
   "hq": false,
   "active": true

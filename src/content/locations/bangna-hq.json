@@ -2,11 +2,11 @@
   "name": "HQ Bangna",
   "slug": "bangna-hq",
   "zone": "Bangna",
-  "addr": "94/8 Soi Wachiratham Sathit, Bang Na Nuea, Bang Na District, Bangkok 10260",
+  "addr": "94/8 Soi Wachiratham Sathit, Bang Na Nuea, Bang Na, Bangkok 10260",
   "hours": "10:00 – 20:00",
   "transit": "Bang Na BTS",
   "grab": "https://food.grab.com/th/en/search?keyword=babycakes+bangna",
-  "maps": "https://maps.google.com/?q=Babycakes+Bangna+Bangkok",
+  "maps": "https://maps.google.com/?q=Babycakes+Bangna",
   "image": "",
   "hq": true,
   "active": true

@@ -2,11 +2,11 @@
   "name": "BTS Chidlom",
   "slug": "chidlom",
   "zone": "Chidlom",
-  "addr": "BTS Chidlom area, Phloen Chit Rd, Pathum Wan, Bangkok 10330",
+  "addr": "Phloen Chit Rd, Pathum Wan, Bangkok 10330",
   "hours": "10:00 – 21:00",
   "transit": "BTS Chidlom",
   "grab": "https://food.grab.com/th/en/search?keyword=babycakes+chidlom",
-  "maps": "https://maps.google.com/?q=Babycakes+Chidlom+Bangkok",
+  "maps": "https://maps.google.com/?q=Babycakes+Chidlom",
   "image": "",
   "hq": false,
   "active": true

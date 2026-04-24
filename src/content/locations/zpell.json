@@ -2,11 +2,11 @@
   "name": "ZPELL Future Park",
   "slug": "zpell",
   "zone": "Rangsit",
-  "addr": "ZPELL @ Future Park Rangsit, Phahonyothin Rd, Pathum Thani",
+  "addr": "ZPELL @ Future Park Rangsit, Pathum Thani",
   "hours": "10:00 – 21:00",
   "transit": "Future Park Rangsit",
   "grab": "https://food.grab.com/th/en/search?keyword=babycakes+zpell",
-  "maps": "https://maps.google.com/?q=Babycakes+ZPELL+Future+Park",
+  "maps": "https://maps.google.com/?q=Babycakes+ZPELL",
   "image": "",
   "hq": false,
   "active": true
