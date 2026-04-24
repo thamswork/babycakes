@@ -1,0 +1,368 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import brandPhotosRaw from '../../content/settings/brand-photos.json';
+
+const brandFiles = await getCollection('brand');
+const getFile = (id: string) => brandFiles.find(f => f.id === id)?.data ?? {};
+const hero        = getFile('hero') as any;
+const story       = getFile('story') as any;
+const timeline    = getFile('timeline') as any;
+const founderNile = getFile('founder-nile') as any;
+const founderTess = getFile('founder-tess') as any;
+const founders    = [founderNile, founderTess].sort((a:any,b:any)=>(a.order||0)-(b.order||0));
+
+const bp = brandPhotosRaw as any;
+const nilePhotos = [bp.nile_photo, bp.nile_photo_2, bp.nile_photo_3].filter(Boolean);
+const tessPhotos = [bp.tess_photo, bp.tess_photo_2, bp.tess_photo_3].filter(Boolean);
+const photoMap: Record<string,string[]> = { nile: nilePhotos, tess: tessPhotos };
+
+const culture = [
+  { t:"Monthly Tasting Table",  d:"Before each bi-weekly drop, the whole team tastes and votes on new recipes." },
+  { t:"Bake Together Days",     d:"Anyone can bring a recipe idea. The best ones make it onto the next drop." },
+  { t:"Learning Fridays",       d:"Last Friday each month — a guest chef or brand builder shares their craft." },
+  { t:"Birthday Cake Policy",   d:"Every team member gets a custom Babycakes on their birthday. Obviously." },
+  { t:"Wellness Allowance",     d:"Monthly budget for gym, therapy, or massage — each person decides." },
+  { t:"Flexible Hours",         d:"We care about output, not clock-watching." },
+];
+const ms = (timeline.items ?? []) as any[];
+const lastIdx = ms.length - 1;
+---
+<Base title="Brand | Babycakes" description="The Babycakes story — two founders, one 1999 recipe, Bangkok's most-loved tray cake.">
+
+<!-- ── HERO ── dark purple bg, yellow headline -->
+<section class="brand-hero">
+  <div class="dots"></div>
+  <div class="wrap" style="position:relative;z-index:2">
+    <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">{hero.tagline ?? 'Our Brand'}</div>
+    <h1 class="bh-h1 au au1">{hero.headline_1 ?? 'The Babycakes'}<br/>{hero.headline_2 ?? 'Story'}</h1>
+    <p class="bh-sub au au2">{hero.subheading ?? 'A 1999 family recipe. A home kitchen in Bangna. Two founders who believed food baked with love tastes different'}</p>
+    <div class="bh-stats au au3">
+      <div class="bh-s"><strong>{hero.stat_1_value ?? '2021'}</strong><span>{hero.stat_1_label ?? 'Founded'}</span></div>
+      <div class="bh-s"><strong>{hero.stat_2_value ?? '12+'}</strong><span>{hero.stat_2_label ?? 'Locations'}</span></div>
+      <div class="bh-s"><strong>{hero.stat_3_value ?? '฿1M+'}</strong><span>{hero.stat_3_label ?? 'Peak month'}</span></div>
+      <div class="bh-s"><strong>{hero.stat_4_value ?? '3.4M'}</strong><span>{hero.stat_4_label ?? 'TikTok likes'}</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SUBNAV ── -->
+<nav class="b-nav">
+  <div class="wrap b-nav-in">
+    <a href="#story">Story</a>
+    <a href="#founders">Founders</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#culture">Culture</a>
+  </div>
+</nav>
+
+<!-- ── STORY ── -->
+<section class="sec" id="story">
+  <div class="wrap">
+    <div class="story-g">
+      <div>
+        <span class="tag tag-y sh-eye" style="padding-inline:1.25rem">What is Babycakes</span>
+        <!-- Story headline: Neulis Neue 800 italic, medium purple -->
+        <h2 class="story-h2">
+          {story.headline ?? 'Feel good food, baked with love'}
+        </h2>
+        <p class="sbp">{story.body_1 ?? 'Babycakes was born from a simple belief: that food baked with love tastes different. We sit comfortably in the Affordable Luxury niche — more premium than street bakeries, more personal than hotel patisseries'}</p>
+        {story.body_2 && <p class="sbp">{story.body_2}</p>}
+        <div class="story-links">
+          <a href="/bi-weekly" class="btn btn-p btn-lg">This Week's Drop</a>
+          <a href="/locations" class="btn btn-op btn-lg">Find a Branch</a>
+        </div>
+      </div>
+      <div>
+        <div class="story-img">
+          {bp.popup_photo
+            ? <img src={bp.popup_photo} alt="First Babycakes pop-up" loading="eager"/>
+            : <div class="story-img-ph"><span>Upload first pop-up photo<br/>CMS → Site Settings → Brand Photos</span></div>
+          }
+        </div>
+        <div class="story-cap">
+          <span class="story-cap-y lf">{story.popup_year ?? '2022'}</span>
+          <p>{story.popup_caption ?? 'First pop-up at Refill Coffee, Bangna — sold out in 4 hours'}</p>
+        </div>
+        <div class="story-nums">
+          <div><strong>{story.stat_price ?? '฿210'}</strong><span>{story.stat_price_label ?? 'Baby Tray from'}</span></div>
+          <div><strong>{story.stat_locations ?? '12+'}</strong><span>{story.stat_locations_label ?? 'Locations'}</span></div>
+          <div><strong>{story.stat_rhythm ?? 'Weekly'}</strong><span>{story.stat_rhythm_label ?? 'New flavors'}</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOUNDERS ── -->
+<div id="founders">
+  {founders.map((f: any, fi: number) => {
+    const photos = photoMap[f.id] ?? [];
+    const sid = `sl-${f.id}`;
+    return (
+      <section class={"founder-sec" + (fi%2===1 ? " founder-sec-r" : "")}>
+        <div class="founder-photo" style={"background:"+(f.bg_color??'var(--p)')}>
+          {photos.length > 0 ? (
+            <div class="fslider" id={sid}>
+              {photos.map((src:string, pi:number) => (
+                <div class={"fslide"+(pi===0?" active":"")} data-idx={pi}>
+                  <img src={src} alt={f.full_name} loading={pi===0?"eager":"lazy"} fetchpriority={pi===0?"high":"auto"}/>
+                </div>
+              ))}
+              {photos.length > 1 && (
+                <div class="fctrl">
+                  <button class="fbtn fprev" data-sid={sid} aria-label="Prev">&#8592;</button>
+                  <div class="fdots">
+                    {photos.map((_:string, pi:number) => (
+                      <button class={"fdot"+(pi===0?" active":"")} data-sid={sid} data-idx={pi} aria-label={"Photo "+(pi+1)}></button>
+                    ))}
+                  </div>
+                  <button class="fbtn fnext" data-sid={sid} aria-label="Next">&#8594;</button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div class="founder-ph">
+              <span>Upload {f.nickname ?? 'founder'}'s photo<br/>CMS → Site Settings → Brand Photos</span>
+            </div>
+          )}
+          <div class="founder-watermark lf">{f.nickname ?? ''}</div>
+        </div>
+        <div class="founder-txt">
+          <span class="tag tag-y sh-eye" style="padding-inline:1.25rem">Co-founder</span>
+          <!-- Founder name: Neulis Neue 800 italic, medium purple -->
+          <h2 class="founder-nm">{f.nickname ?? ''}</h2>
+          <p class="founder-full-name">{f.full_name ?? ''}</p>
+          <p class="founder-role-lbl">{f.role ?? ''}</p>
+          <p class="founder-bio">{f.bio_1 ?? ''}</p>
+          {f.bio_2 && <p class="founder-bio">{f.bio_2}</p>}
+          <div class="founder-stats">
+            <div><strong>{f.stat_1_value ?? ''}</strong><span>{f.stat_1_label ?? ''}</span></div>
+            <div><strong>{f.stat_2_value ?? ''}</strong><span>{f.stat_2_label ?? ''}</span></div>
+            <div><strong>{f.stat_3_value ?? ''}</strong><span>{f.stat_3_label ?? ''}</span></div>
+          </div>
+        </div>
+      </section>
+    );
+  })}
+</div>
+
+<!-- ── TIMELINE ── -->
+<section class="sec" id="timeline">
+  <div class="wrap">
+    <div class="sh">
+      <div>
+        <span class="tag tag-y sh-eye" style="padding-inline:1.25rem">Our Journey</span>
+        <h2 class="sh-h" style="margin-top:.875rem">From home kitchen<br/>to Bangkok staple</h2>
+      </div>
+    </div>
+    <div class="tl">
+      {ms.map((m:any, i:number) => {
+        const tlp = (bp as any)["tl_"+m.year] || m.photo || "";
+        return (
+          <div class={"tl-row au"+(i===lastIdx?" tl-last":"")} style={"animation-delay:"+(i*.07)+"s"}>
+            <span class="tl-y">{m.year}</span>
+            <div class="tl-conn"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-body">
+              <div class="tl-img">
+                {tlp ? <img src={tlp} alt={m.event} loading="lazy"/> : <div class="tl-img-ph">Photo {m.year}</div>}
+              </div>
+              <h3 class="tl-e">{m.event}</h3>
+              <p class="tl-d">{m.desc}</p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<!-- ── CULTURE ── -->
+<section class="sec sec-cr" id="culture">
+  <div class="wrap">
+    <div class="sh">
+      <div>
+        <span class="tag tag-y sh-eye" style="padding-inline:1.25rem">Culture &amp; HR</span>
+        <h2 class="sh-h" style="margin-top:.875rem">How we work<br/>together</h2>
+      </div>
+      <a href="/careers" class="btn btn-p btn-lg">Join the Team</a>
+    </div>
+    <div class="g3">
+      {culture.map((c,i)=>(
+        <div class="cult-card au" style={"animation-delay:"+(i*.07)+"s"}>
+          <h3 class="cult-t">{c.t}</h3>
+          <p class="cult-d">{c.d}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ── CAREERS CTA ── -->
+<section class="sec-sm" style="background:var(--p)">
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap">
+    <div>
+      <h3 style="font-family:var(--font);font-weight:800;font-style:italic;font-size:clamp(1.5rem,3.5vw,2.5rem);color:#fff;line-height:1.1">Want to be part of this?</h3>
+      <p style="color:rgba(255,255,255,.65);margin-top:.5rem;font-size:.875rem;line-height:1.75;max-width:320px;font-family:var(--font)">Growing fast. Open to the right people and partnerships.</p>
+    </div>
+    <div style="display:flex;gap:.875rem;flex-wrap:wrap">
+      <a href="/careers" class="btn btn-y btn-lg">See Open Roles</a>
+      <a href="mailto:hello@babycakes.th" class="btn btn-ow btn-lg">Say Hello</a>
+    </div>
+  </div>
+</section>
+</Base>
+<style>
+/* ── Hero ── */
+.brand-hero{position:relative;background:var(--dk);padding:clamp(8rem,15vw,12rem) var(--px) clamp(4rem,8vw,6rem);overflow:hidden}
+/* Hero headline: Neulis Neue 800 italic, yellow on dark bg */
+.bh-h1{font-family:var(--font);font-weight:800;font-style:italic;font-size:clamp(3rem,9vw,7.5rem);color:var(--y);line-height:.92;letter-spacing:-.03em;margin-bottom:1.25rem}
+.bh-sub{font-family:var(--font);color:rgba(255,255,255,.5);font-size:clamp(.95rem,1.7vw,1.1rem);line-height:1.9;max-width:520px;margin-bottom:clamp(2rem,4vw,3rem)}
+.bh-stats{display:flex;flex-wrap:wrap;border:1px solid rgba(159,151,194,.2);border-radius:var(--rm);overflow:hidden;width:fit-content}
+.bh-s{padding:clamp(.875rem,2vw,1.25rem) clamp(1.25rem,3vw,2.25rem);border-right:1px solid rgba(159,151,194,.15);display:flex;flex-direction:column;gap:.25rem}
+.bh-s:last-child{border-right:none}
+.bh-s strong{font-family:var(--font);font-weight:800;font-style:italic;font-size:clamp(1.25rem,3vw,1.75rem);color:var(--y);line-height:1}
+.bh-s span{font-family:var(--font);font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(159,151,194,.5)}
+
+/* ── Subnav ── */
+.b-nav{background:var(--w);border-bottom:1px solid var(--g1);position:sticky;top:var(--nav-h);z-index:400}
+.b-nav-in{display:flex;gap:clamp(1.5rem,3vw,2.5rem);padding-block:.9rem;max-width:var(--mx);margin-inline:auto;padding-inline:var(--px);overflow-x:auto;scrollbar-width:none;white-space:nowrap}
+.b-nav-in::-webkit-scrollbar{display:none}
+.b-nav a{font-family:var(--font);font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--g3);transition:color .15s,border-color .15s;padding-block:.2rem;border-bottom:2px solid transparent;flex-shrink:0}
+.b-nav a:hover{color:var(--p);border-bottom-color:var(--p)}
+
+/* ── Story ── */
+.story-g{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,7vw,8rem);align-items:start}
+/* Story headline: Neulis Neue 800 italic, medium purple — dominant */
+.story-h2{font-family:var(--font);font-weight:800;font-style:italic;font-size:clamp(2rem,4.5vw,3.5rem);color:var(--p);line-height:1.02;margin-top:.875rem;margin-bottom:1.75rem;letter-spacing:-.02em}
+.sbp{font-family:var(--font);font-size:1rem;line-height:1.9;color:var(--tx);opacity:.75}.sbp+.sbp{margin-top:1rem}
+.story-links{display:flex;gap:.875rem;flex-wrap:wrap;margin-top:2.25rem}
+.story-img{aspect-ratio:4/3;border-radius:var(--rm);overflow:hidden;position:relative;background:var(--p)}
+.story-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.story-img-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font);font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);text-align:center;padding:1.5rem;line-height:1.8}
+.story-cap{display:flex;gap:.875rem;align-items:flex-start;margin-top:1rem}
+/* Year number: Shrikhand (this is a data number label, decorative) */
+.story-cap-y{font-family:var(--font-logo);font-size:1.75rem;color:var(--p);line-height:1;flex-shrink:0}
+.story-cap p{font-family:var(--font);font-size:.82rem;color:var(--g3);line-height:1.65;padding-top:.3rem}
+.story-nums{display:flex;gap:2rem;padding:1.5rem 0;border-top:1px solid var(--g1);flex-wrap:wrap;margin-top:1rem}
+.story-nums div{display:flex;flex-direction:column;gap:.25rem}
+/* Stat numbers: Neulis Neue 800 italic, medium purple */
+.story-nums strong{font-family:var(--font);font-weight:800;font-style:italic;font-size:1.75rem;color:var(--p);line-height:1}
+.story-nums span{font-family:var(--font);font-size:.6rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--d)}
+
+/* ── Founders ── */
+.founder-sec{display:grid;grid-template-columns:1fr 1fr;min-height:clamp(500px,65vw,780px)}
+.founder-sec-r{direction:rtl}.founder-sec-r>*{direction:ltr}
+.founder-photo{position:relative;overflow:hidden}
+.founder-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1}
+.founder-ph span{font-family:var(--font);font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.25);text-align:center;padding:2rem;line-height:1.8}
+/* Watermark: Shrikhand — decorative background text */
+.founder-watermark{position:absolute;bottom:-.15em;right:.05em;font-family:var(--font-logo);font-size:clamp(6rem,12vw,12rem);color:rgba(255,255,255,.05);line-height:1;pointer-events:none;z-index:2;user-select:none}
+.founder-txt{display:flex;flex-direction:column;justify-content:center;padding:clamp(3rem,6vw,6rem) clamp(2rem,5vw,5.5rem);background:var(--cr)}
+/* Founder name: Neulis Neue 800 italic, medium purple — dominant */
+.founder-nm{font-family:var(--font);font-weight:800;font-style:italic;font-size:clamp(2.5rem,5vw,4.5rem);color:var(--p);line-height:1;margin-bottom:.25rem;letter-spacing:-.025em}
+.founder-full-name{font-family:var(--font);font-size:.78rem;font-weight:500;letter-spacing:.04em;color:var(--g3);margin-bottom:.2rem}
+.founder-role-lbl{font-family:var(--font);font-size:.68rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--d);margin-bottom:1.75rem}
+.founder-bio{font-family:var(--font);font-size:.95rem;line-height:1.9;color:var(--tx);opacity:.7}.founder-bio+.founder-bio{margin-top:1rem}
+.founder-stats{display:flex;gap:2.5rem;margin-top:2rem;padding-top:2rem;border-top:1.5px solid var(--g1);flex-wrap:wrap}
+.founder-stats div{display:flex;flex-direction:column;gap:.3rem}
+.founder-stats strong{font-family:var(--font);font-weight:800;font-style:italic;font-size:1.5rem;color:var(--p);line-height:1}
+.founder-stats span{font-family:var(--font);font-size:.6rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--d)}
+
+/* ── Slideshow ── */
+.fslider{position:absolute;inset:0;overflow:hidden}
+.fslide{position:absolute;inset:0;opacity:0;transition:opacity .5s ease}
+.fslide.active{opacity:1;z-index:1}
+.fslide img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.fctrl{position:absolute;bottom:1.5rem;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:1rem;z-index:3}
+.fbtn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.9rem;transition:background .2s;backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent}
+.fbtn:hover{background:rgba(255,255,255,.28)}
+.fdots{display:flex;gap:.5rem;align-items:center}
+.fdot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35);border:none;cursor:pointer;transition:background .2s,transform .2s;padding:0;-webkit-tap-highlight-color:transparent}
+.fdot.active{background:#fff;transform:scale(1.3)}
+
+/* ── Timeline ── */
+.tl{display:flex;flex-direction:column}
+.tl-row{display:grid;grid-template-columns:clamp(52px,8vw,80px) 28px 1fr;gap:clamp(1rem,2.5vw,2rem)}
+/* Timeline year: Neulis Neue 800 italic, dark purple accent */
+.tl-y{font-family:var(--font);font-weight:800;font-style:italic;font-size:clamp(1rem,2vw,1.15rem);color:var(--d);line-height:1;padding-top:.35rem;text-align:right}
+.tl-conn{display:flex;flex-direction:column;align-items:center;padding-top:.4rem}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:var(--y);border:2px solid var(--p);flex-shrink:0;box-shadow:0 0 0 4px rgba(159,151,194,.14)}
+.tl-line{flex:1;width:1.5px;background:var(--g1);margin-top:7px;min-height:2.5rem}
+.tl-last .tl-line{display:none}
+.tl-body{padding-bottom:clamp(2rem,4vw,3rem);display:flex;flex-direction:column;gap:.75rem}
+.tl-last .tl-body{padding-bottom:0}
+.tl-img{aspect-ratio:16/7;border-radius:var(--rm);overflow:hidden;background:var(--cr);position:relative}
+.tl-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tl-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--font);font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--g3)}
+.tl-e{font-family:var(--font);font-size:1rem;font-weight:700;color:var(--p)}
+.tl-d{font-family:var(--font);font-size:.875rem;color:var(--g3);line-height:1.8}
+
+/* ── Culture ── */
+.cult-card{background:var(--w);border:1px solid var(--g1);border-radius:var(--rm);padding:clamp(1.5rem,3vw,2.25rem);animation:fadeUp .65s var(--ease) both}
+/* Culture card title: Neulis Neue 700, medium purple */
+.cult-t{font-family:var(--font);font-size:1rem;font-weight:700;color:var(--p);margin-bottom:.75rem}
+.cult-d{font-family:var(--font);font-size:.875rem;color:var(--g3);line-height:1.8}
+
+/* ── Mobile ── */
+@media(max-width:768px){
+  .story-g{grid-template-columns:1fr}
+  .story-links{flex-direction:column}
+  .story-links .btn{width:100%;text-align:center;justify-content:center}
+  .founder-sec,.founder-sec-r{grid-template-columns:1fr;direction:ltr;min-height:auto}
+  .founder-photo{height:clamp(300px,60vw,480px)}
+  .founder-txt{padding:clamp(2.5rem,7vw,4rem) var(--px)}
+}
+@media(max-width:600px){
+  .bh-h1{font-size:clamp(2.5rem,12vw,5rem)}
+  .bh-sub{font-size:.88rem}
+  .bh-stats{width:100%}
+  .bh-s{padding:.75rem 1.25rem;border-right:none !important;border-bottom:1px solid rgba(159,151,194,.15)}
+  .bh-s:last-child{border-bottom:none}
+  .bh-s strong{font-size:1.25rem}
+  .b-nav-in{gap:1.5rem;padding-block:.75rem}
+  .b-nav a{font-size:.62rem}
+  .story-g{grid-template-columns:1fr;gap:2.5rem}
+  .story-nums{gap:1.25rem}
+  .story-nums strong{font-size:1.35rem}
+  .founder-sec,.founder-sec-r{grid-template-columns:1fr;direction:ltr;min-height:auto}
+  .founder-photo{height:clamp(280px,70vw,420px);order:0 !important}
+  .founder-txt{padding:2rem var(--px);order:1}
+  .founder-nm{font-size:clamp(2rem,10vw,3rem)}
+  .founder-bio{font-size:.88rem}
+  .founder-stats{gap:1.5rem}
+  .founder-stats strong{font-size:1.25rem}
+  .tl-row{grid-template-columns:44px 20px 1fr;gap:.75rem}
+  .tl-y{font-size:.88rem}
+  .tl-dot{width:8px;height:8px}
+  .tl-e{font-size:.9rem}
+  .tl-d{font-size:.82rem}
+  .g3{grid-template-columns:1fr}
+  .cult-card{padding:1.25rem}
+}
+@media(max-width:960px){
+  .collab-side,.role-side,aside,[style*="position:sticky"],[style*="position: sticky"]{position:static !important;top:auto !important}
+}
+</style>
+<script>
+document.querySelectorAll('.fslider').forEach(function(slider) {
+  var sid = slider.id;
+  var slides = Array.from(slider.querySelectorAll('.fslide'));
+  var dots = Array.from(document.querySelectorAll('.fdot[data-sid="' + sid + '"]'));
+  var cur = 0, timer;
+  function go(n) {
+    slides[cur].classList.remove('active');
+    if(dots[cur]) dots[cur].classList.remove('active');
+    cur = (n + slides.length) % slides.length;
+    slides[cur].classList.add('active');
+    if(dots[cur]) dots[cur].classList.add('active');
+  }
+  document.querySelectorAll('.fprev[data-sid="' + sid + '"]').forEach(function(b){ b.addEventListener('click',function(){ clearInterval(timer); go(cur-1); }); });
+  document.querySelectorAll('.fnext[data-sid="' + sid + '"]').forEach(function(b){ b.addEventListener('click',function(){ clearInterval(timer); go(cur+1); }); });
+  dots.forEach(function(d,i){ d.addEventListener('click',function(){ clearInterval(timer); go(i); }); });
+  if(slides.length > 1){ timer = setInterval(function(){ go(cur+1); }, 4000); }
+  var sx = 0;
+  slider.addEventListener('touchstart',function(e){ sx=e.touches[0].clientX; },{passive:true});
+  slider.addEventListener('touchend',function(e){ var dx=sx-e.changedTouches[0].clientX; if(Math.abs(dx)>40){ clearInterval(timer); go(cur+(dx>0?1:-1)); } });
+});
+</script>

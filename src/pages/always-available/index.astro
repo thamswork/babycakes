@@ -1,43 +1,43 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
-
 const all = await getCollection('always-available', ({ data }) => data.available);
-const trayCakes    = all.filter(p => p.data.category === 'Tray Cakes');
-const specialCakes = all.filter(p => p.data.category === 'Special Cakes');
-const cookies      = all.filter(p => p.data.category === 'Cookies & Bites');
 const cats = [
-  { label:'Tray Cakes',      id:'tray-cakes',    items:trayCakes,    desc:'Our signature format. Baby Tray, Classic Tray, Party Tray.' },
-  { label:'Special Cakes',   id:'special-cakes', items:specialCakes, desc:'Custom message cakes for every occasion.' },
-  { label:'Cookies & Bites', id:'cookies-bites', items:cookies,      desc:'Smaller formats — same warmth, same care.' },
-].filter(c => c.items.length > 0);
+  { label:'Tray Cakes',      id:'tray-cakes',    items:all.filter(p=>p.data.category==='Tray Cakes'),      desc:'Our signature format. Baby Tray, Classic Tray, Party Tray.' },
+  { label:'Special Cakes',   id:'special-cakes', items:all.filter(p=>p.data.category==='Special Cakes'),   desc:'Custom message cakes for every occasion.' },
+  { label:'Cookies & Bites', id:'cookies-bites', items:all.filter(p=>p.data.category==='Cookies & Bites'), desc:'Smaller formats — same warmth, same care.' },
+].filter(c=>c.items.length>0);
 ---
 <Base title="Always Available | Babycakes">
 <section class="pg-hero">
   <div class="dots"></div>
   <div class="wrap" style="position:relative;z-index:2">
     <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">Always In Stock</div>
-    <h1 class="lf pg-h1 au au1">Always<br/>Available</h1>
+    <h1 class="pg-h1 au au1">Always<br/>Available</h1>
     <p class="pg-sub au au2">Our permanent classics — at every branch, every day.</p>
   </div>
 </section>
-<div class="mq"><div class="mq-t">{[...all.map(p=>p.data.name),"feel good food",...all.map(p=>p.data.name),"feel good food"].map(t=>(<span class="mq-i">{t}<span class="mq-dot-el"></span></span>))}</div></div>
+<div class="mq"><div class="mq-t">
+  {[...all.map(p=>p.data.name),"feel good food",...all.map(p=>p.data.name),"feel good food"].map(t=>(
+    <span class="mq-i">{t}<span class="mq-dot-el"></span></span>
+  ))}
+</div></div>
 {cats.map(cat=>(
   <section class="sec" id={cat.id}>
     <div class="wrap">
-      <div style="margin-bottom:2.5rem">
-        <h2 class="lf sh-h">{cat.label}</h2>
-        <p style="color:var(--g3);font-size:.9rem;margin-top:.5rem">{cat.desc}</p>
+      <div class="cat-head">
+        <h2 class="cat-h">{cat.label}</h2>
+        <p class="cat-desc">{cat.desc}</p>
       </div>
       <div class="aa-grid">
         {cat.items.map((p,i)=>(
           <a href={"/always-available/"+p.data.slug} class="pc au" style={"animation-delay:"+i*.05+"s"}>
-            <div class="pc-img" style={"aspect-ratio:4/3;background:"+p.data.bg}>
+            <div class="pc-img" style={"aspect-ratio:4/3;background:"+(p.data.bg||'var(--d)')}>
               {p.data.image ? <img src={p.data.image} alt={p.data.name}/> : <div class="pc-ph">{p.data.name}</div>}
             </div>
             <div class="pc-body">
-              <div class="pc-meta"><span class="tag tag-cr">always available</span>{p.data.price && <span class="pc-per">{p.data.price}</span>}</div>
-              <div class="lf pc-name">{p.data.name}</div>
+              <div class="pc-meta"><span class="tag tag-cr">always available</span>{p.data.price&&<span class="pc-per">{p.data.price}</span>}</div>
+              <div class="pc-name">{p.data.name}</div>
               {p.data.desc && <p class="pc-desc">{p.data.desc}</p>}
             </div>
           </a>
@@ -48,20 +48,13 @@ const cats = [
 ))}
 </Base>
 <style>
-.pg-hero{position:relative;background:var(--d);padding:clamp(8rem,14vw,11rem) var(--px) clamp(4rem,7vw,5.5rem);overflow:hidden}
-.pg-h1{font-size:clamp(3rem,10vw,8rem);color:var(--y);line-height:.9;letter-spacing:-.025em;margin-bottom:1.25rem}
-.pg-sub{color:rgba(251,245,171,.45);font-size:clamp(.95rem,1.6vw,1.05rem);line-height:1.9;max-width:420px}
-.aa-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
-@media(min-width:900px){.aa-grid{grid-template-columns:repeat(3,1fr)}}
-
-/* ── ALWAYS AVAILABLE MOBILE ── */
-@media(max-width:600px) {
-  .pg-h1 { font-size: clamp(2.75rem, 13vw, 5rem); }
-  .aa-grid { gap: .625rem; }
-  .pc-body { padding: .875rem .875rem 1rem; }
-  .pc-name { font-size: 1rem; }
-  .pc-desc { font-size: .75rem; }
-  .sh-h { font-size: clamp(1.5rem, 7vw, 2.25rem) !important; }
-}
-
+.pg-hero  { position:relative; background:var(--p); padding:clamp(8rem,14vw,11rem) var(--px) clamp(4rem,7vw,5.5rem); overflow:hidden; }
+.pg-h1    { font-family:var(--font); font-weight:800; font-style:italic; font-size:clamp(3rem,10vw,8rem); color:var(--y); line-height:.9; letter-spacing:-.03em; margin-bottom:1.25rem; }
+.pg-sub   { font-family:var(--font); color:rgba(255,255,255,.7); font-size:clamp(.95rem,1.6vw,1.05rem); line-height:1.9; max-width:420px; }
+.cat-head { margin-bottom:2.5rem; }
+.cat-h    { font-family:var(--font); font-weight:800; font-size:clamp(1.75rem,4vw,2.75rem); color:var(--p); letter-spacing:-.02em; margin-bottom:.5rem; }
+.cat-desc { font-family:var(--font); color:var(--g3); font-size:.9rem; }
+.aa-grid  { display:grid; grid-template-columns:repeat(2,1fr); gap:var(--gap); }
+@media (min-width:900px)  { .aa-grid { grid-template-columns:repeat(3,1fr); } }
+@media (max-width:600px)  { .pg-h1 { font-size:clamp(2.75rem,13vw,5rem); } .aa-grid { gap:.625rem; } .pc-body { padding:.875rem .875rem 1rem; } }
 </style>
