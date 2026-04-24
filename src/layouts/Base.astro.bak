@@ -15,8 +15,7 @@ const {
   <meta http-equiv="x-dns-prefetch-control" content="on"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <!-- Shrikhand: logo wordmark only | Neulis Neue: everything else -->
-  <link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Neulis+Neue:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Neulis+Neue:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet"/>
 </head>
 <body>
 
@@ -133,26 +132,37 @@ const {
       if (e.isIntersecting) {
         var siblings = e.target.parentElement ? Array.from(e.target.parentElement.children) : [];
         var idx = siblings.indexOf(e.target);
-        setTimeout(function() { e.target.classList.add('in-view'); }, idx * 60);
+        setTimeout(function() {
+          e.target.classList.add('in-view');
+        }, idx * 60);
         cardObs.unobserve(e.target);
       }
     });
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.pc').forEach(function(el) { cardObs.observe(el); });
+
+  document.querySelectorAll('.pc').forEach(function(el) {
+    cardObs.observe(el);
+  });
 
   var secObs = new IntersectionObserver(function(entries) {
     entries.forEach(function(e) {
-      if (e.isIntersecting) { e.target.style.animationPlayState = 'running'; secObs.unobserve(e.target); }
+      if (e.isIntersecting) {
+        e.target.style.animationPlayState = 'running';
+        secObs.unobserve(e.target);
+      }
     });
   }, { threshold: 0.06 });
+
   document.querySelectorAll('.au').forEach(function(el) {
-    el.style.animationPlayState = 'paused'; secObs.observe(el);
+    el.style.animationPlayState = 'paused';
+    secObs.observe(el);
   });
 
   var heroImg = document.querySelector('.hero-img');
   if (heroImg && window.innerWidth > 768) {
     window.addEventListener('scroll', function() {
-      heroImg.style.transform = 'translateY(' + (window.scrollY * 0.3) + 'px)';
+      var y = window.scrollY;
+      heroImg.style.transform = 'translateY(' + (y * 0.3) + 'px)';
     }, { passive: true });
   }
 
@@ -160,33 +170,52 @@ const {
     document.querySelectorAll('.pc').forEach(function(card) {
       card.addEventListener('mousemove', function(e) {
         var rect = card.getBoundingClientRect();
-        var rotX = (((e.clientY - rect.top) / rect.height) - 0.5) * -6;
-        var rotY = (((e.clientX - rect.left) / rect.width) - 0.5) * 6;
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var cx = rect.width / 2;
+        var cy = rect.height / 2;
+        var rotX = ((y - cy) / cy) * -3;
+        var rotY = ((x - cx) / cx) * 3;
         card.style.transform = 'perspective(600px) rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg) translateY(-3px)';
         card.style.transition = 'transform .05s ease';
       });
       card.addEventListener('mouseleave', function() {
-        card.style.transform = ''; card.style.transition = 'transform .4s ease';
+        card.style.transform = '';
+        card.style.transition = 'transform .4s ease';
       });
     });
   }
 
   function animateNumber(el) {
     var target = parseFloat(el.dataset.target || el.textContent.replace(/[^0-9.]/g, ''));
-    var prefix = el.dataset.prefix || '', suffix = el.dataset.suffix || '';
-    var duration = 1200, startTime = null;
+    var prefix = el.dataset.prefix || '';
+    var suffix = el.dataset.suffix || '';
+    var start = 0;
+    var duration = 1200;
+    var startTime = null;
     function step(ts) {
       if (!startTime) startTime = ts;
-      var p = Math.min((ts - startTime) / duration, 1);
-      el.textContent = prefix + Math.floor((1 - Math.pow(1 - p, 3)) * target).toLocaleString() + suffix;
-      if (p < 1) requestAnimationFrame(step);
+      var progress = Math.min((ts - startTime) / duration, 1);
+      var ease = 1 - Math.pow(1 - progress, 3);
+      var current = Math.floor(ease * target);
+      el.textContent = prefix + current.toLocaleString() + suffix;
+      if (progress < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
   }
+
   var numObs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) { if (e.isIntersecting) { animateNumber(e.target); numObs.unobserve(e.target); } });
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        animateNumber(e.target);
+        numObs.unobserve(e.target);
+      }
+    });
   }, { threshold: 0.5 });
-  document.querySelectorAll('[data-count]').forEach(function(el) { numObs.observe(el); });
+
+  document.querySelectorAll('[data-count]').forEach(function(el) {
+    numObs.observe(el);
+  });
 })();
 </script>
 
@@ -195,15 +224,11 @@ const {
 
 <style is:global>
 /* ══════════════════════════════════════════════════════════
-   BABYCAKES v13
-   Logo/wordmark: Shrikhand (babycakes name ONLY)
-   Everything else: Neulis Neue
-   800 = headlines · 500 = subheadlines · 400 = body
-   Palette: --p medium purple = dominant brand colour
-            --d dark purple   = accent / card placeholder only
-            --dk / --xdk      = nav + mobile overlay only
-            --y yellow        = CTA + marquee only
-   Footer: medium purple bg (matches reference)
+   BABYCAKES v12 — Neulis Neue everywhere
+   Typography: Neulis Neue 800 headlines · 500 subheadlines · 400 body
+   Palette: #9F97C2 medium purple = dominant · #4C4378 = accent only
+   Dark #2e2350 / #1e1638 = hero + footer ONLY
+   Yellow #FBF5AB = CTA + marquee only
 ══════════════════════════════════════════════════════════ */
 :root {
   --y:    #FBF5AB;
@@ -229,13 +254,13 @@ const {
   --sp:   cubic-bezier(0.34,1.56,0.64,1);
   --nav-h: 62px;
 
-  --font-logo: 'Shrikhand', serif;
-  --font:      'Neulis Neue', sans-serif;
-  --fw-body:   400;
-  --fw-med:    500;
-  --fw-semi:   600;
-  --fw-bold:   700;
-  --fw-xbold:  800;
+  /* Typography scale */
+  --font: 'Neulis Neue', sans-serif;
+  --fw-body:    400;
+  --fw-med:     500;
+  --fw-semi:    600;
+  --fw-bold:    700;
+  --fw-xbold:   800;
 }
 
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
@@ -249,13 +274,16 @@ body {
   line-height: 1.8;
   font-size: 16px;
   font-weight: var(--fw-body);
-  padding-bottom: env(safe-area-inset-bottom, 0);
 }
 a { text-decoration:none; color:inherit; }
 img { display:block; width:100%; height:100%; object-fit:cover; }
 
-/* .lf = Shrikhand italic — use only for the babycakes name when it appears in body copy */
-.lf { font-family: var(--font-logo); font-style: italic; }
+/* .lf = display/brand style — bold italic Neulis Neue replaces Shrikhand */
+.lf {
+  font-family: var(--font);
+  font-weight: var(--fw-xbold);
+  font-style: italic;
+}
 
 .w100 { width:100%; }
 .wrap { max-width:var(--mx); margin-inline:auto; padding-inline:var(--px); }
@@ -263,7 +291,7 @@ img { display:block; width:100%; height:100%; object-fit:cover; }
 /* ── SECTION SPACING ── */
 .sec    { padding-block: clamp(5.5rem,11vw,10rem); }
 .sec-sm { padding-block: clamp(4rem,7vw,6rem); }
-.sec-cr { background: var(--cr); }
+.sec-cr { background:var(--cr); }
 
 /* ══════════════════════════════════════════════
    TAGS
@@ -272,10 +300,10 @@ img { display:block; width:100%; height:100%; object-fit:cover; }
   display:inline-flex; align-items:center;
   padding:.28rem .85rem;
   border-radius:var(--r);
-  font-family: var(--font);
   font-size:.6rem; font-weight:var(--fw-bold);
   letter-spacing:.1em; text-transform:uppercase;
   line-height:2; white-space:nowrap;
+  font-family: var(--font);
   max-width:100%; overflow:hidden; text-overflow:ellipsis;
 }
 .tag-p   { background:var(--p);  color:#fff; }
@@ -300,16 +328,16 @@ img { display:block; width:100%; height:100%; object-fit:cover; }
 }
 .btn:hover  { transform:translateY(-1px); box-shadow:0 6px 18px rgba(0,0,0,.1); }
 .btn:active { transform:translateY(1px);  box-shadow:none; }
-.btn-y    { background:var(--y);  color:var(--d); }
-.btn-p    { background:var(--p);  color:#fff; }
-.btn-d    { background:var(--d);  color:var(--y); }
-.btn-ow   { background:transparent; border:1.5px solid rgba(255,255,255,.32); color:rgba(255,255,255,.85); }
-.btn-op   { background:transparent; border:1.5px solid var(--p); color:var(--p); }
-.btn-od   { background:transparent; border:1.5px solid var(--d); color:var(--d); }
+.btn-y   { background:var(--y);  color:var(--d); }
+.btn-p   { background:var(--p);  color:#fff; }
+.btn-d   { background:var(--d);  color:var(--y); }
+.btn-ow  { background:transparent; border:1.5px solid rgba(255,255,255,.32); color:rgba(255,255,255,.85); }
+.btn-op  { background:transparent; border:1.5px solid var(--p); color:var(--p); }
+.btn-od  { background:transparent; border:1.5px solid var(--d); color:var(--d); }
 .btn-line { background:#06C755; color:#fff; }
 .btn-line:hover { opacity:.9; }
-.btn-sm   { padding:.58rem 1.4rem; font-size:.8rem; min-height:40px; }
-.btn-lg   { padding:1.05rem 2.4rem; font-size:.925rem; }
+.btn-sm  { padding:.58rem 1.4rem; font-size:.8rem; min-height:40px; }
+.btn-lg  { padding:1.05rem 2.4rem; font-size:.925rem; }
 
 /* ══════════════════════════════════════════════
    MARQUEE
@@ -318,7 +346,7 @@ img { display:block; width:100%; height:100%; object-fit:cover; }
 .mq-t { display:flex; width:max-content; animation:mqs 36s linear infinite; }
 .mq:hover .mq-t { animation-play-state:paused; }
 @keyframes mqs { to { transform:translateX(-50%); } }
-.mq-i { display:inline-flex; align-items:center; gap:1rem; padding-inline:2.5rem; font-family:var(--font); font-size:.68rem; font-weight:var(--fw-bold); letter-spacing:.1em; text-transform:uppercase; color:var(--d); white-space:nowrap; }
+.mq-i { display:inline-flex; align-items:center; gap:1rem; padding-inline:2.5rem; font-size:.68rem; font-weight:var(--fw-bold); letter-spacing:.1em; text-transform:uppercase; color:var(--d); white-space:nowrap; font-family:var(--font); }
 .mq-dot-el { width:3px; height:3px; border-radius:50%; background:var(--p); display:inline-block; flex-shrink:0; }
 
 /* ══════════════════════════════════════════════
@@ -327,17 +355,17 @@ img { display:block; width:100%; height:100%; object-fit:cover; }
 .sh { display:flex; align-items:flex-end; justify-content:space-between; gap:1.5rem; margin-bottom:clamp(2.75rem,5.5vw,4.5rem); flex-wrap:wrap; }
 .sh-eye { display:block; margin-bottom:1rem; }
 
-/* Headlines — Neulis Neue 800, medium purple */
+/* Headlines — Neulis Neue 800, medium purple as primary heading color */
 .sh-h {
   font-family: var(--font);
   font-weight: var(--fw-xbold);
   font-size: clamp(2rem,5vw,3.75rem);
-  color: var(--p);
+  color: var(--p);      /* medium purple — dominant */
   line-height: 1.02;
   letter-spacing: -.02em;
 }
 
-/* Subheadlines — Neulis Neue 500 */
+/* Subheadlines — 500 weight, dark purple accent */
 .sh-sub {
   font-family: var(--font);
   font-weight: var(--fw-med);
@@ -351,14 +379,14 @@ img { display:block; width:100%; height:100%; object-fit:cover; }
 ══════════════════════════════════════════════ */
 .pc { display:block; border-radius:var(--rm); overflow:hidden; background:var(--cr); text-decoration:none; color:inherit; transition:transform .28s var(--ease), box-shadow .28s var(--ease); }
 .pc:hover { transform:translateY(-3px); box-shadow:0 12px 36px rgba(159,151,194,.18); }
-/* placeholder bg = dark purple accent, matching reference */
-.pc-img { position:relative; overflow:hidden; background:var(--d); }
+.pc-img { position:relative; overflow:hidden; background:var(--p); }
 .pc-img img { display:block; width:100%; height:100%; object-fit:cover; transition:transform .6s var(--ease); }
 .pc:hover .pc-img img { transform:scale(1.04); }
-.pc-ph { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--font-logo); font-size:1rem; color:rgba(255,255,255,.22); text-align:center; padding:1.5rem; font-style:italic; }
+.pc-ph { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:.6rem; font-weight:var(--fw-bold); letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.18); text-align:center; padding:1.5rem; }
 .pc-body { padding:clamp(1rem,2.5vw,1.4rem) clamp(1rem,2.5vw,1.4rem) clamp(1.25rem,2.5vw,1.65rem); }
 .pc-meta { display:flex; align-items:center; justify-content:space-between; margin-bottom:.6rem; gap:.5rem; flex-wrap:wrap; }
-/* Card names — Neulis Neue 800, medium purple */
+
+/* Card name — 800 weight, medium purple */
 .pc-name {
   font-family: var(--font);
   font-weight: var(--fw-xbold);
@@ -394,17 +422,20 @@ img { display:block; width:100%; height:100%; object-fit:cover; }
 .nd-cr  { background:var(--g2); }
 
 /* ══════════════════════════════════════════════
-   NAV — dark bg, Shrikhand logo
+   NAV
 ══════════════════════════════════════════════ */
 .nav { position:fixed; inset:0 0 auto; z-index:900; height:var(--nav-h); transition:background .3s,box-shadow .3s; }
 .nav.on { background:rgba(30,22,56,.97); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); box-shadow:0 1px 0 rgba(159,151,194,.12),0 4px 32px rgba(0,0,0,.2); }
 .nav-in { display:flex; align-items:center; height:100%; padding-inline:var(--px); max-width:var(--mx); margin-inline:auto; }
-/* Logo: Shrikhand, yellow — babycakes wordmark */
+
+/* Logo — bold italic Neulis Neue, yellow */
 .nav-logo {
-  font-family: var(--font-logo);
+  font-family: var(--font);
+  font-weight: var(--fw-xbold);
+  font-style: italic;
   font-size: 1.4rem;
   color: var(--y);
-  letter-spacing: -.01em;
+  letter-spacing: -.02em;
   flex-shrink: 0;
   margin-right: auto;
   opacity: 0;
@@ -413,16 +444,16 @@ img { display:block; width:100%; height:100%; object-fit:cover; }
 }
 .nav.on .nav-logo { opacity:1; pointer-events:auto; }
 .nav-links { display:flex; align-items:center; gap:1.875rem; margin-right:2rem; }
-.nav-links>a, .nav-gbtn { font-family:var(--font); font-size:.68rem; font-weight:var(--fw-semi); letter-spacing:.07em; text-transform:uppercase; color:rgba(255,255,255,.5); transition:color .15s; background:none; border:none; cursor:pointer; padding:0; display:flex; align-items:center; gap:.35rem; }
+.nav-links>a, .nav-gbtn { font-size:.68rem; font-weight:var(--fw-semi); letter-spacing:.07em; text-transform:uppercase; color:rgba(255,255,255,.5); transition:color .15s; background:none; border:none; cursor:pointer; padding:0; font-family:var(--font); display:flex; align-items:center; gap:.35rem; }
 .nav-links>a:hover, .nav-gbtn:hover { color:var(--y); }
 .nav-chev { transition:transform .2s; flex-shrink:0; opacity:.5; }
 .nav-group { position:relative; }
 .nav-group:hover .nav-chev { transform:rotate(180deg); }
 .nav-drop { position:absolute; top:calc(100% + 1.25rem); left:-.875rem; background:var(--dk); border:1px solid rgba(159,151,194,.15); border-radius:var(--rl); padding:.625rem; min-width:210px; opacity:0; visibility:hidden; transform:translateY(-6px); transition:opacity .2s var(--ease),transform .2s var(--ease),visibility .2s; box-shadow:0 12px 40px rgba(0,0,0,.28); }
 .nav-group:hover .nav-drop { opacity:1; visibility:visible; transform:translateY(0); }
-.nav-drop a { font-family:var(--font); display:flex; align-items:center; gap:.75rem; padding:.7rem .9rem; border-radius:var(--rm); font-size:.82rem; font-weight:var(--fw-med); color:rgba(255,255,255,.55); transition:background .15s,color .15s; text-transform:none; letter-spacing:0; }
+.nav-drop a { display:flex; align-items:center; gap:.75rem; padding:.7rem .9rem; border-radius:var(--rm); font-size:.82rem; font-weight:var(--fw-med); color:rgba(255,255,255,.55); transition:background .15s,color .15s; text-transform:none; letter-spacing:0; font-family:var(--font); }
 .nav-drop a:hover { background:rgba(159,151,194,.12); color:#fff; }
-.nav-cta { font-family:var(--font); flex-shrink:0; background:var(--y); color:var(--d); font-size:.68rem; font-weight:var(--fw-bold); letter-spacing:.04em; text-transform:uppercase; padding:.52rem 1.3rem; border-radius:999px; transition:opacity .15s,transform .15s; -webkit-tap-highlight-color:transparent; }
+.nav-cta { flex-shrink:0; background:var(--y); color:var(--d); font-size:.68rem; font-weight:var(--fw-bold); letter-spacing:.04em; text-transform:uppercase; padding:.52rem 1.3rem; border-radius:999px; transition:opacity .15s,transform .15s; -webkit-tap-highlight-color:transparent; font-family:var(--font); }
 .nav-cta:hover { opacity:.88; transform:scale(1.02); }
 .nav-ham { display:none; flex-direction:column; justify-content:center; gap:5px; background:none; border:none; cursor:pointer; padding:8px; margin-left:1rem; min-width:44px; min-height:44px; -webkit-tap-highlight-color:transparent; }
 .nav-ham span { display:block; width:20px; height:1.5px; background:var(--y); border-radius:1px; transition:all .22s; }
@@ -435,41 +466,38 @@ img { display:block; width:100%; height:100%; object-fit:cover; }
 .mob { display:none; position:fixed; inset:0; z-index:950; background:var(--dk); flex-direction:column; overflow-y:auto; padding-bottom:env(safe-area-inset-bottom,0); }
 .mob.open { display:flex; }
 .mob-top { display:flex; align-items:center; justify-content:space-between; padding:clamp(.9rem,2vw,1.1rem) var(--px); border-bottom:1px solid rgba(159,151,194,.12); flex-shrink:0; }
-/* Mobile logo: Shrikhand, yellow */
-.mob-logo { font-family:var(--font-logo); font-size:1.4rem; color:var(--y); }
+.mob-logo { font-family:var(--font); font-weight:var(--fw-xbold); font-style:italic; font-size:1.4rem; color:var(--y); letter-spacing:-.02em; }
 .mob-x { background:none; border:none; color:rgba(255,255,255,.4); font-size:1.2rem; cursor:pointer; padding:10px; min-width:44px; min-height:44px; display:flex; align-items:center; justify-content:center; -webkit-tap-highlight-color:transparent; }
 .mob-nav { display:flex; flex-direction:column; padding:.5rem var(--px); flex:1; }
-.mob-nav>a { font-family:var(--font); display:block; padding:1.1rem 0; font-size:1.05rem; font-weight:var(--fw-body); color:rgba(255,255,255,.5); border-bottom:1px solid rgba(159,151,194,.08); transition:color .15s; }
+.mob-nav>a { display:block; padding:1.1rem 0; font-size:1.05rem; font-weight:var(--fw-body); color:rgba(255,255,255,.5); border-bottom:1px solid rgba(159,151,194,.08); transition:color .15s; font-family:var(--font); }
 .mob-nav>a:last-child { border-bottom:none; }
 .mob-nav>a:hover { color:#fff; }
 .mob-acc { border-bottom:1px solid rgba(159,151,194,.08); }
-.mob-abtn { font-family:var(--font); width:100%; display:flex; align-items:center; justify-content:space-between; padding:1.1rem 0; background:none; border:none; cursor:pointer; font-size:1.05rem; font-weight:var(--fw-body); color:rgba(255,255,255,.5); -webkit-tap-highlight-color:transparent; transition:color .15s; }
+.mob-abtn { width:100%; display:flex; align-items:center; justify-content:space-between; padding:1.1rem 0; background:none; border:none; cursor:pointer; font-size:1.05rem; font-weight:var(--fw-body); font-family:var(--font); color:rgba(255,255,255,.5); -webkit-tap-highlight-color:transparent; transition:color .15s; }
 .mob-abtn.open { color:#fff; }
 .mob-abtn svg { transition:transform .2s; opacity:.4; }
 .mob-abtn.open svg { transform:rotate(180deg); }
 .mob-abody { display:none; flex-direction:column; gap:0; padding:.25rem 0 .75rem; }
 .mob-abody.open { display:flex; }
-.mob-abody a { font-family:var(--font); display:flex; align-items:center; gap:.75rem; padding:.75rem 1rem; font-size:.95rem; color:rgba(255,255,255,.42); border-radius:var(--rm); transition:all .15s; }
+.mob-abody a { display:flex; align-items:center; gap:.75rem; padding:.75rem 1rem; font-size:.95rem; color:rgba(255,255,255,.42); border-radius:var(--rm); transition:all .15s; font-family:var(--font); }
 .mob-abody a:hover { background:rgba(159,151,194,.1); color:#fff; }
 .mob-foot { display:flex; flex-direction:column; gap:.75rem; padding:1.25rem var(--px) clamp(2rem,5vh,3rem); border-top:1px solid rgba(159,151,194,.1); flex-shrink:0; }
 .mob-foot .btn { font-size:.95rem; padding:1.05rem; }
 
 /* ══════════════════════════════════════════════
-   FOOTER — medium purple bg (matches reference)
+   FOOTER
 ══════════════════════════════════════════════ */
-.ft { background:var(--p); border-top:1px solid rgba(255,255,255,.08); }
+.ft { background:var(--xdk); border-top:1px solid rgba(159,151,194,.1); }
 .ft-top { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:2.5rem; max-width:var(--mx); margin-inline:auto; padding:clamp(3rem,6vw,5rem) var(--px) clamp(2rem,4vw,3.5rem); }
-/* Footer logo: Shrikhand, yellow */
-.ft-logo { display:block; font-family:var(--font-logo); font-size:1.625rem; color:var(--y); margin-bottom:.625rem; }
-.ft-brand p { font-family:var(--font); color:rgba(255,255,255,.6); font-size:.8rem; line-height:1.75; max-width:220px; margin-bottom:1.1rem; font-weight:var(--fw-body); }
+.ft-logo { display:block; font-family:var(--font); font-weight:var(--fw-xbold); font-style:italic; font-size:1.625rem; color:var(--y); margin-bottom:.625rem; letter-spacing:-.02em; }
+.ft-brand p { color:rgba(255,255,255,.28); font-size:.8rem; line-height:1.75; max-width:200px; margin-bottom:1.1rem; }
 .ft-soc { display:flex; flex-wrap:wrap; gap:.25rem 1rem; }
-.ft-soc a { font-family:var(--font); color:rgba(255,255,255,.6); font-size:.75rem; font-weight:var(--fw-med); transition:color .15s; }
-.ft-soc a:hover { color:#fff; }
-/* Column headings: Neulis Neue bold */
-.ft-col h5 { font-family:var(--font); font-size:.55rem; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.5); margin-bottom:.875rem; font-weight:var(--fw-bold); }
-.ft-col a { font-family:var(--font); display:block; color:rgba(255,255,255,.7); font-size:.78rem; font-weight:var(--fw-body); margin-bottom:.5rem; transition:color .15s; }
-.ft-col a:hover { color:#fff; }
-.ft-bot { display:flex; justify-content:space-between; align-items:center; max-width:var(--mx); margin-inline:auto; padding:.875rem var(--px); border-top:1px solid rgba(255,255,255,.12); font-size:.65rem; color:rgba(255,255,255,.35); font-family:var(--font); padding-bottom:max(1rem,env(safe-area-inset-bottom,1rem)); }
+.ft-soc a { color:rgba(255,255,255,.35); font-size:.75rem; font-weight:var(--fw-med); transition:color .15s; }
+.ft-soc a:hover { color:var(--p); }
+.ft-col h5 { font-size:.55rem; letter-spacing:.14em; text-transform:uppercase; color:rgba(159,151,194,.4); margin-bottom:.875rem; font-weight:var(--fw-bold); font-family:var(--font); }
+.ft-col a { display:block; color:rgba(255,255,255,.38); font-size:.78rem; font-weight:var(--fw-body); margin-bottom:.5rem; transition:color .15s; }
+.ft-col a:hover { color:var(--p); }
+.ft-bot { display:flex; justify-content:space-between; align-items:center; max-width:var(--mx); margin-inline:auto; padding:.875rem var(--px); border-top:1px solid rgba(159,151,194,.08); font-size:.65rem; color:rgba(255,255,255,.15); padding-bottom:max(1rem,env(safe-area-inset-bottom,1rem)); }
 @media(max-width:860px)  { .ft-top{grid-template-columns:1fr 1fr;gap:2rem} }
 @media(max-width:520px)  {
   .ft-top{grid-template-columns:1fr 1fr;gap:1.5rem 2rem;padding:2rem var(--px) 1.5rem}
@@ -485,6 +513,7 @@ img { display:block; width:100%; height:100%; object-fit:cover; }
 /* ══════════════════════════════════════════════
    MOBILE OVERRIDES
 ══════════════════════════════════════════════ */
+body { padding-bottom:env(safe-area-inset-bottom,0); }
 a, button { -webkit-tap-highlight-color:transparent; }
 
 @media(max-width:480px) {
@@ -504,7 +533,8 @@ a, button { -webkit-tap-highlight-color:transparent; }
 
 @media(max-width:960px) {
   aside, .role-side, .collab-side, .cside-card {
-    position:static !important; top:auto !important;
+    position:static !important;
+    top:auto !important;
   }
 }
 </style>
