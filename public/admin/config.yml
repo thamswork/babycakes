@@ -1,391 +1,152 @@
 # ══════════════════════════════════════════════════════════════════════
-# BABYCAKES — Decap CMS Configuration
-# Backend: GitHub (repo: thamswork/babycakes, branch: main)
-# Media: Upload via CMS → stored in /public/photos/
-#        Reference in code as /photos/filename.jpg
-#
-# HOW TO ADD PHOTOS:
-# 1. Go to babycakes.pages.dev/admin
-# 2. Login with GitHub
-# 3. Open any collection (e.g. Bi-Weekly Flavors)
-# 4. Click an item → upload image in the "Photo" field
-# 5. Click "Publish" — photo deploys automatically
-#
-# HOW TO UPDATE LINE LINK:
-# 1. Site Settings → Order Links → Main Order LINE Link
-# 2. Paste your LINE deep link (e.g. https://line.me/ti/p/~@xxxx)
-# 3. Save — updates everywhere on the site
+# BABYCAKES — Decap CMS
+# Auth: GitHub via Cloudflare Worker OAuth proxy
 # ══════════════════════════════════════════════════════════════════════
 
 backend:
   name: github
   repo: thamswork/babycakes
   branch: main
-
-# Local development: uncomment to use local CMS server
-# local_backend: true
+  # Cloudflare Pages OAuth Worker — replaces Netlify Identity
+  # After deploying the worker (see instructions below), paste its URL here:
+  base_url: https://babycakes-cms-oauth.thamswork.workers.dev
+  auth_endpoint: /api/auth
 
 publish_mode: editorial_workflow
 
-# ── MEDIA ─────────────────────────────────────────────────────────────
-# All photos stored in /public/photos/ → served at /photos/
 media_folder: "public/photos"
 public_folder: "/photos"
 
 site_url: https://babycakes.pages.dev
 display_url: https://babycakes.pages.dev
-logo_url: https://babycakes.pages.dev/favicon.svg
 
-# ── SLUG ──────────────────────────────────────────────────────────────
 slug:
   encoding: ascii
   clean_accents: true
   sanitize_replacement: "-"
 
-# ══════════════════════════════════════════════════════════════════════
-# COLLECTIONS
-# ══════════════════════════════════════════════════════════════════════
 collections:
 
-  # ── SITE SETTINGS ─────────────────────────────────────────────────
   - name: settings
     label: "Site Settings"
-    description: "Global settings — LINE links, social URLs, order channels"
     files:
 
       - label: "Order Links"
         name: order_links
         file: "src/content/settings/order-links.json"
         fields:
-          - label: "Main Order LINE link"
-            name: line_main
-            widget: string
-            hint: "Your LINE deep link for cake orders e.g. https://line.me/ti/p/~@babycakes"
-            default: "https://lin.ee/babycakes"
-
-          - label: "Collab / Partnership LINE link"
-            name: line_collab
-            widget: string
-            hint: "Separate LINE OA for collab enquiries"
-            default: "https://lin.ee/babycakes-collab"
-
-          - label: "GrabFood link"
-            name: grab
-            widget: string
-            default: "https://food.grab.com/th/en/search?keyword=babycakes"
-
-          - label: "LINE MAN link"
-            name: lineman
-            widget: string
-            default: "https://linemanwongnai.com"
-
-          - label: "Linktree / all-links page"
-            name: linktree
-            widget: string
-            required: false
+          - { label: "Main Order LINE link",       name: line_main,   widget: string, hint: "e.g. https://line.me/ti/p/~@babycakes" }
+          - { label: "Collab / Partnership LINE",  name: line_collab, widget: string, hint: "Separate LINE OA for collabs" }
+          - { label: "GrabFood link",              name: grab,        widget: string }
+          - { label: "LINE MAN link",              name: lineman,     widget: string }
+          - { label: "Linktree",                   name: linktree,    widget: string, required: false }
 
       - label: "Social Links"
         name: social
         file: "src/content/settings/social.json"
         fields:
-          - { label: "Instagram URL", name: instagram, widget: string, default: "https://instagram.com/babycakes.bkk" }
-          - { label: "Facebook URL",  name: facebook,  widget: string, default: "https://facebook.com/babycakes.bkk" }
-          - { label: "TikTok URL",    name: tiktok,    widget: string, default: "https://tiktok.com/@babycakes.bkk" }
-          - { label: "LINE URL",      name: line,      widget: string, default: "https://lin.ee/babycakes" }
+          - { label: Instagram, name: instagram, widget: string }
+          - { label: Facebook,  name: facebook,  widget: string }
+          - { label: TikTok,    name: tiktok,    widget: string }
+          - { label: LINE,      name: line,      widget: string }
 
-  # ── BI-WEEKLY FLAVOR DROPS ────────────────────────────────────────
-  # Each entry = one flavor card on /bi-weekly page
-  # Photo uploads here → referenced as /photos/filename.jpg in code
+      - label: "Brand Photos"
+        name: brand_photos
+        file: "src/content/settings/brand-photos.json"
+        fields:
+          - { label: "Hero / Homepage photo",  name: hero_photo,  widget: image, required: false, hint: "Main hero — wide, food-focused" }
+          - { label: "Founder Nile — portrait", name: nile_photo, widget: image, required: false }
+          - { label: "Founder Tess — portrait", name: tess_photo, widget: image, required: false }
+          - { label: "First pop-up photo 2022", name: popup_photo,widget: image, required: false }
+          - { label: "Timeline 2021",           name: tl_2021,    widget: image, required: false }
+          - { label: "Timeline 2022",           name: tl_2022,    widget: image, required: false }
+          - { label: "Timeline 2023",           name: tl_2023,    widget: image, required: false }
+          - { label: "Timeline 2024",           name: tl_2024,    widget: image, required: false }
+          - { label: "Timeline 2025",           name: tl_2025,    widget: image, required: false }
+
   - name: weekly_updates
     label: "Bi-Weekly Flavors"
     label_singular: "Flavor Drop"
-    description: "Add and manage bi-weekly flavor drops. Each appears as a card on the Bi-Weekly page."
     folder: "src/content/weekly-updates"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{fields.slug}}"
     preview_path: "/bi-weekly/{{fields.slug}}"
-    sortable_fields: ["date", "name"]
-    view_groups:
-      - { label: "By Year", field: date, pattern: "\\d{4}" }
-
     fields:
-      - label: "Flavor Name"
-        name: name
-        widget: string
-        hint: "e.g. Strawberry Kiss, Dubai Chocolate"
+      - { label: "Flavor Name",       name: name,     widget: string }
+      - { label: "URL Slug",          name: slug,     widget: string, hint: "e.g. strawberry-kiss" }
+      - { label: "Publish Date",      name: date,     widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Campaign Period",   name: period,   widget: string, hint: "e.g. 17 Feb – 13 March" }
+      - { label: "Tag",               name: tag,      widget: select, options: ["bi-weekly","limited","new-drop","collab"], default: "bi-weekly" }
+      - { label: "Photo",             name: image,    widget: image, required: false, media_folder: "/public/photos", public_folder: "/photos" }
+      - { label: "Card BG Color",     name: bg,       widget: string, default: "#4C4378" }
+      - { label: "Short Description", name: desc,     widget: text }
+      - { label: "Price (THB)",       name: price,    widget: number, required: false, value_type: float }
+      - { label: "Featured?",         name: featured, widget: boolean, default: false }
+      - { label: "Draft?",            name: draft,    widget: boolean, default: false }
+      - { label: "Full Story",        name: body,     widget: markdown, required: false }
 
-      - label: "URL Slug"
-        name: slug
-        widget: string
-        hint: "URL-safe name e.g. strawberry-kiss (no spaces)"
-
-      - label: "Publish Date"
-        name: date
-        widget: datetime
-        date_format: "YYYY-MM-DD"
-        time_format: false
-        default: ""
-
-      - label: "Campaign Period"
-        name: period
-        widget: string
-        hint: "e.g. 17 Feb – 13 March"
-
-      - label: "Availability Tag"
-        name: tag
-        widget: select
-        options:
-          - { label: "Bi-Weekly",  value: "bi-weekly" }
-          - { label: "Limited",    value: "limited" }
-          - { label: "New Drop",   value: "new-drop" }
-          - { label: "Collab",     value: "collab" }
-        default: "bi-weekly"
-
-      # ── THIS IS WHERE YOU ADD PHOTOS ──
-      - label: "Photo"
-        name: image
-        widget: image
-        required: false
-        hint: "Upload the product photo here. Will be served at /photos/filename.jpg — use this path in your code."
-        media_folder: "/public/photos"
-        public_folder: "/photos"
-
-      - label: "Card Background Color"
-        name: bg
-        widget: string
-        default: "#4C4378"
-        hint: "Hex color shown as fallback until photo is added e.g. #5a1e2a"
-
-      - label: "Short Description"
-        name: desc
-        widget: text
-        hint: "1–2 sentences shown on the card."
-
-      - label: "Price (THB)"
-        name: price
-        widget: number
-        required: false
-        value_type: float
-        hint: "e.g. 259"
-
-      - label: "Featured? (pin to top)"
-        name: featured
-        widget: boolean
-        default: false
-
-      - label: "Draft? (hide from site)"
-        name: draft
-        widget: boolean
-        default: false
-
-      - label: "Full Story (detail page)"
-        name: body
-        widget: markdown
-        required: false
-
-      - label: "SEO"
-        name: seo
-        widget: object
-        collapsed: true
-        fields:
-          - { label: "Meta Title",       name: meta_title,       widget: string, required: false, hint: "Max 60 chars. Defaults to Flavor Name | Babycakes" }
-          - { label: "Meta Description", name: meta_description, widget: text,   required: false, hint: "Max 160 chars." }
-
-  # ── ALWAYS AVAILABLE PRODUCTS ─────────────────────────────────────
   - name: always_available
     label: "Always Available"
     label_singular: "Product"
-    description: "Permanent menu items. Group by subcategory."
     folder: "src/content/always-available"
     create: true
     slug: "{{fields.slug}}"
-    sortable_fields: ["name", "category", "price"]
-
     fields:
-      - label: "Product Name"
-        name: name
-        widget: string
+      - { label: "Product Name", name: name,      widget: string }
+      - { label: "Slug",         name: slug,      widget: string }
+      - { label: "Subcategory",  name: category,  widget: select, options: [{label:"Tray Cakes",value:"tray-cakes"},{label:"Special Cakes",value:"special-cakes"},{label:"Cookies & Bites",value:"cookies-bites"}] }
+      - { label: "Price",        name: price,     widget: string, hint: "e.g. from ฿160" }
+      - { label: "Photo",        name: image,     widget: image, required: false, media_folder: "/public/photos", public_folder: "/photos" }
+      - { label: "Card BG",      name: bg,        widget: string, default: "#1e0c06" }
+      - { label: "Description",  name: desc,      widget: text }
+      - { label: "Available?",   name: available, widget: boolean, default: true }
 
-      - label: "URL Slug"
-        name: slug
-        widget: string
-        hint: "e.g. chocolate, thai-tea"
-
-      - label: "Subcategory"
-        name: category
-        widget: select
-        options:
-          - { label: "Tray Cakes",       value: "tray-cakes" }
-          - { label: "Special Cakes",    value: "special-cakes" }
-          - { label: "Cookies & Bites",  value: "cookies-bites" }
-
-      - label: "Price"
-        name: price
-        widget: string
-        hint: "e.g. from ฿160"
-
-      # ── PHOTO SLOT ──
-      - label: "Photo"
-        name: image
-        widget: image
-        required: false
-        hint: "Upload product photo. Reference as /photos/filename.jpg in code."
-        media_folder: "/public/photos"
-        public_folder: "/photos"
-
-      - label: "Card Background Color"
-        name: bg
-        widget: string
-        default: "#1e0c06"
-        hint: "Fallback color until photo is added"
-
-      - label: "Short Description"
-        name: desc
-        widget: text
-
-      - label: "Available?"
-        name: available
-        widget: boolean
-        default: true
-
-  # ── LOCATIONS ─────────────────────────────────────────────────────
   - name: locations
     label: "Locations"
     label_singular: "Branch"
-    description: "Branch details, hours, and Grab links. Update Grab link per branch."
     folder: "src/content/locations"
     create: true
     slug: "{{fields.slug}}"
-    sortable_fields: ["name", "zone"]
-
     fields:
-      - { label: "Branch Name", name: name,   widget: string }
-      - { label: "Slug",        name: slug,   widget: string, hint: "e.g. emsphere, bangna-hq" }
-      - { label: "Zone / Area", name: zone,   widget: string, hint: "e.g. Sukhumvit, Siam, Bangna" }
-      - { label: "Address",     name: addr,   widget: text }
-      - { label: "Hours",       name: hours,  widget: string, hint: "e.g. 10:00 – 22:00" }
-      - { label: "Transit",     name: transit,widget: string, hint: "e.g. BTS Siam" }
-      - { label: "Grab Link",   name: grab,   widget: string, hint: "Full GrabFood URL for this branch" }
-      - { label: "Google Maps", name: maps,   widget: string, hint: "Full Google Maps URL" }
-      - { label: "HQ?",         name: hq,     widget: boolean, default: false }
-      - { label: "Active?",     name: active, widget: boolean, default: true }
+      - { label: "Branch Name",   name: name,    widget: string }
+      - { label: "Slug",          name: slug,    widget: string }
+      - { label: "Zone / Area",   name: zone,    widget: string }
+      - { label: "Address",       name: addr,    widget: text }
+      - { label: "Hours",         name: hours,   widget: string }
+      - { label: "Transit",       name: transit, widget: string }
+      - { label: "Grab Link",     name: grab,    widget: string }
+      - { label: "Google Maps",   name: maps,    widget: string }
+      - { label: "Branch Photo",  name: image,   widget: image, required: false }
+      - { label: "HQ?",           name: hq,      widget: boolean, default: false }
+      - { label: "Active?",       name: active,  widget: boolean, default: true }
 
-      # ── BRANCH PHOTO ──
-      - label: "Branch Photo"
-        name: image
-        widget: image
-        required: false
-        hint: "Interior or storefront photo"
-
-  # ── COLLABORATIONS ────────────────────────────────────────────────
   - name: collabs
     label: "Collaborations"
     label_singular: "Collab"
-    description: "Partner brands and collaborations. Logos shown on homepage and Collabs page."
     folder: "src/content/collabs"
     create: true
     slug: "{{fields.slug}}"
-
     fields:
       - { label: "Partner Name", name: name,   widget: string }
       - { label: "Slug",         name: slug,   widget: string }
       - { label: "Type",         name: type,   widget: select, options: ["Product collab","Pop-up partner","Delivery partner","Sourcing partner","Brand collab","Other"] }
       - { label: "Description",  name: desc,   widget: text }
+      - { label: "Logo",         name: logo,   widget: image, required: false, media_folder: "/public/photos/logos", public_folder: "/photos/logos" }
+      - { label: "Collab LINE",  name: line,   widget: string, required: false }
+      - { label: "Website",      name: url,    widget: string, required: false }
+      - { label: "Active?",      name: active, widget: boolean, default: true }
 
-      # ── LOGO UPLOAD ──
-      - label: "Partner Logo"
-        name: logo
-        widget: image
-        required: false
-        hint: "Upload SVG or PNG logo. Displayed as wordmark on homepage."
-        media_folder: "/public/photos/logos"
-        public_folder: "/photos/logos"
-
-      - label: "Collab LINE link"
-        name: line
-        widget: string
-        required: false
-        hint: "Use the Partnership LINE OA link (different from main order LINE)"
-
-      - { label: "Website",  name: url,    widget: string, required: false }
-      - { label: "Active?",  name: active, widget: boolean, default: true }
-
-  # ── CAREERS ───────────────────────────────────────────────────────
   - name: careers
     label: "Careers"
     label_singular: "Role"
-    description: "Open job listings shown on the Careers page."
     folder: "src/content/careers"
     create: true
     slug: "{{fields.slug}}"
-
     fields:
       - { label: "Job Title",   name: title, widget: string }
       - { label: "Slug",        name: slug,  widget: string }
-      - { label: "Department",  name: dept,  widget: select, options: [Kitchen, Marketing, Creative, Ops, Service, Logistics, Other] }
-      - { label: "Type",        name: type,  widget: select, options: [Full-time, Part-time, Contract, Internship] }
+      - { label: "Department",  name: dept,  widget: select, options: [Kitchen,Marketing,Creative,Ops,Service,Logistics,Other] }
+      - { label: "Type",        name: type,  widget: select, options: [Full-time,Part-time,Contract,Internship] }
       - { label: "Location",    name: loc,   widget: string, default: "Bangkok, TH" }
       - { label: "Description", name: desc,  widget: text }
       - { label: "Open?",       name: open,  widget: boolean, default: true }
-
-  # ── BRAND PAGE CONTENT ────────────────────────────────────────────
-  - name: brand_page
-    label: "Brand Page"
-    description: "Founder photos and history images for the Brand page"
-    files:
-      - label: "Brand Photos"
-        name: brand_photos
-        file: "src/content/settings/brand-photos.json"
-        fields:
-          - label: "Founder — Nile photo"
-            name: nile_photo
-            widget: image
-            required: false
-            hint: "Portrait of Pasiri 'Nile' Tangkaravakun"
-            media_folder: "/public/photos"
-            public_folder: "/photos"
-
-          - label: "Founder — Tess photo"
-            name: tess_photo
-            widget: image
-            required: false
-            hint: "Portrait of Natnicha 'Tess' Burapachaisri"
-            media_folder: "/public/photos"
-            public_folder: "/photos"
-
-          - label: "First pop-up photo (2022)"
-            name: popup_photo
-            widget: image
-            required: false
-            hint: "First pop-up at Refill Coffee, Bangna 2022"
-
-          - label: "Hero / homepage photo"
-            name: hero_photo
-            widget: image
-            required: false
-            hint: "Main hero photo shown on homepage. Best: wide landscape, food-focused"
-
-          - label: "Timeline — 2021 photo"
-            name: tl_2021
-            widget: image
-            required: false
-
-          - label: "Timeline — 2022 photo"
-            name: tl_2022
-            widget: image
-            required: false
-
-          - label: "Timeline — 2023 photo"
-            name: tl_2023
-            widget: image
-            required: false
-
-          - label: "Timeline — 2024 photo"
-            name: tl_2024
-            widget: image
-            required: false
-
-          - label: "Timeline — 2025 photo"
-            name: tl_2025
-            widget: image
-            required: false
