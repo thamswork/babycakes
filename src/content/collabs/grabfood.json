@@ -9,5 +9,11 @@
   "photo_4": "",
   "line": "",
   "url": "https://food.grab.com/th/en/search?keyword=babycakes",
-  "active": true
+  "active": true,
+  "status": "ongoing",
+  "order": 3,
+  "featured": true,
+  "bg": "#00a651",
+  "long_desc": "Our main delivery partner across Bangkok. babycakes is available on GrabFood at all active branches — same-day delivery, same fresh quality.",
+  "collab_date": "2023"
 }

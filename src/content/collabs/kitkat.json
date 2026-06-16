@@ -9,5 +9,11 @@
   "photo_4": "",
   "line": "",
   "url": "",
-  "active": true
+  "active": true,
+  "status": "past",
+  "order": 2,
+  "featured": true,
+  "bg": "#8B0000",
+  "long_desc": "A limited-edition collab with KitKat Thailand — babycakes flavors meet the iconic wafer. A drop that sold out before most people even heard about it.",
+  "collab_date": "2023"
 }

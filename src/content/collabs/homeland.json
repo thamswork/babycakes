@@ -9,5 +9,11 @@
   "photo_4": "",
   "line": "",
   "url": "",
-  "active": true
+  "active": true,
+  "status": "past",
+  "order": 5,
+  "featured": false,
+  "bg": "#1a3320",
+  "long_desc": "A pop-up residency at Homeland that introduced babycakes to a whole new audience. The weekend drops sold out every single time.",
+  "collab_date": "2023"
 }

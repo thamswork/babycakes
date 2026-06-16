@@ -9,5 +9,11 @@
   "photo_4": "",
   "line": "",
   "url": "",
-  "active": true
+  "active": true,
+  "status": "past",
+  "order": 1,
+  "featured": false,
+  "bg": "#2a1c0e",
+  "long_desc": "Refill Coffee Bangna was our very first home. They gave us a corner, believed in what we were making, and watched us sell out in 4 hours. Without that first pop-up, babycakes might never have happened.",
+  "collab_date": "2022"
 }

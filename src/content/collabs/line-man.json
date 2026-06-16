@@ -9,5 +9,11 @@
   "photo_4": "",
   "line": "",
   "url": "https://linemanwongnai.com",
-  "active": true
+  "active": true,
+  "status": "ongoing",
+  "order": 4,
+  "featured": false,
+  "bg": "#1a1a2e",
+  "long_desc": "LINE MAN brings babycakes to your door across Bangkok. Fast, reliable, and always fresh — order through the app and we'll handle the rest.",
+  "collab_date": "2023"
 }

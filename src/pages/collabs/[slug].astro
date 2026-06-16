@@ -18,12 +18,9 @@ export async function getStaticPaths() {
 
 const c = Astro.props.collab as any;
 
-const bgMap: Record<string,string> = {
-  'refill-coffee':'#2a1c0e','kitkat':'#8B0000',
-  'grabfood':'#00a651','line-man':'#1a1a2e','homeland':'#1a3320',
-};
-const bg = bgMap[c.slug] || '#2a1640';
+const bg = c.bg || '#2a1640';
 const photos = [c.logo, c.photo_2, c.photo_3, c.photo_4].filter(Boolean);
+const bodyText = c.long_desc || c.desc || '';
 ---
 <Base title={c.name + " | Babycakes Collabs"} description={c.desc ?? "A Babycakes collaboration with " + c.name}>
 
@@ -69,10 +66,10 @@ const photos = [c.logo, c.photo_2, c.photo_3, c.photo_4].filter(Boolean);
       )}
 
       <!-- About -->
-      {c.desc && (
+      {bodyText && (
         <div class="cl-about">
           <span class="cl-eyebrow">About this partnership</span>
-          <p class="cl-body">{c.desc}</p>
+          <p class="cl-body">{bodyText}</p>
         </div>
       )}
 
@@ -108,6 +105,14 @@ const photos = [c.logo, c.photo_2, c.photo_3, c.photo_4].filter(Boolean);
         )}
         {photos.length > 0 && (
           <div class="cl-row"><span>Gallery</span><strong>{photos.length} photo{photos.length>1?'s':''}</strong></div>
+        )}
+        {c.collab_date && (
+          <div class="cl-row"><span>Year</span><strong>{c.collab_date}</strong></div>
+        )}
+        {c.status && (
+          <div class="cl-row"><span>Status</span>
+            <span class={"status-pill status-"+c.status}>{c.status}</span>
+          </div>
         )}
       </div>
 
@@ -282,6 +287,10 @@ const photos = [c.logo, c.photo_2, c.photo_3, c.photo_4].filter(Boolean);
 }
 .cl-back-link:hover { opacity: .7; }
 
+.status-pill{font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border-radius:999px;font-family:var(--font)}
+.status-ongoing{background:rgba(0,180,100,.12);color:#00b464}
+.status-past{background:var(--g1);color:var(--g3)}
+.status-upcoming{background:rgba(159,151,194,.15);color:var(--p)}
 /* ── MOBILE ── */
 @media (max-width: 960px) {
   .cl { grid-template-columns: 1fr; gap: 2.5rem; }
