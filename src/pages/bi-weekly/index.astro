@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 const all = await getCollection('weekly-updates', ({ data }) => !data.draft);
 all.sort((a,b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0));
 ---
-<Base title="Bi-Weekly Flavors | Babycakes">
+<Base title="Bi-Weekly Flavors | Babycakes" description="New flavors every two weeks. Limited drops, made fresh — order yours before they're gone.">
 <section class="pg-hero">
   <div class="dots"></div>
   <div class="wrap" style="position:relative;z-index:2">
