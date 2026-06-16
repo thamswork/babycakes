@@ -9,7 +9,7 @@ export default defineConfig({
   output: "static",
 
   adapter: cloudflare({
-    platformProxy: { enabled: true },
+    platformProxy: { enabled: false },
     imageService: "cloudflare",
     routes: {
       extend: {
