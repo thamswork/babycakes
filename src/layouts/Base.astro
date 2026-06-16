@@ -477,13 +477,26 @@ a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation
   /* 3-col grid: ham | logo | social */
   .nav-in {
     display: grid;
-    grid-template-columns: 48px 1fr auto;
+    grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     gap: 0;
+    padding-inline: var(--px-mob);
   }
   .nav-ham {
     margin: 0;
     justify-self: start;
+    padding-left: 0;
+  }
+  .nav-logo {
+    justify-self: center;
+  }
+  .nav-social {
+    justify-self: end;
+    gap: .25rem;
+  }
+  .nav-soc-link {
+    min-width: 36px;
+    min-height: 36px;
   }
 }
 
