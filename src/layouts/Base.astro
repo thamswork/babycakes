@@ -629,7 +629,7 @@ const mobX = document.getElementById('mobX')!;
 
 function openMob() {
   mob.style.display = 'flex';
-  requestAnimationFrame(() => mob.classList.add('open'));
+  requestAnimationFrame(() => requestAnimationFrame(() => mob.classList.add('open')));
   ham.classList.add('open');
   ham.setAttribute('aria-expanded', 'true');
   mob.setAttribute('aria-hidden', 'false');
@@ -641,7 +641,7 @@ function closeMob() {
   ham.setAttribute('aria-expanded', 'false');
   mob.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
-  setTimeout(() => { if (!mob.classList.contains('open')) mob.style.display = ''; }, 340);
+  setTimeout(() => { if (!mob.classList.contains('open')) mob.style.display = ''; }, 420);
 }
 
 ham.addEventListener('click', () => mob.classList.contains('open') ? closeMob() : openMob());
