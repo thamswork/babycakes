@@ -404,14 +404,19 @@ a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation
 .nav-social {
   display: none;
   align-items: center;
-  gap: .5rem;
+  justify-content: flex-end;
+  gap: .25rem;
 }
 .nav-soc-link {
-  color: rgba(255,255,255,.8);
-  display: flex; align-items: center; justify-content: center;
-  min-width: 44px; min-height: 44px;
+  color: rgba(255,255,255,.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
   transition: color .2s;
+  flex-shrink: 0;
 }
+.nav-soc-link svg { display: block; }
 .nav-soc-link:active { color: #fff; }
 @media (max-width: 1080px) {
   .nav-social { display: flex; }
