@@ -38,7 +38,8 @@ const { title = "Babycakes — Feel Good Food", description = "Born from baby + 
     </nav>
     <a href="/bi-weekly" class="nav-cta">This Week's Drop</a>
     <button class="nav-ham" id="ham" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span><span></span>
+      <span class="ham-top"></span>
+      <span class="ham-bot"></span>
     </button>
   </div>
 </header>
@@ -404,22 +405,46 @@ a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation
 .nav-cta { font-family: var(--font); flex-shrink: 0; background: var(--y); color: var(--d); font-size: .68rem; font-weight: var(--fw-bold); letter-spacing: .04em; text-transform: uppercase; padding: .52rem 1.3rem; border-radius: 999px; transition: opacity .15s; }
 .nav-cta:hover { opacity: .88; }
 .nav-ham {
-  display: none; flex-direction: column; justify-content: center; gap: 5px;
-  /* Ghost — no background, blends with any hero */
+  display: none; flex-direction: column; justify-content: center;
+  gap: 5px;
   background: transparent;
   border: none; cursor: pointer;
-  padding: 10px; margin-left: auto;
+  padding: 10px;
+  margin-left: 0;
+  margin-right: auto;
   width: 48px; height: 48px;
   border-radius: 50%;
   transition: background .2s;
 }
-.nav-ham:active { background: rgba(255,255,255,.1); }
-.nav-ham span { display: block; width: 20px; height: 1.5px; background: rgba(255,255,255,.85); border-radius: 1px; transition: all .22s var(--ease); transform-origin: center; }
-/* When nav is scrolled (has purple bg), keep lines white */
-.nav.on .nav-ham span { background: #fff; }
-.nav-ham.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-.nav-ham.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.nav-ham.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+.nav-ham:active { background: rgba(255,255,255,.08); }
+/* Two lines — top shorter (editorial style) */
+.ham-top {
+  display: block;
+  width: 14px; height: 1px;
+  background: rgba(255,255,255,.9);
+  border-radius: 1px;
+  transition: all .3s var(--ease);
+  transform-origin: center;
+}
+.ham-bot {
+  display: block;
+  width: 22px; height: 1px;
+  background: rgba(255,255,255,.9);
+  border-radius: 1px;
+  transition: all .3s var(--ease);
+  transform-origin: center;
+}
+.nav.on .ham-top,
+.nav.on .ham-bot { background: #fff; }
+/* Morph to X */
+.nav-ham.open .ham-top {
+  width: 20px;
+  transform: translateY(3px) rotate(45deg);
+}
+.nav-ham.open .ham-bot {
+  width: 20px;
+  transform: translateY(-3px) rotate(-45deg);
+}
 
 /* ── NAV MOBILE ── */
 @media (max-width: 1080px) {
