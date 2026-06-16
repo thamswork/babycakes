@@ -404,8 +404,7 @@ a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation
 .nav-social {
   display: none;
   align-items: center;
-  gap: .75rem;
-  margin-left: auto;
+  gap: .5rem;
 }
 .nav-soc-link {
   color: rgba(255,255,255,.8);
@@ -463,27 +462,24 @@ a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation
 
 /* ── NAV MOBILE ── */
 @media (max-width: 1080px) {
-  .nav { background: transparent; }
+  /* Keep gradient on mobile — do NOT reset to transparent */
   .nav.on { background: rgba(159,151,194,.92); }
-  /* Logo always visible on mobile — sits over hero */
   .nav-logo {
     opacity: 1 !important;
     pointer-events: auto !important;
-    /* Subtle shadow so it reads on any background */
     text-shadow: 0 1px 12px rgba(0,0,0,.5);
-  }
-  .nav-links, .nav-cta { display: none; }
-  .nav-ham { display: flex; }
-  /* Mobile layout: ham left, logo center */
-  .nav-in {
-    display: grid;
-    grid-template-columns: 48px 1fr 48px;
-    align-items: center;
-  }
-  .nav-logo {
     text-align: center;
     margin: 0 !important;
     position: static;
+  }
+  .nav-links, .nav-cta { display: none; }
+  .nav-ham { display: flex; }
+  /* 3-col grid: ham | logo | social */
+  .nav-in {
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    align-items: center;
+    gap: 0;
   }
   .nav-ham {
     margin: 0;
