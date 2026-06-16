@@ -121,15 +121,17 @@ const heroPhoto = brandPhotos.hero_photo || '';
 </section>
 
 <!-- ── CAREERS ── -->
-<section class="careers-band sec-sm">
-  <div class="wrap">
-    <div class="careers-inner">
-      <div>
-        <span class="tag tag-y" style="margin-bottom:.75rem">We're Hiring</span>
-        <h3 class="careers-h">Join the Babycakes family</h3>
-        <p class="careers-sub">Passionate about feel-good food? We'd love to meet you.</p>
-      </div>
-      <a href="/careers" class="btn btn-y careers-cta">See Open Roles</a>
+<section class="careers-band">
+  <div class="dots"></div>
+  <div class="wrap careers-inner">
+    <div class="careers-left">
+      <span class="tag tag-y careers-tag">We're Hiring</span>
+      <h3 class="careers-h">Join the<br/>Babycakes<br/>family</h3>
+    </div>
+    <div class="careers-right">
+      <p class="careers-sub">"We want our office full of positive energy. We want every person on the team to enjoy their work — because a brand that sells happiness has to live it first."</p>
+      <p class="careers-attr">— Nyle, Co-Founder</p>
+      <a href="/careers" class="btn btn-y careers-cta">See Open Roles →</a>
     </div>
   </div>
 </section>
@@ -250,21 +252,54 @@ const heroPhoto = brandPhotos.hero_photo || '';
 .partners-link:hover { opacity: .65; }
 
 /* ── CAREERS ── */
-.careers-band { background: var(--p); }
-.careers-inner {
-  display: flex; align-items: center;
-  justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+.careers-band {
+  background: var(--xdk);
+  position: relative;
+  padding: clamp(5rem,10vw,9rem) 0;
+  overflow: hidden;
 }
+.careers-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(3rem,6vw,7rem);
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.careers-left { display: flex; flex-direction: column; gap: 1.5rem; }
+.careers-tag { width: fit-content; }
 .careers-h {
-  font-family: var(--font); font-weight: 800; font-style: italic;
-  font-size: clamp(1.5rem, 3.5vw, 2.5rem); color: #fff;
-  line-height: 1.1; margin-top: .5rem;
+  font-family: var(--font);
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(3rem,7vw,6rem);
+  color: var(--y);
+  line-height: .95;
+  letter-spacing: -.025em;
+}
+.careers-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-left: clamp(1.5rem,3vw,3rem);
+  border-left: 1px solid rgba(255,255,255,.1);
 }
 .careers-sub {
-  font-family: var(--font); color: rgba(255,255,255,.6);
-  margin-top: .4rem; font-size: .875rem; line-height: 1.65;
-  max-width: 320px;
+  font-family: var(--font-logo);
+  color: rgba(255,255,255,.55);
+  font-size: clamp(1rem,1.8vw,1.2rem);
+  line-height: 1.7;
+  font-style: normal;
 }
+.careers-attr {
+  font-family: var(--font);
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.25);
+}
+.careers-cta { width: fit-content; }
 
 /* ── CARD ANIMATION ── */
 .pc { opacity: 0; transform: translateY(14px); }
@@ -285,7 +320,9 @@ const heroPhoto = brandPhotos.hero_photo || '';
   .classics-grid .pc-desc { display: none; }
 
   /* Careers — stack */
-  .careers-inner { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
+  .careers-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .careers-right { padding-left: 0; border-left: none; border-top: 1px solid rgba(255,255,255,.1); padding-top: 2rem; }
+  .careers-h { font-size: clamp(2.5rem,12vw,4rem); }
   .careers-cta { width: 100%; justify-content: center; }
 
   /* Order bar visible */
