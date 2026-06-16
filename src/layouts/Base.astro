@@ -497,11 +497,19 @@ a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation
   }
   .nav-social {
     justify-self: end;
+    display: flex;
+    align-items: center;
     gap: .25rem;
+    height: 100%;
   }
   .nav-soc-link {
-    min-width: 36px;
-    min-height: 36px;
+    width: 36px;
+    height: 36px;
+    min-width: unset;
+    min-height: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
