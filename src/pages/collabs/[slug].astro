@@ -43,91 +43,83 @@ const bodyText = c.long_desc || c.desc || '';
   </div>
 </section>
 
+<!-- ── PARTNERSHIP DETAILS STRIP ── -->
+<div class="cl-strip">
+  <div class="wrap cl-strip-in">
+    <div class="cl-strip-row">
+      <span class="cl-strip-label">Partner</span>
+      <strong class="cl-strip-val">{c.name}</strong>
+    </div>
+    <div class="cl-strip-div"></div>
+    <div class="cl-strip-row">
+      <span class="cl-strip-label">Type</span>
+      <strong class="cl-strip-val">{c.type}</strong>
+    </div>
+    {c.collab_date && <>
+      <div class="cl-strip-div"></div>
+      <div class="cl-strip-row">
+        <span class="cl-strip-label">Year</span>
+        <strong class="cl-strip-val">{c.collab_date}</strong>
+      </div>
+    </>}
+    {c.status && <>
+      <div class="cl-strip-div"></div>
+      <div class="cl-strip-row">
+        <span class="cl-strip-label">Status</span>
+        <span class={"status-pill status-"+c.status}>{c.status}</span>
+      </div>
+    </>}
+    {c.url && <>
+      <div class="cl-strip-div"></div>
+      <div class="cl-strip-row">
+        <a href={c.url} target="_blank" rel="noopener" class="cl-strip-link">Visit site →</a>
+      </div>
+    </>}
+  </div>
+</div>
+
 <!-- ── BODY ── -->
 <section class="sec">
-  <div class="wrap cl">
-
-    <!-- MAIN -->
-    <div class="cl-main">
-
-      <!-- Photos -->
-      {photos.length > 0 ? (
-        <div class={"collage n"+Math.min(photos.length,4)}>
-          {photos.slice(0,4).map((src:string, i:number) => (
-            <div class={"ci ci"+(i+1)}>
-              <img src={src} alt={c.name+" image "+(i+1)} loading={i===0?"eager":"lazy"}/>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div class="cl-nophoto" style={"background:"+bg}>
-          <span class="lf">{c.name}</span>
-        </div>
-      )}
-
-      <!-- About -->
-      {bodyText && (
-        <div class="cl-about">
-          <span class="cl-eyebrow">About this partnership</span>
-          <p class="cl-body">{bodyText}</p>
-        </div>
-      )}
-
-      <!-- CTA block -->
-      <div class="cl-cta-block">
-        <div class="cl-cta-text">
-          <h3 class="lf cl-cta-h">Interested in collaborating?</h3>
-          <p class="cl-cta-sub">Reach out on our partnership LINE or email us directly.</p>
-        </div>
-        <div class="cl-cta-btns">
-          <a href="https://lin.ee/babycakes-collab" target="_blank" rel="noopener" class="btn btn-y btn-lg">Partnership LINE</a>
-          <a href="mailto:hello@babycakes.th" class="btn btn-ow btn-lg">Email us</a>
-        </div>
+  <div class="wrap cl-body-wrap">
+    {photos.length > 0 ? (
+      <div class={"collage n"+Math.min(photos.length,4)}>
+        {photos.slice(0,4).map((src:string, i:number) => (
+          <div class={"ci ci"+(i+1)}>
+            <img src={src} alt={c.name+" image "+(i+1)} loading={i===0?"eager":"lazy"}/>
+          </div>
+        ))}
       </div>
-
+    ) : (
+      <div class="cl-nophoto" style={"background:"+bg}>
+        <span class="lf">{c.name}</span>
+      </div>
+    )}
+    {bodyText && (
+      <div class="cl-about">
+        <span class="cl-eyebrow">About this partnership</span>
+        <p class="cl-body">{bodyText}</p>
+      </div>
+    )}
+    {c.line && (
+      <div class="cl-line-card">
+        <div>
+          <h3 class="lf cl-line-h">Get in touch</h3>
+          <p class="cl-line-sub">For enquiries about this partnership, reach out directly.</p>
+        </div>
+        <a href={c.line} target="_blank" rel="noopener" class="btn btn-y btn-lg">Contact via LINE</a>
+      </div>
+    )}
+    <div class="cl-cta-block">
+      <div class="cl-cta-text">
+        <h3 class="lf cl-cta-h">Interested in collaborating?</h3>
+        <p class="cl-cta-sub">Reach out on our partnership LINE or email us directly.</p>
+      </div>
+      <div class="cl-cta-btns">
+        <a href="https://lin.ee/babycakes-collab" target="_blank" rel="noopener" class="btn btn-y btn-lg">Partnership LINE</a>
+        <a href="mailto:hello@babycakes.th" class="btn btn-ow btn-lg">Email us</a>
+      </div>
     </div>
-
-    <!-- SIDEBAR -->
-    <aside class="cl-side">
-
-      <!-- Details card -->
-      <div class="cl-card">
-        <p class="cl-card-h">Partnership details</p>
-        <div class="cl-row"><span>Partner</span><strong>{c.name}</strong></div>
-        <div class="cl-row"><span>Type</span>
-          <span class="tag tag-p" style="font-size:.55rem;padding:.25rem .7rem">{c.type}</span>
-        </div>
-        {c.url && (
-          <div class="cl-row">
-            <span>Website</span>
-            <a href={c.url} target="_blank" rel="noopener" class="cl-link">{c.url.replace(/^https?:\/\//,'')}</a>
-          </div>
-        )}
-        {photos.length > 0 && (
-          <div class="cl-row"><span>Gallery</span><strong>{photos.length} photo{photos.length>1?'s':''}</strong></div>
-        )}
-        {c.collab_date && (
-          <div class="cl-row"><span>Year</span><strong>{c.collab_date}</strong></div>
-        )}
-        {c.status && (
-          <div class="cl-row"><span>Status</span>
-            <span class={"status-pill status-"+c.status}>{c.status}</span>
-          </div>
-        )}
-      </div>
-
-      <!-- LINE card -->
-      {c.line && (
-        <div class="cl-card cl-card-dark">
-          <p class="cl-card-h cl-card-h-lt">Get in touch</p>
-          <p class="cl-card-sub">For collab enquiries, use our partnership LINE.</p>
-          <a href={c.line} target="_blank" rel="noopener" class="btn btn-y" style="width:100%;justify-content:center;margin-top:.25rem">Contact via LINE</a>
-        </div>
-      )}
-
-      <a href="/collabs" class="cl-back-link">← All collabs</a>
-
-    </aside>
+    <a href="/collabs" class="cl-back-link">← All collabs</a>
   </div>
 </section>
 
@@ -162,14 +154,55 @@ const bodyText = c.long_desc || c.desc || '';
 }
 .ch-ctas { display: flex; gap: .875rem; flex-wrap: wrap; }
 
-/* ── LAYOUT ── */
-.cl {
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 4rem;
-  align-items: start;
+/* ── STRIP ── */
+.cl-strip {
+  background: var(--cr);
+  border-bottom: 1px solid var(--g1);
 }
-.cl-main { display: flex; flex-direction: column; gap: 3rem; }
+.cl-strip-in {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  padding-block: 1.25rem;
+}
+.cl-strip-row {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  padding: .5rem 2rem .5rem 0;
+}
+.cl-strip-div {
+  width: 1px;
+  height: 2rem;
+  background: var(--g1);
+  margin-right: 2rem;
+  flex-shrink: 0;
+}
+.cl-strip-label {
+  font-size: .55rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--g3);
+}
+.cl-strip-val {
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--d);
+}
+.cl-strip-link {
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--p);
+  letter-spacing: .04em;
+  margin-top: .75rem;
+  transition: opacity .15s;
+}
+.cl-strip-link:hover { opacity: .7; }
+
+/* ── BODY ── */
+.cl-body-wrap { display: flex; flex-direction: column; gap: 3rem; }
 
 /* ── PHOTO COLLAGE ── */
 .collage {
@@ -241,62 +274,38 @@ const bodyText = c.long_desc || c.desc || '';
 }
 .cl-cta-btns { display: flex; gap: .75rem; flex-wrap: wrap; }
 
-/* ── SIDEBAR ── */
-.cl-side {
-  display: flex; flex-direction: column; gap: 1.25rem;
-  position: sticky; top: calc(var(--nav-h) + 2rem);
-}
-.cl-card {
-  border-radius: var(--rl); padding: 2rem;
-  background: var(--cr); border: 1px solid var(--g1);
-}
-.cl-card-dark {
-  background: var(--d); border-color: transparent;
-}
-.cl-card-h {
-  font-size: .58rem; font-weight: 700;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: var(--g3); margin-bottom: 1.25rem;
-}
-.cl-card-h-lt { color: rgba(251,245,171,.4); }
-.cl-card-sub {
-  font-size: .82rem; color: rgba(251,245,171,.45);
-  line-height: 1.75; margin-bottom: 1.25rem;
-}
-.cl-row {
-  display: flex; justify-content: space-between;
-  align-items: center; gap: 1rem;
-  padding: .625rem 0;
-  border-bottom: 1px solid var(--g1);
-  font-size: .82rem;
-}
-.cl-row:last-child { border-bottom: none; }
-.cl-row span { color: var(--g3); flex-shrink: 0; }
-.cl-row strong { color: var(--d); font-weight: 700; }
-.cl-link {
-  color: var(--p); font-weight: 700;
-  font-size: .78rem; word-break: break-all;
-  transition: opacity .15s;
-}
-.cl-link:hover { opacity: .7; }
 .cl-back-link {
   font-size: .68rem; font-weight: 700;
   letter-spacing: .08em; text-transform: uppercase;
-  color: var(--p); text-align: center;
-  transition: opacity .15s;
+  color: var(--p); transition: opacity .15s;
 }
 .cl-back-link:hover { opacity: .7; }
+/* LINE card */
+.cl-line-card {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  gap: 2rem; flex-wrap: wrap;
+  padding: 2rem 2.5rem;
+  background: var(--cr);
+  border: 1px solid var(--g1);
+  border-radius: var(--rl);
+}
+.cl-line-h { font-size: clamp(1.25rem,2.5vw,1.75rem); color: var(--d); margin-bottom: .4rem; }
+.cl-line-sub { font-size: .88rem; color: var(--g3); line-height: 1.7; }
 
 .status-pill{font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border-radius:999px;font-family:var(--font)}
 .status-ongoing{background:rgba(0,180,100,.12);color:#00b464}
 .status-past{background:var(--g1);color:var(--g3)}
 .status-upcoming{background:rgba(159,151,194,.15);color:var(--p)}
 /* ── MOBILE ── */
-@media (max-width: 960px) {
-  .cl { grid-template-columns: 1fr; gap: 2.5rem; }
-  .cl-side { position: static; order: -1; }
+@media (max-width: 768px) {
+  .cl-strip-in { gap: 0; }
+  .cl-strip-row { padding: .5rem 1.25rem .5rem 0; }
+  .cl-strip-div { margin-right: 1.25rem; }
   .cl-cta-block { flex-direction: column; align-items: flex-start; padding: 1.75rem; }
   .cl-cta-btns .btn { width: 100%; justify-content: center; }
+  .cl-line-card { flex-direction: column; align-items: flex-start; padding: 1.5rem; }
+  .cl-line-card .btn { width: 100%; justify-content: center; }
   .n3 { grid-template-columns: 1fr; grid-template-rows: auto; }
   .n3 .ci1 { grid-row: auto; aspect-ratio: 4/3; }
 }
@@ -304,6 +313,8 @@ const bodyText = c.long_desc || c.desc || '';
   .ch { padding-top: clamp(5.5rem,14vw,8rem); padding-bottom: 2.5rem; }
   .ch-h1 { font-size: clamp(2.25rem,10vw,4rem); }
   .ch-sub { font-size: .9rem; }
-  .cl-card { padding: 1.5rem; }
+  .cl-strip-in { flex-wrap: wrap; gap: .25rem 0; }
+  .cl-strip-div { display: none; }
+  .cl-strip-row { width: 50%; padding: .625rem 0; }
 }
 </style>
