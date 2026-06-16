@@ -22,7 +22,12 @@ const bg = c.bg || '#2a1640';
 const photos = [c.logo, c.photo_2, c.photo_3, c.photo_4].filter(Boolean);
 const bodyText = c.long_desc || c.desc || '';
 ---
-<Base title={c.name + " | Babycakes Collabs"} description={c.desc ?? "A Babycakes collaboration with " + c.name}>
+<Base 
+  title={c.name + " | Babycakes Collabs"} 
+  description={c.desc ?? "A Babycakes collaboration with " + c.name}
+  ogType="article"
+  ogImage={c.logo || "https://res.cloudinary.com/dynjnftnu/image/upload/v1781607701/Favicon_Logo_vltlrn.png"}
+>
 
 <!-- ── HERO ── -->
 <section class="ch" style={"background:"+bg}>
