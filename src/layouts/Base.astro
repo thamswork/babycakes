@@ -19,6 +19,10 @@ const { title = "Babycakes — Feel Good Food", description = "Born from baby + 
 <!-- NAV -->
 <header class="nav" id="nav">
   <div class="nav-in">
+    <button class="nav-ham" id="ham" aria-label="Open menu" aria-expanded="false">
+      <span class="ham-top"></span>
+      <span class="ham-bot"></span>
+    </button>
     <a href="/" class="nav-logo">babycakes</a>
     <nav class="nav-links">
       <div class="nav-group">
@@ -37,10 +41,6 @@ const { title = "Babycakes — Feel Good Food", description = "Born from baby + 
       <a href="/careers">Careers</a>
     </nav>
     <a href="/bi-weekly" class="nav-cta">This Week's Drop</a>
-    <button class="nav-ham" id="ham" aria-label="Open menu" aria-expanded="false">
-      <span class="ham-top"></span>
-      <span class="ham-bot"></span>
-    </button>
   </div>
 </header>
 
@@ -459,6 +459,21 @@ a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation
   }
   .nav-links, .nav-cta { display: none; }
   .nav-ham { display: flex; }
+  /* Mobile layout: ham left, logo center */
+  .nav-in {
+    display: grid;
+    grid-template-columns: 48px 1fr 48px;
+    align-items: center;
+  }
+  .nav-logo {
+    text-align: center;
+    margin: 0 !important;
+    position: static;
+  }
+  .nav-ham {
+    margin: 0;
+    justify-self: start;
+  }
 }
 
 /* ══════════════════════════════════════════════
