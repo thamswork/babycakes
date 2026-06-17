@@ -7,12 +7,17 @@ const all = (await getCollection('collabs', ({data}) => data.active !== false))
 
 const ongoing  = all.filter(c => c.data.status !== 'past');
 const past     = all.filter(c => c.data.status === 'past');
+import brandPhotosRaw from '../../content/settings/brand-photos.json';
+const collabsHeroPhoto = (brandPhotosRaw as any).collabs_hero_photo || (brandPhotosRaw as any).culture_photo || '';
 ---
 <Base title="Collabs | Babycakes" description="Babycakes collaborations, partnerships, and limited edition drops.">
 
-<section class="pg-hero">
-  <div class="dots"></div>
-  <div class="wrap" style="position:relative;z-index:2">
+<section class="photo-hero">
+  <div class="photo-hero-bg">
+    <img src={collabsHeroPhoto} alt="Babycakes collabs" loading="eager" fetchpriority="high" class="photo-hero-img"/>
+    <div class="photo-hero-overlay"></div>
+  </div>
+  <div class="wrap photo-hero-in">
     <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">Partners &amp; Collabs</div>
     <h1 class="pg-h1 au au1">We work with<br/>the best</h1>
     <p class="pg-sub au au2">Limited drops, delivery partners, and brand collaborations.<br/>

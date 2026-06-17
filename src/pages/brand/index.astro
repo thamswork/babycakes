@@ -13,6 +13,7 @@ const founderTess = getFile('founder-tess') as any;
 const founders    = [founderNile, founderTess].sort((a:any,b:any)=>(a.order||0)-(b.order||0));
 
 const bp = brandPhotosRaw as any;
+const brandHeroPhoto = bp.brand_hero_photo || bp.culture_photo || '';
 const nilePhotos = [bp.nile_photo, bp.nile_photo_2, bp.nile_photo_3].filter(Boolean);
 const tessPhotos = [bp.tess_photo, bp.tess_photo_2, bp.tess_photo_3].filter(Boolean);
 const photoMap: Record<string,string[]> = { nile: nilePhotos, tess: tessPhotos };
@@ -36,10 +37,13 @@ const lastIdx = ms.length - 1;
 ---
 <Base title="Brand | Babycakes" description="The Babycakes story — two founders, one 1999 recipe, Bangkok's most-loved tray cake.">
 
-<!-- ── HERO ── dark purple bg, yellow headline -->
-<section class="brand-hero">
-  <div class="dots"></div>
-  <div class="wrap" style="position:relative;z-index:2">
+<!-- ── HERO ── photo bg -->
+<section class="photo-hero">
+  <div class="photo-hero-bg">
+    <img src={brandHeroPhoto} alt="Babycakes brand" loading="eager" fetchpriority="high" class="photo-hero-img"/>
+    <div class="photo-hero-overlay"></div>
+  </div>
+  <div class="wrap photo-hero-in">
     <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">{hero.tagline ?? 'Our Brand'}</div>
     <h1 class="bh-h1 au au1">{hero.headline_1 ?? 'The Babycakes'}<br/>{hero.headline_2 ?? 'Story'}</h1>
     <p class="bh-sub au au2">{hero.subheading ?? 'A 1999 family recipe. A home kitchen in Bangna. Two founders who believed food baked with love tastes different'}</p>

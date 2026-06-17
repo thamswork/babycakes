@@ -5,11 +5,16 @@ const all = await getCollection('locations', ({data})=>data.active!==false);
 all.sort((a,b)=>{ if(a.data.hq&&!b.data.hq)return -1; if(!a.data.hq&&b.data.hq)return 1; return a.data.name.localeCompare(b.data.name); });
 const hq       = all.filter(l=>l.data.hq);
 const branches = all.filter(l=>!l.data.hq);
+import brandPhotosRaw from '../../content/settings/brand-photos.json';
+const locationsHeroPhoto = (brandPhotosRaw as any).locations_hero_photo || (brandPhotosRaw as any).culture_photo || '';
 ---
 <Base title="Locations | Babycakes" description="Find Babycakes across Bangkok — 12+ branches plus Grab delivery.">
-<section class="pg-hero">
-  <div class="dots"></div>
-  <div class="wrap" style="position:relative;z-index:2">
+<section class="photo-hero">
+  <div class="photo-hero-bg">
+    <img src={locationsHeroPhoto} alt="Babycakes locations" loading="eager" fetchpriority="high" class="photo-hero-img"/>
+    <div class="photo-hero-overlay"></div>
+  </div>
+  <div class="wrap photo-hero-in">
     <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.5rem">{all.length} Locations Across Bangkok</div>
     <h1 class="pg-h1 au au1">Find<br/>Babycakes</h1>
     <p class="pg-sub au au2">Walk in at any branch or order via Grab and LINE.</p>
