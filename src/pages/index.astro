@@ -81,6 +81,16 @@ const heroPhoto = brandPhotos.hero_photo || '';
   </div>
 </section>
 
+<!-- ── FULL BLEED BANNER ── -->
+<div class="feel-banner">
+  <img src="https://res.cloudinary.com/dynjnftnu/image/upload/v1781667037/Copy_of_Vday_in_studio_215_n2o610.jpg" alt="Babycakes feel good" class="feel-banner-img" loading="lazy"/>
+  <div class="feel-banner-overlay"></div>
+  <div class="feel-banner-text">
+    <span class="lf feel-banner-h">We Feel Good</span>
+    <span class="feel-banner-sub">Bangkok's most-loved tray cake</span>
+  </div>
+</div>
+
 <!-- ── CLASSICS ── -->
 <section class="sec sec-cr">
   <div class="wrap">
@@ -89,16 +99,19 @@ const heroPhoto = brandPhotos.hero_photo || '';
         <span class="tag tag-y sh-eye" style="padding-inline:1.25rem">Always In Stock</span>
         <h2 class="sh-h" style="margin-top:.75rem">Our Classics</h2>
       </div>
-      <a href="/always-available" class="btn btn-op btn-sm">See All</a>
+      <div class="classics-nav">
+        <button class="classics-arr" id="classicsPrev" aria-label="Previous">&#8592;</button>
+        <button class="classics-arr" id="classicsNext" aria-label="Next">&#8594;</button>
+        <a href="/always-available" class="btn btn-op btn-sm">See All</a>
+      </div>
     </div>
-    <div class="classics-grid">
+    <div class="classics-track" id="classicsTrack">
       {classics.map(c=>(
-        <a href={"/always-available/"+c.data.slug} class="pc">
-          <div class="pc-img" style={"aspect-ratio:4/3;background:"+(c.data.bg||'var(--d)')}>
+        <a href={"/always-available/"+c.data.slug} class="classics-card pc">
+          <div class="pc-img" style={"aspect-ratio:3/2;background:"+(c.data.bg||'var(--d)')}>
             {c.data.image ? <img src={c.data.image} alt={c.data.name}/> : <div class="pc-ph">{c.data.name}</div>}
           </div>
           <div class="pc-body">
-            <div class="pc-meta"><span class="tag tag-cr">always available</span></div>
             <div class="pc-name">{c.data.name}</div>
           </div>
         </a>
@@ -250,6 +263,110 @@ const heroPhoto = brandPhotos.hero_photo || '';
   max-width: 320px;
 }
 
+/* ── FEEL GOOD BANNER ── */
+.feel-banner {
+  position: relative;
+  height: clamp(320px, 45vw, 560px);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.feel-banner-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  transform: scale(1.04);
+  transition: transform 8s ease;
+}
+.feel-banner:hover .feel-banner-img { transform: scale(1); }
+.feel-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(30,22,56,.35) 0%,
+    rgba(30,22,56,.55) 100%
+  );
+  z-index: 1;
+}
+.feel-banner-text {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.feel-banner-h {
+  font-size: clamp(3rem, 10vw, 8rem);
+  color: var(--y);
+  line-height: 1;
+  letter-spacing: -.02em;
+  text-shadow: 0 2px 32px rgba(0,0,0,.4);
+}
+.feel-banner-sub {
+  font-family: var(--font);
+  font-size: clamp(.75rem, 1.5vw, .95rem);
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+}
+
+/* ── CLASSICS CAROUSEL ── */
+.classics-nav {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+.classics-arr {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--g1);
+  background: var(--w);
+  color: var(--d);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.classics-arr:hover {
+  background: var(--d);
+  color: var(--y);
+  border-color: var(--d);
+}
+.classics-arr:active { transform: scale(.93); }
+.classics-track {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: .5rem;
+  /* Hide scrollbar */
+  scrollbar-width: none;
+}
+.classics-track::-webkit-scrollbar { display: none; }
+.classics-card {
+  flex: 0 0 280px;
+  scroll-snap-align: start;
+  text-decoration: none;
+}
+@media (max-width: 768px) {
+  .classics-card { flex: 0 0 220px; }
+  .feel-banner { height: clamp(220px, 55vw, 360px); }
+  .feel-banner-h { font-size: clamp(2.5rem, 14vw, 5rem); }
+}
+
 /* ── CARD ANIMATION ── */
 .pc { opacity: 0; transform: translateY(14px); }
 .pc.in-view { opacity: 1; transform: translateY(0); transition: opacity .4s var(--ease), transform .4s var(--ease); }
@@ -285,4 +402,14 @@ const heroPhoto = brandPhotos.hero_photo || '';
   .pc-per { display: none; } /* too cramped on small screens */
 }
 </style>
+<script>
+const track = document.getElementById('classicsTrack');
+const prev  = document.getElementById('classicsPrev');
+const next  = document.getElementById('classicsNext');
+if (track && prev && next) {
+  const scrollAmt = () => track.querySelector('.classics-card')?.offsetWidth + 16 || 296;
+  prev.addEventListener('click', () => track.scrollBy({ left: -scrollAmt(), behavior: 'smooth' }));
+  next.addEventListener('click', () => track.scrollBy({ left:  scrollAmt(), behavior: 'smooth' }));
+}
+</script>
 
