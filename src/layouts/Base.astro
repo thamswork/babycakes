@@ -162,32 +162,22 @@ const canonicalUrl = canonical ?? (siteUrl + Astro.url.pathname);
         <a href="https://tiktok.com/@babycakes.bkk" target="_blank" rel="noopener">TikTok</a>
       </div>
     </div>
-    <div class="ft-col ft-col-menu">
+    <div class="ft-col">
       <h5>Menu</h5>
       <a href="/bi-weekly">Bi-Weekly</a>
       <a href="/always-available">Always</a>
       <a href="/locations">Locations</a>
       <a href="/collabs">Collabs</a>
     </div>
-    <div class="ft-col ft-col-company">
+    <div class="ft-col">
       <h5>Company</h5>
       <a href="/brand">Brand</a>
       <a href="/careers">Careers</a>
     </div>
-    <div class="ft-links-wrap">
-      <div class="ft-col ft-col-menu-mobile">
-        <h5>Menu</h5>
-        <a href="/bi-weekly">Bi-Weekly</a>
-        <a href="/always-available">Always</a>
-        <a href="/locations">Locations</a>
-        <a href="/collabs">Collabs</a>
-      </div>
-      <div class="ft-divider"></div>
-      <div class="ft-col">
-        <h5>Order</h5>
-        <a href="https://lin.ee/babycakes" target="_blank" rel="noopener">LINE</a>
-        <a href="https://food.grab.com/th/en/search?keyword=babycakes" target="_blank" rel="noopener">GrabFood</a>
-      </div>
+    <div class="ft-col">
+      <h5>Order</h5>
+      <a href="https://lin.ee/babycakes" target="_blank" rel="noopener">LINE</a>
+      <a href="https://food.grab.com/th/en/search?keyword=babycakes" target="_blank" rel="noopener">GrabFood</a>
     </div>
   </div>
   <div class="ft-bot">
@@ -737,11 +727,8 @@ a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation
 ══════════════════════════════════════════════ */
 .ft { background: var(--p); border-top: 1px solid rgba(255,255,255,.08); }
 .ft-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; max-width: var(--mx); margin-inline: auto; padding: clamp(1.75rem,3vw,2.5rem) var(--px) clamp(1.25rem,2vw,2rem); }
-.ft-links-wrap { display: none; gap: clamp(2rem,4vw,4rem); }
-.ft-divider { width: 1px; background: rgba(255,255,255,.15); align-self: stretch; }
 .ft-logo { display: block; font-family: var(--font-logo); font-size: 1.625rem; color: var(--y); margin-bottom: .625rem; }
 .ft-brand p { font-family: var(--font); color: rgba(255,255,255,.6); font-size: .78rem; line-height: 1.65; max-width: 220px; margin-bottom: .75rem; }
-.ft-col-menu-mobile { display: none; }
 .ft-soc { display: flex; flex-wrap: wrap; gap: .5rem 1rem; }
 .ft-soc a { font-family: var(--font); color: rgba(255,255,255,.6); font-size: .78rem; font-weight: var(--fw-med); transition: color .15s; min-height: 36px; display: flex; align-items: center; }
 .ft-soc a:hover { color: #fff; }
@@ -750,42 +737,33 @@ a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation
 .ft-col a:hover { color: #fff; }
 .ft-bot { display: flex; justify-content: space-between; align-items: center; max-width: var(--mx); margin-inline: auto; padding: .625rem var(--px); border-top: 1px solid rgba(255,255,255,.1); font-size: .62rem; color: rgba(255,255,255,.3); font-family: var(--font); padding-bottom: max(.75rem, var(--sab)); }
 
-@media (max-width: 860px) { .ft-top { grid-template-columns: 1fr 1fr; gap: 2rem; } }
-
+@media (max-width: 860px) { .ft-top { grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.25rem; } }
 
 @media (max-width: 520px) {
-  /* Mobile footer — compact, centered, Menu | Order with divider */
+  /* Mobile footer — brand stacked full width, Menu/Company/Order 3-across left-aligned */
   .ft-top {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     padding: 1.5rem var(--px-mob) .875rem;
-    text-align: center;
   }
   .ft-brand {
+    grid-column: 1 / -1;
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: .35rem;
-    margin-bottom: .1rem;
+    margin-bottom: .5rem;
   }
   .ft-logo { margin-bottom: 0; font-size: 1.35rem; }
   .ft-brand p {
     display: block;
-    font-size: .7rem;
+    font-size: .72rem;
     max-width: none;
-    white-space: nowrap;
     margin-bottom: 0;
-    line-height: 1.4;
-    text-align: center;
+    line-height: 1.45;
   }
-  .ft-soc { gap: .2rem .75rem; margin-top: .05rem; justify-content: center; }
-  .ft-links-wrap { display: flex; justify-content: center; gap: 1.5rem; }
-  .ft-col { display: flex; flex-direction: column; align-items: center; }
-  .ft-col h5 { margin-bottom: .4rem; font-size: .5rem; }
-  .ft-col a { font-size: .73rem; margin-bottom: .25rem; text-align: center; }
-  /* Hide desktop Menu + Company columns on mobile, show the mobile wrap version — must come AFTER .ft-col to win the cascade */
-  .ft-col-menu, .ft-col-company { display: none !important; }
-  .ft-col-menu-mobile { display: flex !important; }
+  .ft-soc { gap: .2rem .65rem; margin-top: .05rem; }
+  .ft-col h5 { margin-bottom: .4rem; font-size: .48rem; }
+  .ft-col a { font-size: .7rem; margin-bottom: .3rem; }
   .ft-bot { flex-direction: column; gap: .15rem; text-align: center; padding: .5rem var(--px-mob); font-size: .56rem; }
 }
 @media (max-width: 360px) {
