@@ -210,14 +210,18 @@ const lastIdx = ms.length - 1;
 </section>
 
 <!-- ── CULTURE ── -->
-<section class="sec sec-cr" id="culture">
-  <div class="wrap">
+<section class="culture-photo-sec" id="culture">
+  <div class="culture-photo-bg">
+    <img src="https://res.cloudinary.com/dynjnftnu/image/upload/v1781669287/SnapInsta.to_656906592_18095790575470390_3757319689737294419_n_hbgwfy.jpg" alt="Babycakes culture" loading="lazy" class="culture-bg-img"/>
+    <div class="culture-bg-overlay"></div>
+  </div>
+  <div class="wrap culture-inner">
     <div class="sh">
       <div>
-        <span class="tag tag-y sh-eye" style="padding-inline:1.25rem">Culture &amp; HR</span>
-        <h2 class="sh-h" style="margin-top:.875rem">How we work<br/>together</h2>
+        <span class="tag tag-ow sh-eye" style="padding-inline:1.25rem">Culture &amp; HR</span>
+        <h2 class="sh-h culture-heading" style="margin-top:.875rem">How we work<br/>together</h2>
       </div>
-      <a href="/careers" class="btn btn-p btn-lg">Join the Team</a>
+      <a href="/careers" class="btn btn-y btn-lg">Join the Team</a>
     </div>
     <div class="g3">
       {culture.map((c,i)=>(
@@ -396,10 +400,56 @@ const lastIdx = ms.length - 1;
 .tl-d{font-family:var(--font);font-size:.875rem;color:var(--g3);line-height:1.8}
 
 /* ── Culture ── */
-.cult-card{background:var(--w);border:1px solid var(--g1);border-radius:var(--rm);padding:clamp(1.5rem,3vw,2.25rem);animation:fadeUp .65s var(--ease) both}
+/* ── CULTURE PHOTO SECTION ── */
+.culture-photo-sec {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(4rem,8vw,7rem) 0;
+}
+.culture-photo-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.culture-bg-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  transform: scale(1.04);
+}
+.culture-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(30,22,56,.82) 0%,
+    rgba(76,67,120,.72) 50%,
+    rgba(30,22,56,.78) 100%
+  );
+}
+.culture-inner {
+  position: relative;
+  z-index: 2;
+}
+.culture-heading { color: #fff !important; }
+/* Glass cards */
+.cult-card {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--rm);
+  padding: clamp(1.5rem,3vw,2.25rem);
+  animation: fadeUp .65s var(--ease) both;
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  transition: background .2s, border-color .2s;
+}
+.cult-card:hover {
+  background: rgba(255,255,255,.13);
+  border-color: rgba(255,255,255,.2);
+}
 /* Culture card title: Neulis Neue 700, medium purple */
-.cult-t{font-family:var(--font);font-size:1rem;font-weight:700;color:var(--p);margin-bottom:.75rem}
-.cult-d{font-family:var(--font);font-size:.875rem;color:var(--g3);line-height:1.8}
+.cult-t{font-family:var(--font);font-size:1rem;font-weight:700;color:var(--y);margin-bottom:.75rem}
+.cult-d{font-family:var(--font);font-size:.875rem;color:rgba(255,255,255,.65);line-height:1.8}
 
 /* ── Mobile ── */
 @media(max-width:768px){
@@ -435,7 +485,7 @@ const lastIdx = ms.length - 1;
   .tl-e{font-size:.9rem}
   .tl-d{font-size:.82rem}
   .g3{grid-template-columns:1fr}
-  .cult-card{padding:1.25rem}
+  .cult-card{padding:1.25rem;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 }
 @media(max-width:960px){
   .collab-side,.role-side,aside,[style*="position:sticky"],[style*="position: sticky"]{position:static !important;top:auto !important}
