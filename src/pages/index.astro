@@ -323,6 +323,9 @@ const bannerPhoto   = brandPhotos.feel_good_banner || heroPhoto;
   color: rgba(255,255,255,.6);
 }
 
+/* ── CLASSICS SECTION COMPACT ── */
+.sec.sec-cr { padding-block: clamp(2.5rem,5vw,4rem); }
+
 /* ── CLASSICS CAROUSEL ── */
 .classics-nav {
   display: flex;
@@ -362,23 +365,30 @@ const bannerPhoto   = brandPhotos.feel_good_banner || heroPhoto;
 }
 .classics-track::-webkit-scrollbar { display: none; }
 .classics-card {
-  flex: 0 0 260px;
+  flex: 0 0 320px;
   scroll-snap-align: start;
   text-decoration: none;
   background: var(--w);
   border: 1px solid var(--g1);
   border-radius: var(--rm);
   overflow: hidden;
+  box-shadow: 0 2px 12px rgba(76,67,120,.08);
+  transition: box-shadow .2s, transform .2s;
+}
+.classics-card:hover {
+  box-shadow: 0 8px 28px rgba(76,67,120,.14);
+  transform: translateY(-2px);
 }
 .classics-card .pc-body {
-  padding: .875rem 1rem 1rem;
+  padding: 1rem 1.125rem 1.125rem;
 }
 .classics-card .pc-name {
-  font-size: .95rem;
+  font-size: 1.05rem;
+  font-weight: 700;
   color: var(--d);
 }
 @media (max-width: 768px) {
-  .classics-card { flex: 0 0 220px; }
+  .classics-card { flex: 0 0 260px; }
   .feel-banner { height: clamp(220px, 55vw, 360px); }
   .feel-banner-h { font-size: clamp(2.5rem, 14vw, 5rem); }
 }
