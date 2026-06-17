@@ -8,9 +8,14 @@ const allDrops = await getCollection('weekly-updates', ({ data }) => !data.draft
 allDrops.sort((a,b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0));
 const drops    = allDrops.slice(0, 6);
 const allCls   = await getCollection('always-available', ({ data }) => data.available);
-const classics = allCls.slice(0, 3);
-const lineLink  = orderLinks.line_main || 'https://lin.ee/babycakes';
-const heroPhoto = brandPhotos.hero_photo || '';
+const classics = allCls.sort((a,b) => a.data.name.localeCompare(b.data.name));
+const lineLink      = orderLinks.line_main    || 'https://lin.ee/babycakes';
+const heroPhoto     = brandPhotos.hero_photo  || '';
+const heroHeadline  = brandPhotos.hero_headline  || 'we feel good';
+const heroMeta      = brandPhotos.hero_meta      || 'Baby Tray from ฿210 · 12+ Branches · Bangkok';
+const heroBtnPrimary= brandPhotos.hero_btn_primary || "This Week's Drop";
+const heroBtnGhost  = brandPhotos.hero_btn_ghost   || 'Always Available';
+const bannerPhoto   = brandPhotos.feel_good_banner || heroPhoto;
 ---
 <Base 
   title="Babycakes — We Feel Good" 
@@ -27,11 +32,11 @@ const heroPhoto = brandPhotos.hero_photo || '';
   </div>
   <div class="hero-ov"></div>
   <div class="wrap hero-bottom">
-    <h1 class="hero-h1 au">we feel good</h1>
-    <p class="hero-meta au au1">Baby Tray from ฿210 · 12+ Branches · Bangkok</p>
+    <h1 class="hero-h1 au">{heroHeadline}</h1>
+    <p class="hero-meta au au1">{heroMeta}</p>
     <div class="hero-btns au au2">
-      <a href="/bi-weekly" class="btn hero-btn-primary">This Week's Drop</a>
-      <a href="/always-available" class="btn hero-btn-ghost">Always Available</a>
+      <a href="/bi-weekly" class="btn hero-btn-primary">{heroBtnPrimary}</a>
+      <a href="/always-available" class="btn hero-btn-ghost">{heroBtnGhost}</a>
     </div>
   </div>
 </section>
@@ -83,7 +88,7 @@ const heroPhoto = brandPhotos.hero_photo || '';
 
 <!-- ── FULL BLEED BANNER ── -->
 <div class="feel-banner">
-  <img src="https://res.cloudinary.com/dynjnftnu/image/upload/v1781667037/Copy_of_Vday_in_studio_215_n2o610.jpg" alt="Babycakes feel good" class="feel-banner-img" loading="lazy"/>
+  <img src={bannerPhoto} alt="Babycakes feel good" class="feel-banner-img" loading="lazy"/>
   <div class="feel-banner-overlay"></div>
   <div class="feel-banner-text">
     <span class="lf feel-banner-h">We Feel Good</span>
@@ -357,9 +362,20 @@ const heroPhoto = brandPhotos.hero_photo || '';
 }
 .classics-track::-webkit-scrollbar { display: none; }
 .classics-card {
-  flex: 0 0 280px;
+  flex: 0 0 260px;
   scroll-snap-align: start;
   text-decoration: none;
+  background: var(--w);
+  border: 1px solid var(--g1);
+  border-radius: var(--rm);
+  overflow: hidden;
+}
+.classics-card .pc-body {
+  padding: .875rem 1rem 1rem;
+}
+.classics-card .pc-name {
+  font-size: .95rem;
+  color: var(--d);
 }
 @media (max-width: 768px) {
   .classics-card { flex: 0 0 220px; }
