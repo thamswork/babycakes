@@ -411,7 +411,7 @@ const lastIdx = ms.length - 1;
 .culture-photo-sec {
   position: relative;
   overflow: hidden;
-  padding: clamp(4rem,8vw,7rem) 0;
+  padding: clamp(3rem,5vw,5rem) 0;
 }
 .culture-photo-bg {
   position: absolute;
@@ -439,29 +439,37 @@ const lastIdx = ms.length - 1;
   z-index: 2;
 }
 .culture-heading { color: #fff !important; }
-/* Solid dark cards */
+/* Cream cards — hover reveals photo */
 .cult-card {
-  background: var(--xdk);
-  border: 1px solid rgba(255,255,255,.06);
-  border-left: 3px solid var(--y);
+  background: var(--cr);
+  border: 1px solid var(--g1);
+  border-left: 3px solid var(--p);
   border-radius: var(--rm);
-  padding: clamp(1.5rem,3vw,2.25rem);
+  padding: clamp(1.125rem,2.5vw,1.75rem);
   animation: fadeUp .65s var(--ease) both;
-  transition: border-color .2s, transform .2s;
+  transition: background .35s var(--ease), border-color .35s, transform .25s var(--ease), backdrop-filter .35s;
+  cursor: default;
 }
 .cult-card:hover {
-  border-left-color: var(--p);
+  background: rgba(244,243,238,.12);
+  backdrop-filter: blur(8px) saturate(1.3);
+  -webkit-backdrop-filter: blur(8px) saturate(1.3);
+  border-color: rgba(255,255,255,.25);
+  border-left-color: var(--y);
   transform: translateY(-2px);
 }
+.cult-card:hover .cult-t { color: var(--y); }
+.cult-card:hover .cult-d { color: rgba(255,255,255,.75); }
 .cult-icon {
-  color: var(--y);
-  margin-bottom: 1rem;
-  opacity: .85;
+  color: var(--p);
+  margin-bottom: .875rem;
+  transition: color .35s;
 }
+.cult-card:hover .cult-icon { color: var(--y); }
 .cult-icon svg { display: block; }
 /* Culture card title: Neulis Neue 700, medium purple */
-.cult-t{font-family:var(--font);font-size:1rem;font-weight:700;color:var(--y);margin-bottom:.75rem}
-.cult-d{font-family:var(--font);font-size:.875rem;color:rgba(255,255,255,.65);line-height:1.8}
+.cult-t{font-family:var(--font);font-size:.95rem;font-weight:700;color:var(--d);margin-bottom:.5rem;transition:color .35s}
+.cult-d{font-family:var(--font);font-size:.82rem;color:var(--g3);line-height:1.75;transition:color .35s}
 
 /* ── Mobile ── */
 @media(max-width:768px){
