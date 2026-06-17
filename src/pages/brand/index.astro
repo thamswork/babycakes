@@ -322,9 +322,27 @@ const lastIdx = ms.length - 1;
   font-weight: var(--fw-body);
 }
 @media (max-width: 768px) {
-  .os-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-  .os-h2 { font-size: clamp(2rem, 9vw, 3rem); }
-  .os-pull { font-size: 1rem; }
+  .os-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .os-h2 { font-size: clamp(2rem, 9vw, 3rem); margin-bottom: 1.125rem; }
+  .os-pull { font-size: 1rem; margin-bottom: .5rem; }
+  .os-source { margin-top: .375rem; margin-bottom: .5rem; }
+  .os-right { gap: 0; }
+  .os-block { padding: 1.125rem 0; }
+  .os-label {
+    display: inline-block;
+    background: var(--cr2);
+    color: var(--p);
+    padding: .25rem .625rem;
+    border-radius: 999px;
+    margin-bottom: .75rem;
+    font-size: .56rem;
+  }
+  .os-body { font-size: .9rem; line-height: 1.7; }
+}
+@media (max-width: 480px) {
+  .os-h2 { font-size: clamp(1.75rem, 10vw, 2.5rem); }
+  .os-pull { font-size: .92rem; padding-left: .75rem; }
+  .os-source { padding-left: .75rem; }
 }
 .brand-hero{position:relative;background:var(--dk);padding:clamp(8rem,15vw,12rem) var(--px) clamp(4rem,8vw,6rem);overflow:hidden}
 /* Hero headline: Neulis Neue 800 italic, yellow on dark bg */
