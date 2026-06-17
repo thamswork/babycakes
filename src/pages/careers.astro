@@ -12,16 +12,22 @@ allRoles.sort((a,b) => {
 
 const perks = [
   { t:"Monthly Tasting Sessions", d:"You taste the product — it is literally part of the job.",
+    long_d:"Before every bi-weekly drop, the whole team gathers to taste and vote on new recipes. It's not a perk we tacked on — it's how new flavors actually get approved. Your palate has a say in what babycakes sells next.",
     icon:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>` },
   { t:"Birthday Cake Policy", d:"Every team member gets a custom Babycakes on their birthday.",
+    long_d:"Your birthday means a custom Babycakes made just for you — flavor, message, the works. No exceptions, no forgetting. It's a small thing, but it's one of the ways we make sure everyone feels seen.",
     icon:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2 1 2 1"/><path d="M2 21h20"/><path d="M7 8v2"/><path d="M12 8v2"/><path d="M17 8v2"/><path d="M7 4h.01"/><path d="M12 4h.01"/><path d="M17 4h.01"/></svg>` },
   { t:"Wellness Allowance", d:"Monthly allowance for gym, therapy, or massage.",
+    long_d:"A monthly budget you can put toward whatever keeps you well — a gym membership, therapy sessions, or a massage after a long week. You decide what wellness looks like for you, we just make sure it's funded.",
     icon:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>` },
   { t:"Flexible Hours", d:"We care about output, not clock-watching.",
+    long_d:"We don't track when you clock in or out. What matters is the work getting done and getting done well. Structure your day around when you're actually at your best.",
     icon:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>` },
   { t:"Learning Fridays", d:"Monthly guest sessions with chefs, designers, and brand builders.",
+    long_d:"Once a month, the last Friday is set aside for learning — a guest chef, designer, or brand builder comes in to share how they think and work. It's a standing invitation to get better at your craft, on company time.",
     icon:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>` },
   { t:"Team Bake Days", d:"Collaborative baking — your idea might be next.",
+    long_d:"Anyone on the team can bring a recipe idea to a Bake Day. We test it together, give honest feedback, and the best ones move forward into an actual drop. Your idea could be the next thing babycakes sells.",
     icon:`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>` },
 ];
 
@@ -35,10 +41,13 @@ const deptColors: Record<string,string> = {
   description="Join the Babycakes team in Bangkok. We're looking for passionate people who believe food baked with love tastes different."
 >
 
-<!-- HERO -->
-<section class="pg-hero">
-  <div class="dots"></div>
-  <div class="wrap" style="position:relative;z-index:2">
+<!-- HERO WITH PHOTO -->
+<section class="careers-hero">
+  <div class="careers-hero-bg">
+    <img src={culturePhoto || "https://res.cloudinary.com/dynjnftnu/image/upload/v1781669287/SnapInsta.to_656906592_18095790575470390_3757319689737294419_n_hbgwfy.jpg"} alt="Babycakes team" loading="eager" fetchpriority="high" class="careers-hero-img"/>
+    <div class="careers-hero-overlay"></div>
+  </div>
+  <div class="wrap careers-hero-in">
     <div class="tag tag-ow au" style="width:fit-content;margin-bottom:1.75rem">We're Hiring</div>
     <h1 class="pg-h1 au au1">Join the<br/>family</h1>
     <p class="pg-sub au au2">Passionate about feel-good food? You'll fit right in.</p>
@@ -46,30 +55,67 @@ const deptColors: Record<string,string> = {
   </div>
 </section>
 
-<!-- PERKS -->
-<section class="perks-photo-sec">
-  <div class="perks-photo-bg">
-    <img src={culturePhoto || "https://res.cloudinary.com/dynjnftnu/image/upload/v1781669287/SnapInsta.to_656906592_18095790575470390_3757319689737294419_n_hbgwfy.jpg"} alt="Babycakes team" loading="lazy" class="perks-bg-img"/>
-    <div class="perks-bg-overlay"></div>
-  </div>
-  <div class="wrap perks-inner">
-    <div class="sh">
+<!-- PERKS — compact, clickable -->
+<section class="sec-sm sec-cr">
+  <div class="wrap">
+    <div class="sh" style="margin-bottom:1.5rem">
       <div>
-        <span class="tag tag-ow sh-eye" style="padding-inline:1.25rem">Why Join Us</span>
-        <h2 class="sh-h perks-heading" style="margin-top:.875rem">The good stuff</h2>
+        <span class="tag tag-y sh-eye" style="padding-inline:1.25rem">Why Join Us</span>
+        <h2 class="sh-h" style="margin-top:.625rem;font-size:clamp(1.5rem,3.5vw,2.25rem)">The good stuff</h2>
       </div>
     </div>
-    <div class="g3">
+    <div class="perk-grid">
       {perks.map((p,i)=>(
-        <div class="perk-card au" style={"animation-delay:"+i*.07+"s"}>
-          <div class="perk-icon" set:html={p.icon}></div>
-          <h3 class="perk-t">{p.t}</h3>
-          <p class="perk-d">{p.d}</p>
-        </div>
+        <button class="perk-card-sm au" style={"animation-delay:"+i*.05+"s"} data-perk={i}>
+          <div class="perk-icon-sm" set:html={p.icon}></div>
+          <h3 class="perk-t-sm">{p.t}</h3>
+          <p class="perk-d-sm">{p.d}</p>
+          <span class="perk-more">Learn more →</span>
+        </button>
       ))}
     </div>
   </div>
 </section>
+
+<!-- PERK MODAL -->
+<div class="perk-modal" id="perkModal" aria-hidden="true">
+  <div class="perk-modal-backdrop" id="perkModalBackdrop"></div>
+  <div class="perk-modal-box">
+    <button class="perk-modal-close" id="perkModalClose" aria-label="Close">&#x2715;</button>
+    <div class="perk-modal-icon" id="perkModalIcon"></div>
+    <h3 class="perk-modal-title" id="perkModalTitle"></h3>
+    <p class="perk-modal-body" id="perkModalBody"></p>
+  </div>
+</div>
+
+<script define:vars={{ perks }}>
+  const cards    = document.querySelectorAll('.perk-card-sm');
+  const modal    = document.getElementById('perkModal');
+  const backdrop = document.getElementById('perkModalBackdrop');
+  const closeBtn = document.getElementById('perkModalClose');
+  const titleEl  = document.getElementById('perkModalTitle');
+  const bodyEl   = document.getElementById('perkModalBody');
+  const iconEl   = document.getElementById('perkModalIcon');
+
+  function openModal(i) {
+    const p = perks[i];
+    titleEl.textContent = p.t;
+    bodyEl.textContent  = p.long_d || p.d;
+    iconEl.innerHTML    = p.icon;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  cards.forEach(c => c.addEventListener('click', () => openModal(Number(c.dataset.perk))));
+  backdrop.addEventListener('click', closeModal);
+  closeBtn.addEventListener('click', closeModal);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
 
 <!-- ROLES LIST -->
 <section class="sec" id="roles">
@@ -121,6 +167,101 @@ const deptColors: Record<string,string> = {
 .pg-hero{position:relative;background:var(--p);padding:clamp(8rem,14vw,11rem) var(--px) clamp(4rem,7vw,5.5rem);overflow:hidden}
 .pg-h1{font-family:var(--font);font-weight:800;font-style:italic;font-size:clamp(3rem,10vw,8rem);color:var(--y);line-height:.9;letter-spacing:-.03em;margin-bottom:1.25rem}
 .pg-sub{font-family:var(--font);color:rgba(255,255,255,.7);font-size:clamp(.95rem,1.6vw,1.05rem);line-height:1.9;max-width:480px}
+
+/* ── Careers hero with photo ── */
+.careers-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(8rem,14vw,11rem) var(--px) clamp(4rem,7vw,5.5rem);
+}
+.careers-hero-bg { position: absolute; inset: 0; z-index: 0; }
+.careers-hero-img {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center 40%;
+}
+.careers-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(30,22,56,.85) 0%, rgba(76,67,120,.75) 50%, rgba(30,22,56,.82) 100%);
+}
+.careers-hero-in { position: relative; z-index: 2; }
+
+/* ── Compact clickable perks ── */
+.perk-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .75rem;
+}
+.perk-card-sm {
+  text-align: left;
+  background: var(--w);
+  border: 1px solid var(--g1);
+  border-radius: var(--rm);
+  padding: 1.125rem 1.25rem;
+  cursor: pointer;
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+  font-family: var(--font);
+}
+.perk-card-sm:hover {
+  border-color: var(--p);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76,67,120,.1);
+}
+.perk-card-sm:active { transform: scale(.98); }
+.perk-icon-sm { color: var(--p); margin-bottom: .5rem; }
+.perk-icon-sm svg { display: block; width: 20px; height: 20px; }
+.perk-t-sm { font-size: .85rem; font-weight: 700; color: var(--d); margin-bottom: .25rem; }
+.perk-d-sm { font-size: .76rem; color: var(--g3); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.perk-more { display: inline-block; margin-top: .5rem; font-size: .68rem; font-weight: 600; color: var(--p); }
+
+@media (max-width: 768px) {
+  .perk-grid { grid-template-columns: 1fr 1fr; gap: .625rem; }
+  .perk-card-sm { padding: .875rem 1rem; }
+}
+@media (max-width: 480px) {
+  .perk-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Perk modal ── */
+.perk-modal {
+  position: fixed; inset: 0; z-index: 1000;
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 1.5rem;
+}
+.perk-modal.open { display: flex; }
+.perk-modal-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(30,22,56,.6);
+  backdrop-filter: blur(4px);
+}
+.perk-modal-box {
+  position: relative;
+  z-index: 1;
+  background: var(--w);
+  border-radius: var(--rl);
+  padding: 2.25rem;
+  max-width: 440px;
+  width: 100%;
+  animation: fadeUp .3s var(--ease) both;
+}
+.perk-modal-close {
+  position: absolute; top: 1rem; right: 1rem;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--cr);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--g3);
+  font-size: .85rem;
+  transition: background .15s;
+}
+.perk-modal-close:hover { background: var(--g1); }
+.perk-modal-icon { color: var(--p); margin-bottom: 1rem; }
+.perk-modal-icon svg { display: block; width: 28px; height: 28px; }
+.perk-modal-title { font-family: var(--font); font-size: 1.2rem; font-weight: 800; color: var(--d); margin-bottom: .75rem; }
+.perk-modal-body { font-family: var(--font); font-size: .9rem; color: var(--g3); line-height: 1.8; }
 
 /* ── Perks ── */
 /* Perks photo section */
